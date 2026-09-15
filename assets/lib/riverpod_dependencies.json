@@ -1,0 +1,405 @@
+{
+  "providers": [
+    {
+      "name": "ingRepositoryProvider",
+      "providerType": "Provider",
+      "dependencies": [],
+      "location": {
+        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/core/repositories/auth_repository.dart",
+        "line": 6,
+        "column": 1
+      }
+    },
+    {
+      "name": "httpClientProvider",
+      "providerType": "AsyncNotifierProvider",
+      "dependencies": [
+        {
+          "providerName": "tokenStorageProvider",
+          "type": "watch",
+          "location": {
+            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/clients/http_client.dart",
+            "line": 38,
+            "column": 21
+          }
+        }
+      ],
+      "location": {
+        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/clients/http_client.dart",
+        "line": 11,
+        "column": 1
+      }
+    },
+    {
+      "name": "appRouterProvider",
+      "providerType": "Provider",
+      "dependencies": [],
+      "location": {
+        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/router.dart",
+        "line": 3,
+        "column": 7
+      }
+    },
+    {
+      "name": "storageProvider",
+      "providerType": "FutureProvider",
+      "dependencies": [],
+      "location": {
+        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/storage.dart",
+        "line": 8,
+        "column": 1
+      }
+    },
+    {
+      "name": "secureStorageProvider",
+      "providerType": "Provider",
+      "dependencies": [],
+      "location": {
+        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/secure_storage.dart",
+        "line": 6,
+        "column": 1
+      }
+    },
+    {
+      "name": "signalRClientProvider",
+      "providerType": "AsyncNotifierProvider",
+      "dependencies": [
+        {
+          "providerName": "future",
+          "type": "watch",
+          "location": {
+            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/signalr_gateway.dart",
+            "line": 21,
+            "column": 25
+          }
+        }
+      ],
+      "location": {
+        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/signalr_gateway.dart",
+        "line": 17,
+        "column": 1
+      }
+    },
+    {
+      "name": "signalrGatewayProvider",
+      "providerType": "StreamNotifierProvider",
+      "dependencies": [
+        {
+          "providerName": "future",
+          "type": "watch",
+          "location": {
+            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/signalr_gateway.dart",
+            "line": 93,
+            "column": 30
+          }
+        },
+        {
+          "providerName": "notifier",
+          "type": "read",
+          "location": {
+            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/signalr_gateway.dart",
+            "line": 119,
+            "column": 7
+          }
+        },
+        {
+          "providerName": "notifier",
+          "type": "read",
+          "location": {
+            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/signalr_gateway.dart",
+            "line": 123,
+            "column": 7
+          }
+        },
+        {
+          "providerName": "notifier",
+          "type": "read",
+          "location": {
+            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/signalr_gateway.dart",
+            "line": 128,
+            "column": 9
+          }
+        },
+        {
+          "providerName": "notifier",
+          "type": "read",
+          "location": {
+            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/signalr_gateway.dart",
+            "line": 134,
+            "column": 9
+          }
+        },
+        {
+          "providerName": "notifier",
+          "type": "read",
+          "location": {
+            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/signalr_gateway.dart",
+            "line": 151,
+            "column": 7
+          }
+        },
+        {
+          "providerName": "notifier",
+          "type": "read",
+          "location": {
+            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/signalr_gateway.dart",
+            "line": 159,
+            "column": 9
+          }
+        }
+      ],
+      "location": {
+        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/signalr_gateway.dart",
+        "line": 89,
+        "column": 1
+      }
+    },
+    {
+      "name": "tokenStorageProvider",
+      "providerType": "AsyncNotifierProvider",
+      "dependencies": [
+        {
+          "providerName": "secureStorageProvider",
+          "type": "read",
+          "location": {
+            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/token_storage.dart",
+            "line": 69,
+            "column": 21
+          }
+        },
+        {
+          "providerName": "secureStorageProvider",
+          "type": "read",
+          "location": {
+            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/token_storage.dart",
+            "line": 78,
+            "column": 21
+          }
+        },
+        {
+          "providerName": "notifier",
+          "type": "read",
+          "location": {
+            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/token_storage.dart",
+            "line": 86,
+            "column": 5
+          }
+        },
+        {
+          "providerName": "secureStorageProvider",
+          "type": "read",
+          "location": {
+            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/token_storage.dart",
+            "line": 87,
+            "column": 21
+          }
+        }
+      ],
+      "location": {
+        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/token_storage.dart",
+        "line": 57,
+        "column": 1
+      }
+    },
+    {
+      "name": "globalPreferencesProvider",
+      "providerType": "Provider",
+      "dependencies": [],
+      "location": {
+        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/settings.dart",
+        "line": 9,
+        "column": 1
+      }
+    },
+    {
+      "name": "userPreferencesProvider",
+      "providerType": "Provider",
+      "dependencies": [],
+      "location": {
+        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/settings.dart",
+        "line": 14,
+        "column": 1
+      }
+    },
+    {
+      "name": "userSettingsNotifierProvider",
+      "providerType": "NotifierProvider",
+      "dependencies": [
+        {
+          "providerName": "userPreferencesProvider",
+          "type": "watch",
+          "location": {
+            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/settings.dart",
+            "line": 25,
+            "column": 14
+          }
+        }
+      ],
+      "location": {
+        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/settings.dart",
+        "line": 19,
+        "column": 1
+      }
+    },
+    {
+      "name": "appSettingsNotifierProvider",
+      "providerType": "NotifierProvider",
+      "dependencies": [
+        {
+          "providerName": "globalPreferencesProvider",
+          "type": "watch",
+          "location": {
+            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/settings.dart",
+            "line": 61,
+            "column": 14
+          }
+        }
+      ],
+      "location": {
+        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/settings.dart",
+        "line": 55,
+        "column": 1
+      }
+    },
+    {
+      "name": "messagesProvider",
+      "providerType": "FutureProvider",
+      "dependencies": [],
+      "location": {
+        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/chat/messages.dart",
+        "line": 7,
+        "column": 1
+      }
+    },
+    {
+      "name": "chatNavigationProvider",
+      "providerType": "NotifierProvider",
+      "dependencies": [
+        {
+          "providerName": "userSettingsProvider",
+          "type": "read",
+          "location": {
+            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/chat/navigation.dart",
+            "line": 136,
+            "column": 21
+          }
+        },
+        {
+          "providerName": "notifier",
+          "type": "read",
+          "location": {
+            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/chat/navigation.dart",
+            "line": 144,
+            "column": 5
+          }
+        }
+      ],
+      "location": {
+        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/chat/navigation.dart",
+        "line": 130,
+        "column": 1
+      }
+    },
+    {
+      "name": "currentUserProfileProvider",
+      "providerType": "FutureProvider",
+      "dependencies": [
+        {
+          "providerName": "currentUserProvider",
+          "type": "watch",
+          "location": {
+            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/users/user.dart",
+            "line": 12,
+            "column": 23
+          }
+        }
+      ],
+      "location": {
+        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/users/user.dart",
+        "line": 10,
+        "column": 1
+      }
+    },
+    {
+      "name": "userProfileProvider",
+      "providerType": "AsyncNotifierProvider",
+      "dependencies": [],
+      "location": {
+        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/users/user.dart",
+        "line": 18,
+        "column": 1
+      }
+    },
+    {
+      "name": "sentFriendRequestsProvider",
+      "providerType": "FutureProvider",
+      "dependencies": [],
+      "location": {
+        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/users/sent_friend_requests.dart",
+        "line": 7,
+        "column": 1
+      }
+    },
+    {
+      "name": "receivedFriendRequestsProvider",
+      "providerType": "FutureProvider",
+      "dependencies": [],
+      "location": {
+        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/users/received_friend_requests.dart",
+        "line": 7,
+        "column": 1
+      }
+    },
+    {
+      "name": "currentUserProvider",
+      "providerType": "AsyncNotifierProvider",
+      "dependencies": [
+        {
+          "providerName": "tokenStorageProvider",
+          "type": "read",
+          "location": {
+            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/users/current_user.dart",
+            "line": 13,
+            "column": 19
+          }
+        },
+        {
+          "providerName": "tokenStorageProvider",
+          "type": "listen",
+          "location": {
+            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/users/current_user.dart",
+            "line": 16,
+            "column": 5
+          }
+        }
+      ],
+      "location": {
+        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/users/current_user.dart",
+        "line": 9,
+        "column": 1
+      }
+    },
+    {
+      "name": "guildsProvider",
+      "providerType": "AsyncNotifierProvider",
+      "dependencies": [],
+      "location": {
+        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/guilds/guilds.dart",
+        "line": 7,
+        "column": 1
+      }
+    },
+    {
+      "name": "guildProvider",
+      "providerType": "AsyncNotifierProvider",
+      "dependencies": [],
+      "location": {
+        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/guilds/guild.dart",
+        "line": 7,
+        "column": 1
+      }
+    }
+  ],
+  "generatedAt": "2026-09-15T11:16:46.476479",
+  "version": "1.0.0"
+}
