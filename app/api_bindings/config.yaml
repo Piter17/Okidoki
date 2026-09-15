@@ -1,0 +1,3 @@
+pubLibrary: "api_bindings"
+pubName: "api_bindings"
+serializationLibrary: json_serializable

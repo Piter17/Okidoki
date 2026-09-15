@@ -1,0 +1,16 @@
+{
+    "window.title": "front ${dirty}${activeEditorShort}",
+
+    "workbench.colorCustomizations": {
+        "statusBar.background": "#365F73",
+        "statusBar.foreground": "#FFFFFF",
+
+        "titleBar.activeBackground": "#176B87",
+        "titleBar.inactiveBackground": "#124A5D",
+
+        "activityBar.background": "#294754",
+        "activityBar.foreground": "#E8F1ED"
+    },
+    "dart.flutterSdkPath": "~/development/flutter/flutter"
+
+}

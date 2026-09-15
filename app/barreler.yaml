@@ -1,0 +1,85 @@
+line_length: 80
+include:
+  - "**/*.dart"
+exclude:
+  - "**/*.g.dart"
+  - "**/*.freezed.dart"
+  
+defaults:
+  file_name: # defaults to directory name
+
+dirs:
+  - path: lib/gen
+
+  - path: lib/presentation
+    exclude:
+      - lib/presentation/theme/material/**.dart
+
+    exports: 
+      - ../utils/widget_utils.dart
+      - export: package:flutter/widgets.dart
+        hide:
+          - LayoutBuilder
+          - ValueListenableBuilder
+      - package:flutter_hooks/flutter_hooks.dart
+      - package:hooks_riverpod/hooks_riverpod.dart
+      - package:skeletonizer/skeletonizer.dart
+      - package:reactive_forms/reactive_forms.dart
+      - theme/material/material.dart
+      - ../gen/gen.dart
+      - ../l10n/common/language_extensions.dart
+      - ../l10n/app_localizations.dart
+
+  - path: lib/presentation/theme/material
+    
+    exports:
+      - export: package:flutter/material.dart
+        show:
+          - OutlinedButton
+          - FilledButton
+          - TextButton
+          - InkWell 
+          - Scaffold
+          - IconButton
+          - ElevatedButton
+          - InkResponse
+          - TextField
+          - TextFormField
+          - Switch
+          - CircularProgressIndicator
+          - OutlineInputBorder
+          - InputDecoration
+          - Badge
+          - showDialog
+          - Dialog
+          - FilledButtonThemeData
+          - ElevatedButtonThemeData
+          - CircleAvatar
+          - Icons
+          - Theme
+          - TextButtonThemeData
+          - ButtonStyle
+          - InputDecorationTheme
+          - ThemeData
+          - ColorScheme
+          - SelectionArea
+          - UnderlineInputBorder
+          - Tooltip
+          - MaterialApp
+          - DividerThemeData
+          - DividerTheme
+          - IconAlignment
+          - ScaffoldMessenger
+
+  - path: lib/providers
+  - path: lib/mutations
+    exports:
+      - package:hooks_riverpod/experimental/mutation.dart
+      - ../core/mutations.dart
+
+  - path: lib/services
+
+  - path: lib/utils
+
+  - path: lib/core
+
