@@ -16,5 +16,6 @@ export 'riverpod_logger.dart';
 export 'shortcuts.dart';
 export 'types/file_content.dart';
 export 'types/language.dart';
+export 'types/result.dart';
 export 'types/settings.dart';
 export 'types/user_settings.dart';

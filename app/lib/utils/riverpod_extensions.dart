@@ -7,7 +7,6 @@ import 'package:riv/core/core.dart';
 import 'package:riv/presentation/presentation.dart';
 import 'package:riv/providers/providers.dart';
 import 'package:riv/utils/utils.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 extension RiverpodX on Ref {
   Ref cacheFor(Duration duration) {
@@ -61,8 +60,15 @@ extension TransactionMutationX on MutationTransaction {
       );
     } catch (e, st) {
       if (e is DioException) {
-        final error = tryDeserialize<E>(e.response?.data);
-        throw ApiException(errorTitle, getError(error), st);
+        final result = tryDeserialize<E>(e.response?.data);
+        final error = result.fold(
+          getError,
+          (error) => [
+            error.error,
+            if (e.message != null) "Inner Exception: ${e.message}",
+          ].join('\n'),
+        );
+        throw ApiException(errorTitle, error, st);
       }
     }
     throw ApiException(
