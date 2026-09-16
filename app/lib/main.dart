@@ -16,7 +16,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_db_inspector/sqflite_db_inspector.dart';
 import 'package:riv/providers/providers.dart' hide HttpClient;
 
-const kServerBaseUrl = "https://okivps.polandcentral.cloudapp.azure.com/";
+const kServerBaseUrl = "https://api.okidoki.fun/";
 
 class _HttpOverrides extends HttpOverrides {
   @override
