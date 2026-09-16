@@ -117534,7 +117534,7 @@ $0(){var s,r,q,p,o=this.a,n=o.r
 if(n===$){s=A.ca(o).z
 n=o.r=A.ki(A.k(s).h("bf<bx.0>").a(s.c.a).w)}A.dI().$1("httpClient.state.hasValue: "+(o.gcf().ge0()!=null))
 if(o.gcf().ge0()!=null)r=o.gcf().geA()
-else{s=A.bwU(A.bvi("https://okivps.polandcentral.cloudapp.azure.com/",B.Sg,B.Sj))
+else{s=A.bwU(A.bvi("https://api.okidoki.fun/",B.Sg,B.Sj))
 r=new A.bA(s)
 s=s.He$
 q=t.N
@@ -117661,7 +117661,7 @@ l=A.b([2000,5000,1e4,2e4],t.t)
 l=A.bir(l)
 k=m.c
 j=new A.a0T(k)
-j.at="https://okivps.polandcentral.cloudapp.azure.com/hubs/realtime"
+j.at="https://api.okidoki.fun/hubs/realtime"
 j.e=m
 i=m.a
 j.c=i==null?new A.a9E(k,null):i
