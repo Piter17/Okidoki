@@ -29,6 +29,10 @@ jobs:
       - name: Build runner
         run: dart run build_runner build --delete-conflicting-outputs
 
+      - name: Build API bindings
+        run: dart run build_runner build --delete-conflicting-outputs
+        working-directory: libs/api_bindings
+
       - name: Build web
         run: flutter build web --release --wasm
 
