@@ -5,7 +5,7 @@
       "providerType": "Provider",
       "dependencies": [],
       "location": {
-        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/core/repositories/auth_repository.dart",
+        "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/core/repositories/auth_repository.dart",
         "line": 6,
         "column": 1
       }
@@ -18,14 +18,14 @@
           "providerName": "tokenStorageProvider",
           "type": "watch",
           "location": {
-            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/clients/http_client.dart",
+            "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/clients/http_client.dart",
             "line": 38,
             "column": 21
           }
         }
       ],
       "location": {
-        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/clients/http_client.dart",
+        "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/clients/http_client.dart",
         "line": 11,
         "column": 1
       }
@@ -35,7 +35,7 @@
       "providerType": "Provider",
       "dependencies": [],
       "location": {
-        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/router.dart",
+        "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/router.dart",
         "line": 3,
         "column": 7
       }
@@ -45,7 +45,7 @@
       "providerType": "FutureProvider",
       "dependencies": [],
       "location": {
-        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/storage.dart",
+        "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/storage.dart",
         "line": 8,
         "column": 1
       }
@@ -55,7 +55,7 @@
       "providerType": "Provider",
       "dependencies": [],
       "location": {
-        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/secure_storage.dart",
+        "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/secure_storage.dart",
         "line": 6,
         "column": 1
       }
@@ -68,14 +68,14 @@
           "providerName": "future",
           "type": "watch",
           "location": {
-            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/signalr_gateway.dart",
+            "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/signalr_gateway.dart",
             "line": 21,
             "column": 25
           }
         }
       ],
       "location": {
-        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/signalr_gateway.dart",
+        "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/signalr_gateway.dart",
         "line": 17,
         "column": 1
       }
@@ -88,8 +88,8 @@
           "providerName": "future",
           "type": "watch",
           "location": {
-            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/signalr_gateway.dart",
-            "line": 93,
+            "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/signalr_gateway.dart",
+            "line": 92,
             "column": 30
           }
         },
@@ -97,8 +97,8 @@
           "providerName": "notifier",
           "type": "read",
           "location": {
-            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/signalr_gateway.dart",
-            "line": 119,
+            "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/signalr_gateway.dart",
+            "line": 118,
             "column": 7
           }
         },
@@ -106,8 +106,8 @@
           "providerName": "notifier",
           "type": "read",
           "location": {
-            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/signalr_gateway.dart",
-            "line": 123,
+            "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/signalr_gateway.dart",
+            "line": 122,
             "column": 7
           }
         },
@@ -115,8 +115,8 @@
           "providerName": "notifier",
           "type": "read",
           "location": {
-            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/signalr_gateway.dart",
-            "line": 128,
+            "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/signalr_gateway.dart",
+            "line": 127,
             "column": 9
           }
         },
@@ -124,8 +124,8 @@
           "providerName": "notifier",
           "type": "read",
           "location": {
-            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/signalr_gateway.dart",
-            "line": 134,
+            "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/signalr_gateway.dart",
+            "line": 133,
             "column": 9
           }
         },
@@ -133,8 +133,8 @@
           "providerName": "notifier",
           "type": "read",
           "location": {
-            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/signalr_gateway.dart",
-            "line": 151,
+            "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/signalr_gateway.dart",
+            "line": 150,
             "column": 7
           }
         },
@@ -142,15 +142,15 @@
           "providerName": "notifier",
           "type": "read",
           "location": {
-            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/signalr_gateway.dart",
-            "line": 159,
+            "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/signalr_gateway.dart",
+            "line": 158,
             "column": 9
           }
         }
       ],
       "location": {
-        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/signalr_gateway.dart",
-        "line": 89,
+        "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/signalr_gateway.dart",
+        "line": 88,
         "column": 1
       }
     },
@@ -162,7 +162,7 @@
           "providerName": "secureStorageProvider",
           "type": "read",
           "location": {
-            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/token_storage.dart",
+            "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/token_storage.dart",
             "line": 69,
             "column": 21
           }
@@ -171,7 +171,7 @@
           "providerName": "secureStorageProvider",
           "type": "read",
           "location": {
-            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/token_storage.dart",
+            "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/token_storage.dart",
             "line": 78,
             "column": 21
           }
@@ -180,7 +180,7 @@
           "providerName": "notifier",
           "type": "read",
           "location": {
-            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/token_storage.dart",
+            "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/token_storage.dart",
             "line": 86,
             "column": 5
           }
@@ -189,14 +189,14 @@
           "providerName": "secureStorageProvider",
           "type": "read",
           "location": {
-            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/token_storage.dart",
+            "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/token_storage.dart",
             "line": 87,
             "column": 21
           }
         }
       ],
       "location": {
-        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/token_storage.dart",
+        "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/token_storage.dart",
         "line": 57,
         "column": 1
       }
@@ -206,7 +206,7 @@
       "providerType": "Provider",
       "dependencies": [],
       "location": {
-        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/settings.dart",
+        "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/settings.dart",
         "line": 9,
         "column": 1
       }
@@ -216,7 +216,7 @@
       "providerType": "Provider",
       "dependencies": [],
       "location": {
-        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/settings.dart",
+        "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/settings.dart",
         "line": 14,
         "column": 1
       }
@@ -229,14 +229,14 @@
           "providerName": "userPreferencesProvider",
           "type": "watch",
           "location": {
-            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/settings.dart",
+            "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/settings.dart",
             "line": 25,
             "column": 14
           }
         }
       ],
       "location": {
-        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/settings.dart",
+        "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/settings.dart",
         "line": 19,
         "column": 1
       }
@@ -249,14 +249,14 @@
           "providerName": "globalPreferencesProvider",
           "type": "watch",
           "location": {
-            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/settings.dart",
+            "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/settings.dart",
             "line": 61,
             "column": 14
           }
         }
       ],
       "location": {
-        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/core/settings.dart",
+        "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/core/settings.dart",
         "line": 55,
         "column": 1
       }
@@ -266,7 +266,7 @@
       "providerType": "FutureProvider",
       "dependencies": [],
       "location": {
-        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/chat/messages.dart",
+        "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/chat/messages.dart",
         "line": 7,
         "column": 1
       }
@@ -279,7 +279,7 @@
           "providerName": "userSettingsProvider",
           "type": "read",
           "location": {
-            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/chat/navigation.dart",
+            "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/chat/navigation.dart",
             "line": 136,
             "column": 21
           }
@@ -288,14 +288,14 @@
           "providerName": "notifier",
           "type": "read",
           "location": {
-            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/chat/navigation.dart",
+            "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/chat/navigation.dart",
             "line": 144,
             "column": 5
           }
         }
       ],
       "location": {
-        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/chat/navigation.dart",
+        "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/chat/navigation.dart",
         "line": 130,
         "column": 1
       }
@@ -308,14 +308,14 @@
           "providerName": "currentUserProvider",
           "type": "watch",
           "location": {
-            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/users/user.dart",
+            "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/users/user.dart",
             "line": 12,
             "column": 23
           }
         }
       ],
       "location": {
-        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/users/user.dart",
+        "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/users/user.dart",
         "line": 10,
         "column": 1
       }
@@ -325,7 +325,7 @@
       "providerType": "AsyncNotifierProvider",
       "dependencies": [],
       "location": {
-        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/users/user.dart",
+        "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/users/user.dart",
         "line": 18,
         "column": 1
       }
@@ -335,7 +335,7 @@
       "providerType": "FutureProvider",
       "dependencies": [],
       "location": {
-        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/users/sent_friend_requests.dart",
+        "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/users/sent_friend_requests.dart",
         "line": 7,
         "column": 1
       }
@@ -345,7 +345,7 @@
       "providerType": "FutureProvider",
       "dependencies": [],
       "location": {
-        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/users/received_friend_requests.dart",
+        "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/users/received_friend_requests.dart",
         "line": 7,
         "column": 1
       }
@@ -358,7 +358,7 @@
           "providerName": "tokenStorageProvider",
           "type": "read",
           "location": {
-            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/users/current_user.dart",
+            "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/users/current_user.dart",
             "line": 13,
             "column": 19
           }
@@ -367,14 +367,14 @@
           "providerName": "tokenStorageProvider",
           "type": "listen",
           "location": {
-            "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/users/current_user.dart",
+            "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/users/current_user.dart",
             "line": 16,
             "column": 5
           }
         }
       ],
       "location": {
-        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/users/current_user.dart",
+        "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/users/current_user.dart",
         "line": 9,
         "column": 1
       }
@@ -384,7 +384,7 @@
       "providerType": "AsyncNotifierProvider",
       "dependencies": [],
       "location": {
-        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/guilds/guilds.dart",
+        "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/guilds/guilds.dart",
         "line": 7,
         "column": 1
       }
@@ -394,12 +394,12 @@
       "providerType": "AsyncNotifierProvider",
       "dependencies": [],
       "location": {
-        "file": "/Users/user/Documents/GitHub/okidoki/app/lib/providers/guilds/guild.dart",
+        "file": "/Users/user/Documents/GitHub/Okidoki/app/lib/providers/guilds/guild.dart",
         "line": 7,
         "column": 1
       }
     }
   ],
-  "generatedAt": "2026-09-15T11:16:46.476479",
+  "generatedAt": "2026-09-17T14:07:00.706065",
   "version": "1.0.0"
 }
