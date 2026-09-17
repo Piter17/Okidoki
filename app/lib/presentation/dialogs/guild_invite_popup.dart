@@ -12,25 +12,12 @@ class GuildInvitePopup extends HookConsumerWidget {
   const new({super.key, required this.guildId});
 
   static Future<void> open(BuildContext context, String guildId) {
-    if (DeviceUtils.isPhone) {
-      return showModalBottomSheet(
-        context: context,
-        showDragHandle: true,
-        builder: (context) => GuildInvitePopup(guildId: guildId),
-      );
-    } else {
-      return showDialog(
-        context: context,
-        builder: (context) => Dialog(
-          constraints: BoxConstraints(
-            minWidth: 150,
-            maxWidth: 560,
-          ),
-
-          child: GuildInvitePopup(guildId: guildId),
-        ),
-      );
-    }
+    return showResponsivePopup(
+      context: context,
+      showDragHandle: true,
+      builder: (context) => GuildInvitePopup(guildId: guildId),
+      dialogConstraints: BoxConstraints(minWidth: 150, maxWidth: 560),
+    );
   }
 
   @override

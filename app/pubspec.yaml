@@ -12,7 +12,7 @@ dependencies:
     sdk: flutter
 
   api_bindings:
-    path: api_bindings
+    path: ../libs/api_bindings
 
   flutter_titlebar:
     path: ../libs/flutter_titlebar 
@@ -64,6 +64,8 @@ dev_dependencies:
   freezed: ^4.0.0
   json_serializable: ^6.14.1
   flutter_gen_runner: ^5.12.0
+  json_convert_gen:
+    path: ../libs/json_convert_gen
 
 plugins:
   riverpod_lint: 3.1.4

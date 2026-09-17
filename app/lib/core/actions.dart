@@ -14,11 +14,7 @@ class InsertNewLineAction extends CallbackAction<InsertNewlineIntent> {
     final end = selection.end;
 
     // Insert '\n' at the cursor (replace selection if any)
-    final newText = text.replaceRange(
-      start,
-      end,
-      '\n',
-    );
+    final newText = text.replaceRange(start, end, '\n');
 
     final newCursor = start + 1;
     _inputController.value = _inputController.value.copyWith(

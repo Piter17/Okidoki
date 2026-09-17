@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart' as w show LayoutBuilder;
 import 'package:riv/presentation/presentation.dart';
-import 'package:riv/utils/utils.dart';
 
 typedef LayoutChangedCallback = void Function(
   LayoutType oldLayout,
@@ -82,7 +81,7 @@ class LayoutBuilderState extends State<LayoutBuilder> {
               return widget.adaptiveBuilder!.call(
                 context,
                 newLayout,
-                DeviceUtils.isPhone,
+                newLayout == LayoutType.phone,
               );
             },
     );

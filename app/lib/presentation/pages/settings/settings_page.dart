@@ -35,54 +35,35 @@ class SettingsPage extends HookWidget {
         },
       ),
     ];
-    if (DeviceUtils.isPhone) {
-      return showModalBottomSheet(
-        context: context,
-        builder: (context) => SettingsPage(
-          settings: userSettings,
-        ),
-      );
-    } else {
-      return showDialog(
-        context: context,
-        builder: (context) => Dialog(
-          // insetPadding: .all(40),
-          constraints: BoxConstraints(
-            maxWidth: 1500,
-            maxHeight: 700,
-            minHeight: 350,
-            minWidth: 360,
-          ),
-          child: SettingsPage(settings: userSettings),
-        ),
-      );
-    }
+    return showResponsivePopup(
+      context: context,
+      builder: (context) =>
+          WidgetShaker(child: SettingsPage(settings: userSettings)),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final selectedMenu = useState<SettingsTab?>(null);
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        SizedBox(
-          width: 250,
-          child: SettingsNavigationBar(
-            settings: settings,
-            selectMenu: (target) => selectedMenu.value = target,
-            selectedMenu: selectedMenu.value,
-          ),
+    final viewKey = useMemoized(() => GlobalKey());
+    final selectedMenu = useState(settings.first);
+    return CloseVetoManager(
+      child: AdaptableLayout(
+        layoutChangedCallback: (o, n) {
+          debugPrint(["layoutChangedCallback", o, n].toString());
+        },
+        navigator: SettingsNavigationBar(
+          settings: settings,
+          selectMenu: selectedMenu.set,
+          selectedMenu: selectedMenu.value,
         ),
-        // Divider.shrink(),
-        Expanded(
-          child: BaseMainScreen(
-            topBar: SettingsTopBar(selectedMenu: selectedMenu.value),
-            body:
-                selectedMenu.value?.pageBuilder?.call(context) ??
-                SizedBox.shrink(),
-          ),
+        content: KeyedSubtree(
+          key: viewKey,
+          child: Builder(builder: selectedMenu.value.pageBuilder!),
         ),
-      ],
+        topBar: SettingsTopBar(
+          selectedMenu: selectedMenu.value,
+        ),
+      ),
     );
   }
 }
@@ -155,9 +136,7 @@ class _SettingsNavigationBarState extends ConsumerState<SettingsNavigationBar> {
           TextField(
             decoration: InputDecoration(
               hintText: S.of(context)!.generic_search,
-              // border: OutlineInputBorder(),
               isCollapsed: false,
-              // contentPadding: EdgeInsets.all(8),
               isDense: true,
               prefixIcon: Icon(Icons.search),
             ),
@@ -183,7 +162,6 @@ class _SettingsNavigationBarState extends ConsumerState<SettingsNavigationBar> {
                   .toList(),
             ),
           ),
-
           Divider(),
         ],
       ),

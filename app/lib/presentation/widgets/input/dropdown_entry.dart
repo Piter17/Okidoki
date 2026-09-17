@@ -1,55 +1,77 @@
 import 'package:flutter_context_menu/flutter_context_menu.dart';
 import 'package:riv/presentation/presentation.dart';
 
-class DropdownEntry<T> extends StatelessWidget {
+class const DropdownEntry<T>({
+  super.key,
+  required super.text,
+  required super.value,
+  super.subText,
+  required final Map<T, String> possibleValues,
+  required super.onItemSelected,
+}) extends BaseDropdownEntry<T> {
+  @override
+  ContextMenu<T> getContextMenu(BuildContext context) {
+    return ContextMenu(
+      entries: possibleValues.entries
+          .map(
+            (x) => MenuItem(
+              value: x.key,
+              label: Text(x.value),
+              icon: Icon(Icons.radio_button_checked),
+            ),
+          )
+          .toList(),
+    );
+  }
+}
+
+class const DropdownEntryAlt<T>({
+  super.key,
+  required super.text,
+  required super.value,
+  super.subText,
+  required final String Function(T item) getLabel,
+  required final List<T> items,
+  required super.onItemSelected,
+}) extends BaseDropdownEntry<T> {
+  @override
+  ContextMenu<T> getContextMenu(BuildContext context) => ContextMenu(
+    entries: items
+        .map(
+          (x) => MenuItem(
+            value: x,
+            label: Text(getLabel(x)),
+            icon: Icon(Icons.radio_button_checked),
+          ),
+        )
+        .toList(),
+  );
+}
+
+abstract class BaseDropdownEntry<T> extends HookWidget {
   final Widget text;
   final Widget? subText;
-  final T? value;
-  final void Function(T?)? onChanged;
-  final Map<T, String> possibleValues;
   final ValueChanged<T?>? onItemSelected;
+  final T? value;
 
   const new({
     super.key,
     required this.text,
-    required this.value,
+    this.value,
     this.subText,
-    this.onChanged,
-    required this.possibleValues,
-    required this.onItemSelected,
+    this.onItemSelected,
   });
 
-  /// TODO List constructor with item builder
-
-  // const new list({
-  //   super.key,
-  //   required this.text,
-  //   required this.value,
-  //   this.subText,
-  //   this.onChanged,
-  //   required this.possibleValues,
-  //   required this.onItemSelected,
-  // });
+  ContextMenu<T> getContextMenu(BuildContext context);
 
   @override
   Widget build(BuildContext context) {
     /// TODO LMB Dropdown
     return ContextMenuRegion(
       onItemSelected: onItemSelected,
-      contextMenu: ContextMenu(
-        entries: possibleValues.entries
-            .map(
-              (x) => MenuItem(
-                value: x.key,
-                label: Text(x.value),
-                icon: Icon(Icons.radio_button_checked),
-              ),
-            )
-            .toList(),
-      ),
+      contextMenu: getContextMenu(context),
       child: Entry(
         text: text,
-        // onTap: onChanged == null ? null : () => onChanged!(!value),
         onTap: () {},
         subText: subText,
         child: Button.icon(

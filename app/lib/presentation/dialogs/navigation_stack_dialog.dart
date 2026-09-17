@@ -11,22 +11,11 @@ class NavigationStackDialog extends HookConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    if (DeviceUtils.isPhone) {
-      return showModalBottomSheet(
-        context: context,
-        builder: (context) => NavigationStackDialog(),
-      );
-    } else {
-      return showDialog(
-        context: context,
-        builder: (context) => Dialog(
-          constraints: BoxConstraints(
-            maxWidth: 560,
-          ),
-          child: NavigationStackDialog(),
-        ),
-      );
-    }
+    return showResponsivePopup(
+      context: context,
+      builder: (context) => NavigationStackDialog(),
+      dialogConstraints: BoxConstraints(maxWidth: 560),
+    );
   }
 
   @override
@@ -37,7 +26,7 @@ class NavigationStackDialog extends HookConsumerWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        DialogHeader(text: ""),
+        DialogHeader(text: "Navigation stack"),
         ListView.builder(
           itemCount: len,
           shrinkWrap: true,
@@ -95,14 +84,14 @@ class NavigationStackEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final name = this.name ?? "sfdgdsafgh dfg";
+    final name = this.name ?? TextGen.sentence(1, 3);
     return InkWell(
       onTap: onTap,
       child: Container(
         color: isSelected
             ? context.colors.border
             : context.colors.body.background,
-        padding: const .all(8.0),
+        padding: context.values.spacingSPadding,
         child: Row(
           children: [
             SizedBox(

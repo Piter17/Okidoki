@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -17,17 +15,6 @@ import 'package:sqflite_db_inspector/sqflite_db_inspector.dart';
 import 'package:riv/providers/providers.dart' hide HttpClient;
 
 const kServerBaseUrl = "https://api.okidoki.fun/";
-
-class _HttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        //add your certificate verification logic here
-        return true;
-      };
-  }
-}
 
 Future loadRiverpodDependencyData() async {
   try {
@@ -57,8 +44,6 @@ void main(List args) async {
   FlutterTitlebar.continueCallback = () => debugPrint('continue');
   await BackLongPressBus.init();
   FlutterTitlebar.setContinueEnabled(true);
-
-  HttpOverrides.global = _HttpOverrides();
 
   final globalSettings = await SharedPreferences.getInstance();
 

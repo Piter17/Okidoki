@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/experimental/mutation.dart';
 import 'package:riv/presentation/presentation.dart';
 import 'package:riv/mutations/mutations/guild/guild_mutations.dart';
-import 'package:riv/utils/device_utilis.dart';
+import 'package:riv/utils/utils.dart';
 
 class AddChannelDialog extends HookConsumerWidget {
   const AddChannelDialog({super.key, required this.guildId});
@@ -9,24 +9,12 @@ class AddChannelDialog extends HookConsumerWidget {
   final String guildId;
 
   static Future<void> open(BuildContext context, String guildId) {
-    if (DeviceUtils.isPhone) {
-      return showModalBottomSheet(
-        context: context,
-        showDragHandle: true,
-        builder: (context) => AddChannelDialog(guildId: guildId),
-      );
-    } else {
-      return showDialog(
-        context: context,
-        builder: (context) => Dialog(
-          constraints: BoxConstraints(
-            maxWidth: 560,
-          ),
-
-          child: AddChannelDialog(guildId: guildId),
-        ),
-      );
-    }
+    return showResponsivePopup(
+      context: context,
+      showDragHandle: true,
+      builder: (context) => AddChannelDialog(guildId: guildId),
+      dialogConstraints: BoxConstraints(maxWidth: 560),
+    );
   }
 
   @override

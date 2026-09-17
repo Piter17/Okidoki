@@ -3,14 +3,12 @@ import 'package:riv/presentation/presentation.dart';
 import 'package:riv/utils/utils.dart';
 
 @RoutePage()
-class GuildSettingsPage extends StatefulHookConsumerWidget {
+class GuildSettingsPage extends HookConsumerWidget {
   const new({
     super.key,
     required this.settings,
-    required this._guildId,
   });
 
-  final String _guildId;
   final List<SettingsTab> settings;
 
   static Future<void> open(BuildContext context, String guildId) {
@@ -45,76 +43,33 @@ class GuildSettingsPage extends StatefulHookConsumerWidget {
       ),
     ];
 
-    final layoutType = LayoutType.fromContext(context);
-    debugPrint(layoutType.toString());
-
-    if (DeviceUtils.isPhone) {
-      return showModalBottomSheet(
-        context: context,
-        builder: (context) =>
-            GuildSettingsPage(settings: guildSettings, guildId: guildId),
-      );
-    } else {
-      return showDialog(
-        context: context,
-        builder: (context) => WidgetShaker(
-          child: Dialog(
-            // insetPadding: .all(40),
-
-            constraints: BoxConstraints(
-              maxWidth: 1500,
-              maxHeight: 700,
-              minHeight: 350,
-              minWidth: 360,
-            ),
-            child: GuildSettingsPage(settings: guildSettings, guildId: guildId),
-          ),
-        ),
-      );
-    }
+    return showResponsivePopup(
+      context: context,
+      builder: (context) =>
+          WidgetShaker(child: GuildSettingsPage(settings: guildSettings)),
+    );
   }
 
-  static GuildSettingsPageState of(BuildContext context) =>
-      context.findAncestorStateOfType<GuildSettingsPageState>()!;
-
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      GuildSettingsPageState();
-}
-
-class GuildSettingsPageState extends ConsumerState<GuildSettingsPage> {
-  String get guildId => widget._guildId;
-
-  late SettingsTab selectedMenu = widget.settings.first;
-  // final viewKey = GlobalKey<FormState>(
-  //   debugLabel: "GuildSettingsPageState.viewKey.${math.Random().nextInt(1000)}",
-  // );
-
-  void setMenu(SettingsTab x) => setState(() {
-    selectedMenu = x;
-  });
-  // final selectedMenu = useState<SettingsTab?>(null);
-
-  final viewKey = GlobalKey();
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewKey = useMemoized(() => GlobalKey());
+    final selectedMenu = useState(settings.first);
     return CloseVetoManager(
       child: AdaptableLayout(
         layoutChangedCallback: (o, n) {
           debugPrint(["layoutChangedCallback", o, n].toString());
         },
         navigator: SettingsNavigationBar(
-          settings: widget.settings,
-          selectMenu: setMenu,
-          selectedMenu: selectedMenu,
+          settings: settings,
+          selectMenu: selectedMenu.set,
+          selectedMenu: selectedMenu.value,
         ),
         content: KeyedSubtree(
           key: viewKey,
-          child: Builder(builder: selectedMenu.pageBuilder!),
+          child: Builder(builder: selectedMenu.value.pageBuilder!),
         ),
         topBar: SettingsTopBar(
-          selectedMenu: selectedMenu,
+          selectedMenu: selectedMenu.value,
         ),
       ),
     );

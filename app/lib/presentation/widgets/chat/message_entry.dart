@@ -72,8 +72,10 @@ class MessageEntryState extends ConsumerState<MessageEntry> {
         ),
         focusNode: _focusNode,
         decoration: InputDecoration(
+          fillColor: context.colors.transparent,
           hintText: widget.hintText,
           prefixIcon: Icon(Icons.add_circle),
+          maintainLabelSize: true,
           border: UnderlineInputBorder(borderSide: BorderSide.none),
         ),
         minLines: 1,
@@ -83,28 +85,31 @@ class MessageEntryState extends ConsumerState<MessageEntry> {
         onSubmitted: (_) => _submit(),
       ),
     );
+    final attachments = [];
 
     final container = StyledContainer(
       contextStyle: ContextColors.light,
+      borderRadius: context.values.borderS,
       // decoration: BoxDecoration(
       //   borderRadius: .circular(8),
       //   color: Color(0xff444444),
       // ),
-      padding: .only(bottom: 10),
+      // padding: .only(bottom: 10),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
-            height: 100,
-            child: ListView.separated(
-              padding: .all(8),
+          if (attachments.isNotEmpty)
+            SizedBox(
+              height: 100,
+              child: ListView.separated(
+                padding: .all(8),
 
-              scrollDirection: .horizontal,
-              itemBuilder: (i, item) => AttachmentTile(),
-              itemCount: 3,
-              separatorBuilder: (context, index) => SizedBox(width: 0),
+                scrollDirection: .horizontal,
+                itemBuilder: (i, item) => AttachmentTile(),
+                itemCount: attachments.length,
+                separatorBuilder: (context, index) => SizedBox(width: 0),
+              ),
             ),
-          ),
           textField,
         ],
       ),

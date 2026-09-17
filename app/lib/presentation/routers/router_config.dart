@@ -17,7 +17,7 @@ class AppRouter extends RootStackRouter {
     // HomeScreen is generated as HomeRoute because
     // of the replaceInRouteName property
     AutoRoute(
-      page: ChatHostRoute.page,
+      page: MainRoute.page,
       path: '/',
       guards: [AuthGuard(ref)],
     ),
@@ -38,9 +38,7 @@ class AppRouter extends RootStackRouter {
   ];
 
   @override
-  List<AutoRouteGuard> get guards => [
-    // optionally add root guards here
-  ];
+  List<AutoRouteGuard> get guards => [];
 
   static AppRouter of(BuildContext context, {bool watch = false}) =>
       AutoRouter.of(context, watch: watch) as AppRouter;

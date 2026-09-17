@@ -186,9 +186,7 @@ class _ChatViewState extends ConsumerState<ChatView> {
 
     setState(() {
       if (messages.isNotEmpty) {
-        _items.addAll({
-          for (final message in messages) message.id: message,
-        });
+        _items.addAll({for (final message in messages) message.id: message});
 
         final oldestLoadedMessageId = _items.lastKey();
         final newestLoadedMessageId = _items.firstKey();

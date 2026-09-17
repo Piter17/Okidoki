@@ -1,6 +1,7 @@
 import 'package:api_bindings/api_bindings.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:riv/presentation/presentation.dart';
+import 'package:riv/providers/providers.dart';
 import 'package:riv/providers/users/current_user.dart';
 
 class AuthGate extends ConsumerStatefulWidget {
@@ -22,8 +23,7 @@ class _AuthGateState extends ConsumerState<AuthGate> {
   ProviderSubscription<AsyncValue<IdentityDto?>>? _currentUserSubscription;
 
   void _navigateToLoginPage() => _appRouter.replaceAll([LoginRoute()]);
-  // Future _navigateToChatPage() => _appRouter.replaceAll([ChatHostRoute()]);
-  void _navigateToChatPage() => _appRouter.replaceAll([ChatHostRoute()]);
+  void _navigateToChatPage() => _appRouter.replaceAll([MainRoute()]);
 
   @override
   void initState() {
@@ -76,7 +76,6 @@ class _AuthGateState extends ConsumerState<AuthGate> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(currentUserProvider);
-    debugPrint("AuthGate.build()");
 
     return user.map(
       data: (d) => ThemeManager(child: widget.child),

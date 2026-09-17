@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:api_bindings/api_bindings.dart';
+import 'package:api_bindings/json.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
-import 'package:riv/core/deserialize.dart';
 import 'package:riv/main.dart';
 import 'package:riv/providers/providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -48,9 +48,8 @@ class SignalRClient extends _$SignalRClient {
     return hubConnection;
   }
 
-  T deserializeCallback<T>(dynamic value, String targetType) {
-    debugPrint("signalr deserializing<$T> to $targetType\n$value");
-    return deserialize<T>(value, targetType);
+  T deserializeCallback<T>(dynamic value) {
+    return JsonConverter.fromJson(value);
   }
 }
 
@@ -186,4 +185,19 @@ class SignalrGateway extends _$SignalrGateway {
       () => controller.add(GatewayReady()),
     );
   }
+}
+
+abstract class SignalrInterface {
+  void messageReceived(ChatMessageDto message);
+  void messageEdited(ChatMessageDto message);
+  void messageDeleted(String message);
+  void joinGuild(GuildProfileDto guildProfile);
+  void leaveGuild(String guildId);
+  void addedChannel(GuildChannelDto channel);
+  void removedChannel(String guildId, String channelId);
+  void friendRequest(UserProfileDto userProfile);
+  void friendAdded(UserProfileDto userProfile);
+  void friendRemoved(String userId);
+  void updatedGuildProfile(GuildProfileDto param);
+  void profileUpdated(UserProfileDto userProfile);
 }

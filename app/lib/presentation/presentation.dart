@@ -34,6 +34,7 @@ export 'pages/guild_settings/guild_settings_page.dart';
 export 'pages/login/login_page.dart';
 export 'pages/login/register_page.dart';
 export 'pages/main_page.dart';
+export 'pages/settings/base_settings_page.dart';
 export 'pages/settings/language_settings_page.dart';
 export 'pages/settings/profile_settings_page.dart';
 export 'pages/settings/settings_page.dart';

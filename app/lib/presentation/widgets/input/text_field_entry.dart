@@ -14,15 +14,12 @@ class const TextEntry({
 
   @override
   Widget build(BuildContext context) {
-    final controller = useTextEditingController(
-      text: value,
-    );
+    final controller = useTextEditingController(text: value);
     return Entry(
       text: text,
       // onTap: onChanged == null ? null : () => onChanged!(!value),
       subText: subText,
-      child: SizedBox(
-        width: 100,
+      child: Expanded(
         child: TextField(
           controller: controller,
           decoration: InputDecoration(),
@@ -47,8 +44,7 @@ class const TextFormEntry({
       text: text,
       // onTap: onChanged == null ? null : () => onChanged!(!value),
       subText: subText,
-      child: SizedBox(
-        width: 200,
+      child: Expanded(
         child: TextFormField(
           key: fieldKey,
           initialValue: value,

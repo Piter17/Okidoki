@@ -14,24 +14,11 @@ class AddGuildPage extends HookConsumerWidget {
   const AddGuildPage({super.key});
 
   static Future<void> open(BuildContext context) {
-    if (DeviceUtils.isPhone) {
-      return showModalBottomSheet(
-        context: context,
-        builder: (context) => AddGuildPage(),
-      );
-    } else {
-      return showDialog(
-        context: context,
-        builder: (context) => Dialog(
-          // insetPadding: .all(40),
-          constraints: BoxConstraints(
-            maxWidth: 360,
-            maxHeight: 350,
-          ),
-          child: AddGuildPage(),
-        ),
-      );
-    }
+    return showResponsivePopup(
+      context: context,
+      builder: (context) => AddGuildPage(),
+      dialogConstraints: BoxConstraints(maxWidth: 360, maxHeight: 350),
+    );
   }
 
   @override
@@ -184,6 +171,7 @@ class _JoinGuild extends HookConsumerWidget {
           TextField(
             onChanged: setCode,
             controller: invitationController,
+            decoration: InputDecoration(hint: Text('invitation code')),
           ),
           Spacer(),
           Row(

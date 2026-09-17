@@ -9,6 +9,7 @@ export 'hook_extensions.dart';
 export 'iterable_extensions.dart';
 export 'null_helpers.dart';
 export 'response_extensions.dart';
+export 'responsive_popup.dart';
 export 'riverpod_extensions.dart';
 export 'skeleton_text_generator.dart';
 export 'try.dart';

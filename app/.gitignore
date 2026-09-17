@@ -46,6 +46,7 @@ app.*.map.json
 # Widget Preview related
 .widget_preview/
 
+lib/riverpod_dependencies.json
 *.g.dart
 *.freezed.dart
 

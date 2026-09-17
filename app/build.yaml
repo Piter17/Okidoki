@@ -5,6 +5,10 @@ targets:
           options:
             output: lib/gen/ # Optional (default: lib/gen/)
             line_length: 120 # Optional
+      json_convert_gen:
+        options:
+          output: lib/gen/json_decoder.dart
+          class_name: JsonDecoder
       flutter_intl:
         options:
           l10n:

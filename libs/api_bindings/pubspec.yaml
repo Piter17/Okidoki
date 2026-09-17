@@ -13,7 +13,12 @@ dependencies:
   json_annotation: '^4.12.0'
 
 dev_dependencies:
+  analyzer: '>=13.3.0 <14.0.0'
+  build: any
   build_runner: any
+  glob: any
   copy_with_extension_gen: ^17.1.0
   json_serializable: '^6.14.1'
   test: '^1.16.0'
+  json_convert_gen:
+    path: ../json_convert_gen

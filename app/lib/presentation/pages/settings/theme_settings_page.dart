@@ -9,9 +9,8 @@ class ThemeSettingsPage extends HookConsumerWidget {
     final settings = ref.watch(appSettingsProvider);
 
     final brightness = settings.darkMode;
-    return Column(
-      crossAxisAlignment: .stretch,
-      children: [
+    return BaseSettingsPage.column(
+      [
         Text(
           context.s.settings_theme_title,
           style: context.fonts.largeTitle,
@@ -36,26 +35,6 @@ class ThemeSettingsPage extends HookConsumerWidget {
                   .setColor(newItem.toARGB32());
             }
           },
-        ),
-        SwitchEntry(
-          text: Text(context.s.settings_light_theme),
-          value: true,
-          onChanged: (a) {},
-        ),
-        SwitchEntry(
-          text: Text(context.s.settings_light_theme),
-          value: true,
-          onChanged: null,
-        ),
-        SwitchEntry(
-          text: Text(context.s.settings_light_theme),
-          value: false,
-          onChanged: (a) {},
-        ),
-        SwitchEntry(
-          text: Text(context.s.settings_light_theme),
-          value: false,
-          onChanged: null,
         ),
       ],
     );

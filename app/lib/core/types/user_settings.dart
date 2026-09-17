@@ -2,7 +2,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riv/core/types/language.dart';
 
 part 'user_settings.freezed.dart';
-part 'user_settings.g.dart';
+
+// part 'user_settings.g.dart';
 
 @freezed
 abstract class Settings with _$Settings {
@@ -14,7 +15,7 @@ abstract class Settings with _$Settings {
   }) = _Settings;
 
   // factory Settings.fromJson(Map<String, Object?> json) =>
-  //     _$SettingsFromJson(json);
+  // _$SettingsFromJson(json);
 }
 
 @freezed
@@ -25,8 +26,8 @@ abstract class UserSettings with _$UserSettings {
     required String? lastGuild,
   }) = _UserSettings;
 
-  factory UserSettings.fromJson(Map<String, Object?> json) =>
-      _$UserSettingsFromJson(json);
+  // factory UserSettings.fromJson(Map<String, Object?> json) =>
+  //     _$UserSettingsFromJson(json);
 }
 
 // class UserSettings

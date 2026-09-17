@@ -1,0 +1,22 @@
+builders:
+  json_convert_gen:
+    import: "package:json_convert_gen/builder.dart"
+    builder_factories: ["jsonFragmentBuilder"]
+    build_extensions: {".dart": [".json_frag.dart"]}
+    auto_apply: dependents
+    build_to: cache
+    runs_before:
+      - json_convert_gen:json_merge
+    defaults:
+      generate_for:
+        - "lib/**.dart"
+        - "!lib/**.freezed.dart"
+        - "!lib/**.g.dart"
+        - "!lib/**.json_frag.dart"
+
+  json_merge:
+    import: "package:json_convert_gen/builder.dart"
+    builder_factories: ["jsonMergeBuilder"]
+    build_extensions: {"$package$": ["lib/json.dart"]}
+    auto_apply: root_package
+    build_to: source

@@ -72,7 +72,7 @@ typedef ClosedCallback = void Function({Exception? error});
 typedef ReconnectingCallback = void Function({Exception? error});
 typedef ReconnectedCallback = void Function({String? connectionId});
 
-typedef DeserializeCallback = T Function<T>(dynamic value, String targetType);
+typedef DeserializeCallback = T Function<T>(dynamic value);
 
 class TypedMethodDefinition({
   required final Object method,
@@ -569,9 +569,12 @@ class HubConnection {
     _methods[methodName]!.add(newMethod);
   }
 
-  void onTyped<T>(String methodName, TypedInvocationFunc<T> newMethod) {
+  TypedMethodDefinition? onTyped<T>(
+    String methodName,
+    TypedInvocationFunc<T> newMethod,
+  ) {
     if (isStringEmpty(methodName)) {
-      return;
+      return null;
     }
 
     methodName = methodName.toLowerCase();
@@ -581,23 +584,20 @@ class HubConnection {
 
     // Preventing adding the same handler multiple times.
     if (_typedMethods[methodName]!.any((x) => x.method == newMethod)) {
-      return;
+      return null;
     }
 
-    _logger?.finest(["registering", T.runtimeType, T]);
+    _logger?.finest(["registering", methodName]);
 
-    _typedMethods[methodName]!.add(
-      TypedMethodDefinition(
-        method: newMethod,
-        caller: (params) {
-          final p0 = _deserializeCallback?.call(
-            params?.elementAtOrNull(0),
-            T.toString(),
-          );
-          newMethod(p0);
-        },
-      ),
+    var typedMethodDefinition = TypedMethodDefinition(
+      method: newMethod,
+      caller: (params) {
+        final p0 = _deserializeCallback!.call<T>(params?.elementAtOrNull(0));
+        newMethod(p0);
+      },
     );
+    _typedMethods[methodName]!.add(typedMethodDefinition);
+    return typedMethodDefinition;
   }
 
   void onTyped2<T, T2>(
@@ -618,20 +618,14 @@ class HubConnection {
       return;
     }
 
-    _logger?.finest(["registering", T.runtimeType, T, T2.runtimeType, T2]);
+    _logger?.finest(["registering2", methodName]);
 
     _typedMethods[methodName]!.add(
       TypedMethodDefinition(
         method: newMethod,
         caller: (params) {
-          final p0 = _deserializeCallback?.call(
-            params?.elementAtOrNull(0),
-            T.toString(),
-          );
-          final p1 = _deserializeCallback?.call(
-            params?.elementAtOrNull(1),
-            T2.toString(),
-          );
+          final p0 = _deserializeCallback!.call<T>(params?.elementAtOrNull(0));
+          final p1 = _deserializeCallback.call<T2>(params?.elementAtOrNull(1));
           newMethod(p0, p1);
         },
       ),
@@ -656,32 +650,15 @@ class HubConnection {
       return;
     }
 
-    _logger?.finest([
-      "registering",
-      T.runtimeType,
-      T,
-      T2.runtimeType,
-      T2,
-      T3.runtimeType,
-      T3,
-    ]);
+    _logger?.finest(["registering3", methodName]);
 
     _typedMethods[methodName]!.add(
       TypedMethodDefinition(
         method: newMethod,
         caller: (params) {
-          final p0 = _deserializeCallback?.call(
-            params?.elementAtOrNull(0),
-            T.toString(),
-          );
-          final p1 = _deserializeCallback?.call(
-            params?.elementAtOrNull(1),
-            T2.toString(),
-          );
-          final p2 = _deserializeCallback?.call(
-            params?.elementAtOrNull(2),
-            T3.toString(),
-          );
+          final p0 = _deserializeCallback!.call<T>(params?.elementAtOrNull(0));
+          final p1 = _deserializeCallback.call<T2>(params?.elementAtOrNull(1));
+          final p2 = _deserializeCallback.call<T3>(params?.elementAtOrNull(2));
           newMethod(p0, p1, p2);
         },
       ),
