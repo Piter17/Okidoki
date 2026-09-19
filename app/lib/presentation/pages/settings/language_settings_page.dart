@@ -16,7 +16,7 @@ class LanguageSettingsPage extends HookConsumerWidget {
           style: context.fonts.largeTitle,
         ),
         DropdownEntryAlt<Language>(
-          getLabel: (item) => item.name(context.s),
+          getLabel: (item) => item?.name(context.s),
           text: Text(context.s.settings_language),
           value: settings.language,
           items: Language.list,

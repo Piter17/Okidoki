@@ -21,9 +21,9 @@ class UserBottomBar extends StatelessWidget {
     final UserState? userState = null;
     return Skeletonizer(
       enabled: isSkeleton,
-      child: StyledContainer(
+      child: Surface(
         padding: context.values.containerPadding,
-        contextStyle: ContextColors.light,
+        // contextStyle: ContextColors.light,
         height: 60,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -51,7 +51,7 @@ class UserBottomBar extends StatelessWidget {
                           userState?.toLocalizedString(S.of(context)!) ??
                               TextGen.sentence(1, 2),
                           style: context.fonts.caption1.withColor(
-                            context.colors.body.text.mixMain(30, 30),
+                            context.palette.text,
                           ),
                         ),
                       ],

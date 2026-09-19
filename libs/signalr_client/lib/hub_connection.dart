@@ -101,8 +101,7 @@ class HubConnection {
   final DeserializeCallback? _deserializeCallback;
 
   late Map<String?, InvocationEventCallback> _callbacks;
-  late Map<String, List<MethodInvocationFunc>> _methods;
-  late Map<String, List<TypedMethodDefinition>> _typedMethods;
+  late Map<String, List<TypedMethodDefinition>> _methods;
   int? _invocationId;
 
   late List<ClosedCallback> _closedCallbacks;
@@ -215,7 +214,6 @@ class HubConnection {
 
     _callbacks = {};
     _methods = {};
-    _typedMethods = {};
     _closedCallbacks = [];
     _reconnectingCallbacks = [];
     _reconnectedCallbacks = [];
@@ -551,76 +549,87 @@ class HubConnection {
   /// methodName: The name of the hub method to define.
   /// newMethod: The handler that will be raised when the hub method is invoked.
   ///
-  void on(String methodName, MethodInvocationFunc newMethod) {
-    if (isStringEmpty(methodName)) {
-      return;
-    }
-
-    methodName = methodName.toLowerCase();
-    if (_methods[methodName] == null) {
-      _methods[methodName] = [];
-    }
-
-    // Preventing adding the same handler multiple times.
-    if (_methods[methodName]!.indexOf(newMethod) != -1) {
-      return;
-    }
-
-    _methods[methodName]!.add(newMethod);
-  }
-
-  TypedMethodDefinition? onTyped<T>(
+  bool _addHandler(
     String methodName,
-    TypedInvocationFunc<T> newMethod,
+    TypedMethodDefinition handler,
+    bool Function(TypedMethodDefinition existingHandler) isDuplicate,
   ) {
     if (isStringEmpty(methodName)) {
-      return null;
+      return false;
     }
 
-    methodName = methodName.toLowerCase();
-    if (_typedMethods[methodName] == null) {
-      _typedMethods[methodName] = [];
+    final normalizedMethodName = methodName.toLowerCase();
+    final handlers = _methods.putIfAbsent(normalizedMethodName, () => []);
+    if (handlers.any(isDuplicate)) {
+      return false;
     }
 
-    // Preventing adding the same handler multiple times.
-    if (_typedMethods[methodName]!.any((x) => x.method == newMethod)) {
-      return null;
+    handlers.add(handler);
+    return true;
+  }
+
+  void _removeHandler(
+    String methodName,
+    Object? handler,
+    bool Function(TypedMethodDefinition existingHandler, Object? handler)
+    matches,
+  ) {
+    if (isStringEmpty(methodName)) {
+      return;
     }
 
+    final normalizedMethodName = methodName.toLowerCase();
+    final handlers = _methods[normalizedMethodName];
+    if (handlers == null) {
+      return;
+    }
+
+    if (handler == null) {
+      _methods.remove(normalizedMethodName);
+      return;
+    }
+
+    handlers.removeWhere(
+      (existingHandler) => matches(existingHandler, handler),
+    );
+    if (handlers.isEmpty) {
+      _methods.remove(normalizedMethodName);
+    }
+  }
+
+  void on(String methodName, MethodInvocationFunc newMethod) {
+    _addHandler(
+      methodName,
+      TypedMethodDefinition(method: newMethod, caller: newMethod),
+      (handler) => handler.method == newMethod,
+    );
+  }
+
+  void onTyped<T>(String methodName, TypedInvocationFunc<T> newMethod) {
     _logger?.finest(["registering", methodName]);
 
-    var typedMethodDefinition = TypedMethodDefinition(
+    final typedMethodDefinition = TypedMethodDefinition(
       method: newMethod,
       caller: (params) {
         final p0 = _deserializeCallback!.call<T>(params?.elementAtOrNull(0));
         newMethod(p0);
       },
     );
-    _typedMethods[methodName]!.add(typedMethodDefinition);
-    return typedMethodDefinition;
+    _addHandler(
+      methodName,
+      typedMethodDefinition,
+      (handler) => handler.method == newMethod,
+    );
   }
 
   void onTyped2<T, T2>(
     String methodName,
     TypedInvocationFunc2<T, T2> newMethod,
   ) {
-    if (isStringEmpty(methodName)) {
-      return;
-    }
-
-    methodName = methodName.toLowerCase();
-    if (_typedMethods[methodName] == null) {
-      _typedMethods[methodName] = [];
-    }
-
-    // Preventing adding the same handler multiple times.
-    if (_typedMethods[methodName]!.any((x) => x.method == newMethod)) {
-      return;
-    }
-
     _logger?.finest(["registering2", methodName]);
 
-    _typedMethods[methodName]!.add(
+    _addHandler(
+      methodName,
       TypedMethodDefinition(
         method: newMethod,
         caller: (params) {
@@ -629,6 +638,7 @@ class HubConnection {
           newMethod(p0, p1);
         },
       ),
+      (handler) => handler.method == newMethod,
     );
   }
 
@@ -636,23 +646,10 @@ class HubConnection {
     String methodName,
     TypedInvocationFunc3<T, T2, T3> newMethod,
   ) {
-    if (isStringEmpty(methodName)) {
-      return;
-    }
-
-    methodName = methodName.toLowerCase();
-    if (_typedMethods[methodName] == null) {
-      _typedMethods[methodName] = [];
-    }
-
-    // Preventing adding the same handler multiple times.
-    if (_typedMethods[methodName]!.any((x) => x.method == newMethod)) {
-      return;
-    }
-
     _logger?.finest(["registering3", methodName]);
 
-    _typedMethods[methodName]!.add(
+    _addHandler(
+      methodName,
       TypedMethodDefinition(
         method: newMethod,
         caller: (params) {
@@ -662,6 +659,7 @@ class HubConnection {
           newMethod(p0, p1, p2);
         },
       ),
+      (handler) => handler.method == newMethod,
     );
   }
 
@@ -675,47 +673,19 @@ class HubConnection {
   /// If the method handler is omitted, all handlers for that method will be removed.
   ///
   void off(String methodName, {MethodInvocationFunc? method}) {
-    if (isStringEmpty(methodName)) {
-      return;
-    }
-
-    methodName = methodName.toLowerCase();
-    final handlers = _methods[methodName];
-    if (handlers == null) {
-      return;
-    }
-
-    if (method != null) {
-      final removeIdx = handlers.indexOf(method);
-      if (removeIdx != -1) {
-        handlers.removeAt(removeIdx);
-        if (handlers.length == 0) {
-          _methods.remove(methodName);
-        }
-      }
-    } else {
-      _methods.remove(methodName);
-    }
+    _removeHandler(
+      methodName,
+      method,
+      (handler, target) => handler.method == target,
+    );
   }
 
   void offTyped<T>(String methodName, {dynamic method}) {
-    if (isStringEmpty(methodName)) {
-      return;
-    }
-
-    methodName = methodName.toLowerCase();
-    final handlers = _typedMethods[methodName];
-    if (handlers == null) {
-      return;
-    }
-
-    if (method != null) {
-      final removeIdx = _typedMethods.removeWhere(
-        (key, value) => key == method,
-      );
-    } else {
-      _typedMethods.remove(methodName);
-    }
+    _removeHandler(
+      methodName,
+      method,
+      (handler, target) => handler.method == target,
+    );
   }
 
   /// Registers a handler that will be invoked when the connection is closed.
@@ -889,18 +859,12 @@ class HubConnection {
 
   void _invokeClientMethod(InvocationMessage invocationMessage) {
     final methods = _methods[invocationMessage.target!.toLowerCase()];
-    final typedMethods = _typedMethods[invocationMessage.target!.toLowerCase()];
     var invoked = false;
 
-    if (typedMethods != null)
-      typedMethods.forEach((x) {
-        invoked = true;
-        x.caller(invocationMessage.arguments);
-      });
     if (methods != null) {
-      methods.forEach((m) {
+      methods.forEach((method) {
         invoked = true;
-        m(invocationMessage.arguments);
+        method.caller(invocationMessage.arguments);
       });
 
       if (!isStringEmpty(invocationMessage.invocationId)) {

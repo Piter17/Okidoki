@@ -83,16 +83,18 @@ class ChatMessage extends HookWidget {
     final profilePicture = user?.value?.profilePicture;
     final nickname = user?.value?.nickname ?? TextGen.nick();
 
-    final colorSet = editMode ? context.colors.warrning : context.colors.body;
+    final colorSet = editMode
+        ? context.appColors.warning
+        : context.palette.background;
 
     return Skeletonizer(
       enabled: isSkeleton,
       child: Container(
         decoration: BoxDecoration(
-          color: colorSet.background.mixMain(hovered.value ? 10 : 0),
-          border: colorSet == context.colors.body
-              ? null
-              : Border(left: BorderSide(color: colorSet.color, width: 4)),
+          // color: colorSet.
+          // border: colorSet == context.palette.background
+          //     ? null
+          //     : Border(left: BorderSide(color: colorSet.background, width: 4)),
         ),
         child:
             InkWell(

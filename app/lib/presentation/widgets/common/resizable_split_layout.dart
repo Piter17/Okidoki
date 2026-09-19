@@ -62,7 +62,7 @@ class _ResizableSplitViewState extends ConsumerState<ResizableSplitLayout> {
             ),
 
             Container(
-              color: context.colors.border,
+              color: context.palette.border,
               width: widget.dividerWidth,
               child: MouseRegion(
                 cursor: SystemMouseCursors.resizeLeftRight,

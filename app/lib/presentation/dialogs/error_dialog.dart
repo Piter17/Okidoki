@@ -50,8 +50,8 @@ class const ErrorDialog({
 
   @override
   Widget build(BuildContext context) {
-    return StyledContainer(
-      contextStyle: .danger,
+    return Surface(
+      surfaceStyle: SurfaceStyle(foreground: .danger),
       borderRadius: context.values.borderL,
       child: Column(
         children: [

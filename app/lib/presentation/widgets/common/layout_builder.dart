@@ -12,6 +12,14 @@ typedef AdaptiveBuilder = Widget Function(
   bool isPhone,
 );
 
+// enum Orientation {
+//   landscape,
+//   portrait;
+
+//   static Orientation fromConstraints(BoxConstraints constraints) =>
+//       constraints.maxWidth > constraints.maxHeight ? .landscape : .portrait;
+// }
+
 enum LayoutType {
   phone,
   tablet,
@@ -27,6 +35,9 @@ enum LayoutType {
     < 800 => LayoutType.tablet,
     _ => LayoutType.desktop,
   };
+
+  static LayoutType fromConstraints(BoxConstraints constraints) =>
+      fromWidth(constraints.maxWidth);
 
   static LayoutType fromContext(BuildContext context) =>
       fromWidth(MediaQuery.sizeOf(context).width);

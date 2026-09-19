@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riv/core/core.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -61,7 +63,7 @@ class AppSettingsNotifier extends Notifier<c.Settings> {
     _prefs = ref.watch(globalPreferencesProvider);
 
     final s = c.Settings(
-      color: _prefs.getInt('color') ?? 0xff0d6efd,
+      color: Color(_prefs.getInt('color') ?? 0xff0d6efd),
       darkMode: _prefs.getBool('darkMode') ?? false,
       navigatorWidth: _prefs.getDouble("navigatorWidth") ?? 234,
       language: Language.fromStorage(_prefs.getString('languageCode') ?? "pl"),
@@ -74,9 +76,9 @@ class AppSettingsNotifier extends Notifier<c.Settings> {
     await _prefs.setBool('darkMode', value);
   }
 
-  Future<void> setColor(int value) async {
+  Future<void> setColor(Color value) async {
     state = state.copyWith(color: value);
-    await _prefs.setInt('setColor', value);
+    await _prefs.setInt('setColor', value.toARGB32());
   }
 
   Future<void> setNavigatorWidth(double value) async {

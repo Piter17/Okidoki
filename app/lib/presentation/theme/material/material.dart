@@ -28,7 +28,8 @@ export 'package:flutter/material.dart'
         ButtonStyle,
         InputDecorationTheme,
         ThemeData,
-        ColorScheme,
+        DialogThemeData,
+        BottomSheetThemeData,
         SelectionArea,
         UnderlineInputBorder,
         Tooltip,
@@ -36,7 +37,8 @@ export 'package:flutter/material.dart'
         DividerThemeData,
         DividerTheme,
         IconAlignment,
-        ScaffoldMessenger;
+        ScaffoldMessenger,
+        ThemeExtension;
 
 export 'bottom_sheet.dart';
 export 'input_decoration.dart';

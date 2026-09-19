@@ -1,5 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:api_bindings/src/model/access_token_response.dart';
+import 'package:api_bindings/src/model/add_credentials_request.dart';
 import 'package:api_bindings/src/model/chat_message_dto.dart';
 import 'package:api_bindings/src/model/create_chat_message_request.dart';
 import 'package:api_bindings/src/model/create_guild_channel_request.dart';
@@ -8,6 +9,7 @@ import 'package:api_bindings/src/model/create_guild_role_request.dart';
 import 'package:api_bindings/src/model/create_user_profile_request.dart';
 import 'package:api_bindings/src/model/forgot_password_request.dart';
 import 'package:api_bindings/src/model/friend_dto.dart';
+import 'package:api_bindings/src/model/full_registration_request.dart';
 import 'package:api_bindings/src/model/guild_channel_dto.dart';
 import 'package:api_bindings/src/model/guild_dto.dart';
 import 'package:api_bindings/src/model/guild_invitation_dto.dart';
@@ -21,7 +23,6 @@ import 'package:api_bindings/src/model/login_request.dart';
 import 'package:api_bindings/src/model/received_request_dto.dart';
 import 'package:api_bindings/src/model/refresh_request.dart';
 import 'package:api_bindings/src/model/register_request.dart';
-import 'package:api_bindings/src/model/register_response.dart';
 import 'package:api_bindings/src/model/resend_confirmation_email_request.dart';
 import 'package:api_bindings/src/model/reset_password_request.dart';
 import 'package:api_bindings/src/model/sent_request_dto.dart';
@@ -31,7 +32,7 @@ import 'package:api_bindings/src/model/update_chat_message_request.dart';
 import 'package:api_bindings/src/model/update_guild_name_request.dart';
 import 'package:api_bindings/src/model/update_user_profile_request.dart';
 import 'package:api_bindings/src/model/user_profile_dto.dart';
-import 'package:api_bindings/src/model/user_register_request.dart';
+import 'package:api_bindings/src/model/username_registration_request.dart';
 
 typedef Decoder = Object Function(Map<String, dynamic>);
 
@@ -49,6 +50,7 @@ class JsonConverter {
 
   static final Map<Type, Decoder> _factories = {
     AccessTokenResponse: AccessTokenResponse.fromJson,
+    AddCredentialsRequest: AddCredentialsRequest.fromJson,
     ChatMessageDto: ChatMessageDto.fromJson,
     CreateChatMessageRequest: CreateChatMessageRequest.fromJson,
     CreateGuildChannelRequest: CreateGuildChannelRequest.fromJson,
@@ -57,6 +59,7 @@ class JsonConverter {
     CreateUserProfileRequest: CreateUserProfileRequest.fromJson,
     ForgotPasswordRequest: ForgotPasswordRequest.fromJson,
     FriendDto: FriendDto.fromJson,
+    FullRegistrationRequest: FullRegistrationRequest.fromJson,
     GuildChannelDto: GuildChannelDto.fromJson,
     GuildDto: GuildDto.fromJson,
     GuildInvitationDto: GuildInvitationDto.fromJson,
@@ -70,7 +73,6 @@ class JsonConverter {
     ReceivedRequestDto: ReceivedRequestDto.fromJson,
     RefreshRequest: RefreshRequest.fromJson,
     RegisterRequest: RegisterRequest.fromJson,
-    RegisterResponse: RegisterResponse.fromJson,
     ResendConfirmationEmailRequest: ResendConfirmationEmailRequest.fromJson,
     ResetPasswordRequest: ResetPasswordRequest.fromJson,
     SentRequestDto: SentRequestDto.fromJson,
@@ -80,6 +82,6 @@ class JsonConverter {
     UpdateGuildNameRequest: UpdateGuildNameRequest.fromJson,
     UpdateUserProfileRequest: UpdateUserProfileRequest.fromJson,
     UserProfileDto: UserProfileDto.fromJson,
-    UserRegisterRequest: UserRegisterRequest.fromJson,
+    UsernameRegistrationRequest: UsernameRegistrationRequest.fromJson,
   };
 }

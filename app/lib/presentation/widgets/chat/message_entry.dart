@@ -72,7 +72,7 @@ class MessageEntryState extends ConsumerState<MessageEntry> {
         ),
         focusNode: _focusNode,
         decoration: InputDecoration(
-          fillColor: context.colors.transparent,
+          fillColor: context.appColors.transparent,
           hintText: widget.hintText,
           prefixIcon: Icon(Icons.add_circle),
           maintainLabelSize: true,
@@ -87,8 +87,8 @@ class MessageEntryState extends ConsumerState<MessageEntry> {
     );
     final attachments = [];
 
-    final container = StyledContainer(
-      contextStyle: ContextColors.light,
+    final container = Surface(
+      // contextStyle: ContextColors.light,
       borderRadius: context.values.borderS,
       // decoration: BoxDecoration(
       //   borderRadius: .circular(8),

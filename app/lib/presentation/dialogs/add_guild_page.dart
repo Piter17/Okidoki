@@ -29,11 +29,11 @@ class AddGuildPage extends HookConsumerWidget {
       duration: Duration(milliseconds: 300),
       curve: Curves.decelerate,
     );
-    return StyledContainer(
+    return Surface(
       decoration: BoxDecoration(
         borderRadius: context.values.borderL,
       ),
-      contextStyle: ContextColors.light,
+      // contextStyle: ContextColors.light,
       child: PageView(
         controller: controller,
         physics: NeverScrollableScrollPhysics(),

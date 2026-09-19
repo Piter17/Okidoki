@@ -11,8 +11,8 @@ class const SideNavigatorBase({
 }) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StyledContainer(
-      contextStyle: .dark,
+    return Surface(
+      // contextStyle: .dark,
       child: Column(
         mainAxisAlignment: .start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,12 +125,10 @@ class ChannelEntry extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: context.values.border,
-            color: isSelected
-                ? context.colors.border
-                : context.colors.transparent,
+            color: context.palette.getHover(isSelected),
           ),
           child: InkWell(
-            hoverColor: context.colors.border,
+            hoverColor: context.palette.hover,
             onTap: onTap,
             borderRadius: context.values.borderS,
             child: Padding(
@@ -177,9 +175,7 @@ class const GuildHeader({super.key, required final String? guildId})
                       padding: context.values.containerPadding,
                       decoration: BoxDecoration(
                         borderRadius: context.values.border,
-                        color: isHovered.value.thenValue(
-                          context.colors.borderTranslucent,
-                        ),
+                        color: context.palette.getHover(isHovered.value),
                       ),
                       child: Text(
                         guildName,

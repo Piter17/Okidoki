@@ -1,9 +1,12 @@
 import 'dart:async';
+
 import 'package:http/http.dart';
 import 'package:signalr_netcore/ihub_protocol.dart';
+
 import 'errors.dart';
 import 'signalr_http_client.dart';
 import 'utils.dart';
+
 import 'package:logging/logging.dart';
 
 typedef OnHttpClientCreateCallback = void Function(Client httpClient);
@@ -16,10 +19,11 @@ class WebSupportingHttpClient extends SignalRHttpClient {
 
   // Methods
 
-  WebSupportingHttpClient(Logger? logger,
-      {OnHttpClientCreateCallback? httpClientCreateCallback})
-      : this._logger = logger,
-        this._httpClientCreateCallback = httpClientCreateCallback;
+  WebSupportingHttpClient(
+    Logger? logger, {
+    OnHttpClientCreateCallback? httpClientCreateCallback,
+  }) : this._logger = logger,
+       this._httpClientCreateCallback = httpClientCreateCallback;
 
   Future<SignalRHttpResponse> send(SignalRHttpRequest request) {
     // Check that abort was not signaled before calling send
@@ -40,7 +44,7 @@ class WebSupportingHttpClient extends SignalRHttpClient {
 
       final httpClient = Client();
       if (_httpClientCreateCallback != null) {
-        _httpClientCreateCallback!(httpClient);
+        _httpClientCreateCallback(httpClient);
       }
 
       final abortFuture = Future<void>(() {
@@ -53,7 +57,8 @@ class WebSupportingHttpClient extends SignalRHttpClient {
         return completer.future;
       });
 
-      final isJson = request.content != null &&
+      final isJson =
+          request.content != null &&
           request.content is String &&
           (request.content as String).startsWith('{');
 
@@ -61,18 +66,20 @@ class WebSupportingHttpClient extends SignalRHttpClient {
 
       headers.setHeaderValue('X-Requested-With', 'FlutterHttpClient');
       headers.setHeaderValue(
-          'content-type',
-          isJson
-              ? 'application/json;charset=UTF-8'
-              : 'text/plain;charset=UTF-8');
+        'content-type',
+        isJson ? 'application/json;charset=UTF-8' : 'text/plain;charset=UTF-8',
+      );
 
       headers.addMessageHeaders(request.headers);
 
       _logger?.finest(
-          "HTTP send: url '${request.url}', method: '${request.method}' content: '${request.content}' content length = '${(request.content as String).length}' headers: '$headers'");
+        "HTTP send: url '${request.url}', method: '${request.method}' content: '${request.content}' content length = '${(request.content as String).length}' headers: '$headers'",
+      );
 
-      final httpRespFuture = await Future.any(
-          [_sendHttpRequest(httpClient, request, uri, headers), abortFuture]);
+      final httpRespFuture = await Future.any([
+        _sendHttpRequest(httpClient, request, uri, headers),
+        abortFuture,
+      ]);
       final httpResp = httpRespFuture as Response;
 
       if (request.abortSignal != null) {
@@ -82,7 +89,8 @@ class WebSupportingHttpClient extends SignalRHttpClient {
       if ((httpResp.statusCode >= 200) && (httpResp.statusCode < 300)) {
         Object content;
         final contentTypeHeader = httpResp.headers['content-type'];
-        final isJsonContent = contentTypeHeader == null ||
+        final isJsonContent =
+            contentTypeHeader == null ||
             contentTypeHeader.startsWith('application/json');
         if (isJsonContent) {
           content = httpResp.body;
@@ -91,12 +99,16 @@ class WebSupportingHttpClient extends SignalRHttpClient {
           // When using SSE and the uri has an 'id' query parameter the response is not evaluated, otherwise it is an error.
           if (isStringEmpty(uri.queryParameters['id'])) {
             throw ArgumentError(
-                "Response Content-Type not supported: $contentTypeHeader");
+              "Response Content-Type not supported: $contentTypeHeader",
+            );
           }
         }
 
-        return SignalRHttpResponse(httpResp.statusCode,
-            statusText: httpResp.reasonPhrase, content: content);
+        return SignalRHttpResponse(
+          httpResp.statusCode,
+          statusText: httpResp.reasonPhrase,
+          content: content,
+        );
       } else {
         throw HttpError(httpResp.reasonPhrase, httpResp.statusCode);
       }
@@ -113,16 +125,25 @@ class WebSupportingHttpClient extends SignalRHttpClient {
 
     switch (request.method!.toLowerCase()) {
       case 'post':
-        httpResponse =
-            httpClient.post(uri, body: request.content, headers: headers.asMap);
+        httpResponse = httpClient.post(
+          uri,
+          body: request.content,
+          headers: headers.asMap,
+        );
         break;
       case 'put':
-        httpResponse =
-            httpClient.put(uri, body: request.content, headers: headers.asMap);
+        httpResponse = httpClient.put(
+          uri,
+          body: request.content,
+          headers: headers.asMap,
+        );
         break;
       case 'delete':
-        httpResponse = httpClient.delete(uri,
-            body: request.content, headers: headers.asMap);
+        httpResponse = httpClient.delete(
+          uri,
+          body: request.content,
+          headers: headers.asMap,
+        );
         break;
       case 'get':
       default:
@@ -131,8 +152,9 @@ class WebSupportingHttpClient extends SignalRHttpClient {
 
     final hasTimeout = (request.timeout != null) && (0 < request.timeout!);
     if (hasTimeout) {
-      httpResponse =
-          httpResponse.timeout(Duration(milliseconds: request.timeout!));
+      httpResponse = httpResponse.timeout(
+        Duration(milliseconds: request.timeout!),
+      );
     }
 
     return httpResponse;

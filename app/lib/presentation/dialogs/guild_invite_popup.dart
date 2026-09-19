@@ -34,8 +34,8 @@ class GuildInvitePopup extends HookConsumerWidget {
       );
     }
 
-    return StyledContainer(
-      contextStyle: .dark,
+    return Surface(
+      // contextStyle: .dark,
       child: Padding(
         padding: context.values.containerPadding,
         child: Column(
@@ -77,8 +77,8 @@ class _Invitation extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => ClipboardHelpers.setText(value),
-      child: StyledContainer(
-        contextStyle: .primary,
+      child: Surface(
+        surfaceStyle: SurfaceStyle(foreground: .primary),
         padding: context.values.containerPadding,
         decoration: BoxDecoration(
           borderRadius: context.values.border,

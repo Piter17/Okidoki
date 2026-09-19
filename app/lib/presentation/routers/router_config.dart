@@ -14,8 +14,6 @@ class AppRouter extends RootStackRouter {
 
   @override
   List<AutoRoute> get routes => [
-    // HomeScreen is generated as HomeRoute because
-    // of the replaceInRouteName property
     AutoRoute(
       page: MainRoute.page,
       path: '/',

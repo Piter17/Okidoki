@@ -8,6 +8,7 @@ extension NullIterableX on Iterable {
 extension NullableX<T> on T? {
   R? mapOr<R>(R Function(T value) f, [R? def]) =>
       this == null ? def : f(this as T);
+  T orDefault(T def) => this ?? def;
   R mapOrElse<R>(R Function(T value) f, R Function() or) {
     return this == null ? or() : f(this as T);
   }

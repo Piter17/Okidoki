@@ -5,7 +5,7 @@
 import 'package:api_bindings/api.dart';
 ```
 
-All URIs are relative to *http://okivps.polandcentral.cloudapp.azure.com*
+All URIs are relative to *http://localhost:5088*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

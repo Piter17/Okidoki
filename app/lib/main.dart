@@ -14,6 +14,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_db_inspector/sqflite_db_inspector.dart';
 import 'package:riv/providers/providers.dart' hide HttpClient;
 
+// const kServerBaseUrl = "https://api.okidoki.fun:5088/openapi/v1.json";
 const kServerBaseUrl = "https://api.okidoki.fun/";
 
 Future loadRiverpodDependencyData() async {

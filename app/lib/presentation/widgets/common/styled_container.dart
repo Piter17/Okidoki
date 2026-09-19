@@ -1,8 +1,39 @@
 import 'package:riv/presentation/presentation.dart';
 
-class StyledContainer extends StatefulWidget {
-  StyledContainer({
-    required this.contextStyle,
+sealed class BaseSurfaceStyle;
+
+class const SurfacePalette({
+  final FrontStyle foreground = .primary,
+  final BackStyle background = .primary,
+  final FillType fill = .background,
+}) implements BaseSurfaceStyle {
+  // ColorPalette resolve(BuildContext context) =>
+  //     context.appColors.resolve(this);
+
+  @override
+  String toString() => [
+    foreground.name,
+    background.name,
+    fill.name,
+  ].join(', ');
+}
+
+class const SurfaceStyle({
+  super.foreground,
+  super.background,
+  super.fill,
+  final BoxBorder? border,
+}) extends SurfacePalette {
+  factory fromPalette(SurfacePalette e) => SurfaceStyle(
+    foreground: e.foreground,
+    background: e.background,
+    fill: e.fill,
+  );
+}
+
+class Surface extends StatefulWidget {
+  Surface({
+    this.surfaceStyle,
     super.key,
     this.borderRadius,
     this.alignment,
@@ -24,7 +55,7 @@ class StyledContainer extends StatefulWidget {
        assert(constraints == null || constraints.debugAssertIsValid()),
        assert(decoration != null || clipBehavior == Clip.none);
 
-  final ContextColors contextStyle;
+  final BaseSurfaceStyle? surfaceStyle;
   final BorderRadius? borderRadius;
   final AlignmentGeometry? alignment;
   final EdgeInsetsGeometry? padding;
@@ -40,31 +71,44 @@ class StyledContainer extends StatefulWidget {
   final double? height;
   final Widget? child;
 
-  StyledContainerState of(BuildContext context) =>
-      context.findAncestorStateOfType<StyledContainerState>()!;
+  static SurfaceState? of(BuildContext context) =>
+      context.findAncestorStateOfType<SurfaceState>();
 
   @override
-  State<StyledContainer> createState() => StyledContainerState();
+  State<Surface> createState() => SurfaceState();
 }
 
-class StyledContainerState extends State<StyledContainer> {
-  BoxDecoration getBoxDecoration(BuildContext context, ColorSet colorUsage) =>
-      BoxDecoration(
-        boxShadow: context.colors.shadow,
-        borderRadius: widget.borderRadius ?? context.values.borderS,
-        border: BoxBorder.all(
-          color: colorUsage.border,
-        ),
-        color: colorUsage.background,
-      );
+class SurfaceState extends State<Surface> {
+  BaseSurfaceStyle get style => widget.surfaceStyle ?? SurfacePalette();
+
+  BoxDecoration getBoxDecoration(
+    BuildContext context,
+    BaseSurfaceStyle style,
+    ColorPalette palette,
+  ) {
+    return BoxDecoration(
+      boxShadow: palette.shadow,
+      borderRadius: widget.borderRadius ?? context.values.borderS,
+      border: style is SurfaceStyle
+          ? style.border
+          : BoxBorder.all(
+              color: palette.border,
+              width: 3,
+            ),
+      color: palette.background,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final colorSet = widget.contextStyle.getColorSet(context);
-    final style = getBoxDecoration(context, colorSet);
-    final decor = widget.decoration != null
-        ? widget.decoration!.copyWithDecoration(style)
-        : style;
+    debugPrint([style is SurfacePalette, style.toString()].join(' '));
+    final effectiveStyle = style is SurfacePalette
+        ? style as SurfacePalette
+        : const SurfacePalette();
+    final palette = context.appColors.getPalette(effectiveStyle);
+    final decor = getBoxDecoration(context, effectiveStyle, palette);
+    // final decor = widget.decoration?.copyWithDecoration(d) ?? d;
+    final textColor = palette.text;
     return Container(
       alignment: widget.alignment,
       padding: widget.padding,
@@ -81,10 +125,10 @@ class StyledContainerState extends State<StyledContainer> {
       child: widget.child != null
           ? IconTheme(
               data: IconThemeData(
-                color: colorSet.text,
+                color: textColor,
               ),
               child: DefaultTextStyle(
-                style: context.fonts.body.withColor(colorSet.text),
+                style: context.fonts.body.withColor(textColor),
                 child: widget.child!,
               ),
             )

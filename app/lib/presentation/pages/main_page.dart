@@ -14,7 +14,7 @@ class MainPage extends StatefulHookConsumerWidget {
 
 class MainPageState extends ConsumerState<MainPage> {
   final PageController _pageController = PageController(
-    initialPage: 1,
+    initialPage: 0,
     keepPage: true,
   );
 

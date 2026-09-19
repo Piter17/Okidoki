@@ -11,23 +11,86 @@ import 'package:api_bindings/src/deserialize.dart';
 import 'package:dio/dio.dart';
 
 import 'package:api_bindings/src/model/access_token_response.dart';
+import 'package:api_bindings/src/model/add_credentials_request.dart';
 import 'package:api_bindings/src/model/forgot_password_request.dart';
+import 'package:api_bindings/src/model/full_registration_request.dart';
 import 'package:api_bindings/src/model/http_validation_problem_details.dart';
 import 'package:api_bindings/src/model/info_request.dart';
 import 'package:api_bindings/src/model/info_response.dart';
 import 'package:api_bindings/src/model/login_request.dart';
 import 'package:api_bindings/src/model/refresh_request.dart';
-import 'package:api_bindings/src/model/register_response.dart';
 import 'package:api_bindings/src/model/resend_confirmation_email_request.dart';
 import 'package:api_bindings/src/model/reset_password_request.dart';
 import 'package:api_bindings/src/model/two_factor_request.dart';
 import 'package:api_bindings/src/model/two_factor_response.dart';
-import 'package:api_bindings/src/model/user_register_request.dart';
+import 'package:api_bindings/src/model/username_registration_request.dart';
 
 class AuthApi {
   final Dio _dio;
 
   const AuthApi(this._dio);
+
+  /// addCredentials
+  ///
+  ///
+  /// Parameters:
+  /// * [addCredentialsRequest]
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<void>> addCredentials({
+    required AddCredentialsRequest addCredentialsRequest,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/auth/credentials';
+    final _options = Options(
+      method: r'POST',
+      headers: <String, dynamic>{...?headers},
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {'type': 'http', 'scheme': 'bearer', 'name': 'Bearer'},
+        ],
+        ...?extra,
+      },
+      contentType: 'application/json',
+      validateStatus: validateStatus,
+    );
+
+    dynamic _bodyData;
+
+    try {
+      _bodyData = jsonEncode(addCredentialsRequest);
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _options.compose(_dio.options, _path),
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    final _response = await _dio.request<Object>(
+      _path,
+      data: _bodyData,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    return _response;
+  }
 
   /// getInfo
   ///
@@ -700,11 +763,11 @@ class AuthApi {
     return _response;
   }
 
-  /// registerUser
+  /// register
   ///
   ///
   /// Parameters:
-  /// * [userRegisterRequest]
+  /// * [fullRegistrationRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -712,10 +775,10 @@ class AuthApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [RegisterResponse] as data
+  /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<RegisterResponse>> registerUser({
-    required UserRegisterRequest userRegisterRequest,
+  Future<Response<void>> register({
+    required FullRegistrationRequest fullRegistrationRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -735,7 +798,7 @@ class AuthApi {
     dynamic _bodyData;
 
     try {
-      _bodyData = jsonEncode(userRegisterRequest);
+      _bodyData = jsonEncode(fullRegistrationRequest);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _options.compose(_dio.options, _path),
@@ -754,36 +817,63 @@ class AuthApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    RegisterResponse? _responseData;
+    return _response;
+  }
+
+  /// registerUsername
+  ///
+  ///
+  /// Parameters:
+  /// * [usernameRegistrationRequest]
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<void>> registerUsername({
+    required UsernameRegistrationRequest usernameRegistrationRequest,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/auth/registerUsername';
+    final _options = Options(
+      method: r'POST',
+      headers: <String, dynamic>{...?headers},
+      extra: <String, dynamic>{'secure': <Map<String, String>>[], ...?extra},
+      contentType: 'application/json',
+      validateStatus: validateStatus,
+    );
+
+    dynamic _bodyData;
 
     try {
-      final rawData = _response.data;
-      _responseData = rawData == null
-          ? null
-          : deserialize<RegisterResponse, RegisterResponse>(
-              rawData,
-              'RegisterResponse',
-              growable: true,
-            );
+      _bodyData = jsonEncode(usernameRegistrationRequest);
     } catch (error, stackTrace) {
       throw DioException(
-        requestOptions: _response.requestOptions,
-        response: _response,
+        requestOptions: _options.compose(_dio.options, _path),
         type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
     }
 
-    return Response<RegisterResponse>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
+    final _response = await _dio.request<Object>(
+      _path,
+      data: _bodyData,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
     );
+
+    return _response;
   }
 }

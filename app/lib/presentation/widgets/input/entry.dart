@@ -30,7 +30,7 @@ class Entry extends HookWidget {
         duration: Durations.medium1,
         curve: Curves.easeInOut,
         decoration: BoxDecoration(
-          color: enabled && isHovered.value ? context.colors.hoverColor : null,
+          color: context.palette.getHover(enabled && isHovered.value),
           borderRadius: context.values.borderL,
         ),
         padding: context.values.entryPadding,

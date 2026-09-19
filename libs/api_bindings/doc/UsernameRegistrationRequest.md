@@ -1,4 +1,4 @@
-# api_bindings.model.FullRegistrationRequest
+# api_bindings.model.UsernameRegistrationRequest
 
 ## Load the model package
 ```dart

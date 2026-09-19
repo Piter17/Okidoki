@@ -168,7 +168,7 @@ class BaseFriendRequestEntry extends HookWidget {
       ),
     ).wrapIf(
       hovered.value,
-      (x) => StyledContainer(contextStyle: .light, child: x),
+      (x) => Surface(child: x),
     );
   }
 }

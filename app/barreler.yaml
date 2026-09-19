@@ -61,7 +61,9 @@ dirs:
           - ButtonStyle
           - InputDecorationTheme
           - ThemeData
-          - ColorScheme
+          # - ColorScheme
+          - DialogThemeData
+          - BottomSheetThemeData
           - SelectionArea
           - UnderlineInputBorder
           - Tooltip
@@ -70,6 +72,7 @@ dirs:
           - DividerTheme
           - IconAlignment
           - ScaffoldMessenger
+          - ThemeExtension
 
   - path: lib/providers
   - path: lib/mutations

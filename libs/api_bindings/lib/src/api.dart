@@ -15,8 +15,7 @@ import 'package:api_bindings/src/api/user_api.dart';
 import 'package:api_bindings/src/api/user_profile_api.dart';
 
 class ApiBindings {
-  static const String basePath =
-      r'http://okivps.polandcentral.cloudapp.azure.com';
+  static const String basePath = r'http://localhost:5088';
 
   final Dio dio;
   ApiBindings({

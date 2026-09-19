@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riv/core/types/language.dart';
 
@@ -9,7 +11,7 @@ part 'user_settings.freezed.dart';
 abstract class Settings with _$Settings {
   const factory Settings({
     required bool darkMode,
-    required int color,
+    required Color color,
     required double navigatorWidth,
     required Language language,
   }) = _Settings;

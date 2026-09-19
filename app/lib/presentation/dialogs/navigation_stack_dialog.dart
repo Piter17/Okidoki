@@ -88,9 +88,7 @@ class NavigationStackEntry extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        color: isSelected
-            ? context.colors.border
-            : context.colors.body.background,
+        color: context.palette.getHover(isSelected),
         padding: context.values.spacingSPadding,
         child: Row(
           children: [

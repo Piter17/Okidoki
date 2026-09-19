@@ -13,8 +13,12 @@ class const IsDirtyBar({super.key}) extends StatelessWidget {
             minWidth: 200,
             maxWidth: 500,
           ),
-          child: StyledContainer(
-            contextStyle: popCanceled ? .danger : .body,
+          child: Surface(
+            decoration: BoxDecoration(
+              color: popCanceled
+                  ? context.appColors.danger.color
+                  : context.palette.background,
+            ),
             height: 60,
             child: Padding(
               padding: context.values.containerPadding,

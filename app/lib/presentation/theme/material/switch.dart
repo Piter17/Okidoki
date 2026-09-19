@@ -1,34 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:riv/presentation/presentation.dart';
 
-SwitchThemeData getSwitchTheme(BuildContext context) => SwitchThemeData(
-  thumbColor: WidgetStateColor.fromMap({
-    WidgetState.disabled: context.colors.light.color.mixMain(30, 30),
-    WidgetState.any: context.colors.light.color,
-  }),
-  trackColor: WidgetStateColor.fromMap({
-    WidgetState.selected & WidgetState.disabled: context.colors.primary.color
-        .mixMain(
-          20,
-          20,
-        ),
-    WidgetState.selected: context.colors.primary.color,
-    WidgetState.any: context.colors.transparent,
-  }),
-  trackOutlineColor: WidgetStateColor.fromMap({
-    WidgetState.any: context.colors.light.border,
-  }),
-  overlayColor: WidgetStateColor.fromMap({
-    WidgetState.any: context.colors.primary.color,
-  }),
-  trackOutlineWidth: WidgetStateProperty.fromMap({
-    WidgetState.error | WidgetState.hovered | WidgetState.focused: 5,
-    ~WidgetState.disabled: 2,
-    WidgetState.any: 1,
-  }),
-  thumbIcon: WidgetStateProperty.fromMap({
-    ~WidgetState.selected: Icon(Icons.close),
-    WidgetState.selected: Icon(Icons.check),
-  }),
-  // padding : ,
-);
+SwitchThemeData getSwitchTheme(ColorPalette colors) {
+  Color resolveTrackColor(Set<WidgetState> states) {
+    if (states.contains(WidgetState.disabled)) return colors.disabled;
+    if (states.contains(WidgetState.selected)) {
+      if (states.contains(WidgetState.pressed)) return colors.pressed;
+      if (states.contains(WidgetState.focused)) return colors.focus;
+      if (states.contains(WidgetState.hovered)) return colors.hover;
+      return colors.primary;
+    }
+
+    if (states.contains(WidgetState.pressed)) return colors.tone;
+    if (states.contains(WidgetState.hovered)) return colors.hover;
+    return colors.background;
+  }
+
+  Color resolveThumbColor(Set<WidgetState> states) {
+    if (states.contains(WidgetState.disabled)) return colors.tone;
+    return states.contains(WidgetState.selected) ? colors.text : colors.text;
+  }
+
+  Color resolveOutlineColor(Set<WidgetState> states) {
+    if (states.contains(WidgetState.disabled)) return colors.disabled;
+    if (states.contains(WidgetState.selected)) return colors.border;
+    if (states.contains(WidgetState.focused)) return colors.outline;
+    return colors.border;
+  }
+
+  return SwitchThemeData(
+    thumbColor: WidgetStateProperty.resolveWith(resolveThumbColor),
+    trackColor: WidgetStateProperty.resolveWith(resolveTrackColor),
+    trackOutlineColor: WidgetStateProperty.resolveWith(resolveOutlineColor),
+    overlayColor: WidgetStateProperty.resolveWith((states) {
+      if (states.contains(WidgetState.disabled)) return null;
+      if (states.contains(WidgetState.pressed)) return colors.pressed;
+      if (states.contains(WidgetState.focused)) return colors.focus;
+      if (states.contains(WidgetState.hovered)) return colors.hover;
+      return null;
+    }),
+    trackOutlineWidth: WidgetStateProperty.resolveWith(
+      (states) => states.contains(WidgetState.focused) ? 2 : 1,
+    ),
+  );
+}

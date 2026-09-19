@@ -7,7 +7,7 @@ In api_bindings directory execute ./api_gen.sh. This will generate library with 
 
 ## app
 ```sh
-dart run build_runner watch 
+dart run build_runner watch --force-jit
 bareller watch
 fluttergen
 ```

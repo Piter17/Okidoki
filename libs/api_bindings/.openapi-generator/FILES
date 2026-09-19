@@ -1,8 +1,8 @@
 .gitignore
 README.md
-analysis_options.yaml
 build.yaml
 doc/AccessTokenResponse.md
+doc/AddCredentialsRequest.md
 doc/AuthApi.md
 doc/ChannelType.md
 doc/ChatApi.md
@@ -15,6 +15,7 @@ doc/CreateUserProfileRequest.md
 doc/ForgotPasswordRequest.md
 doc/FriendDto.md
 doc/FriendsApi.md
+doc/FullRegistrationRequest.md
 doc/GuildChannelDto.md
 doc/GuildDto.md
 doc/GuildInvitationDto.md
@@ -30,7 +31,6 @@ doc/QueryDirection.md
 doc/ReceivedRequestDto.md
 doc/RefreshRequest.md
 doc/RegisterRequest.md
-doc/RegisterResponse.md
 doc/ResendConfirmationEmailRequest.md
 doc/ResetPasswordRequest.md
 doc/SentRequestDto.md
@@ -42,7 +42,7 @@ doc/UpdateUserProfileRequest.md
 doc/UserApi.md
 doc/UserProfileApi.md
 doc/UserProfileDto.md
-doc/UserRegisterRequest.md
+doc/UsernameRegistrationRequest.md
 lib/api_bindings.dart
 lib/src/api.dart
 lib/src/api/auth_api.dart
@@ -58,6 +58,7 @@ lib/src/auth/bearer_auth.dart
 lib/src/auth/oauth.dart
 lib/src/deserialize.dart
 lib/src/model/access_token_response.dart
+lib/src/model/add_credentials_request.dart
 lib/src/model/channel_type.dart
 lib/src/model/chat_message_dto.dart
 lib/src/model/create_chat_message_request.dart
@@ -67,6 +68,7 @@ lib/src/model/create_guild_role_request.dart
 lib/src/model/create_user_profile_request.dart
 lib/src/model/forgot_password_request.dart
 lib/src/model/friend_dto.dart
+lib/src/model/full_registration_request.dart
 lib/src/model/guild_channel_dto.dart
 lib/src/model/guild_dto.dart
 lib/src/model/guild_invitation_dto.dart
@@ -81,7 +83,6 @@ lib/src/model/query_direction.dart
 lib/src/model/received_request_dto.dart
 lib/src/model/refresh_request.dart
 lib/src/model/register_request.dart
-lib/src/model/register_response.dart
 lib/src/model/resend_confirmation_email_request.dart
 lib/src/model/reset_password_request.dart
 lib/src/model/sent_request_dto.dart
@@ -91,4 +92,4 @@ lib/src/model/update_chat_message_request.dart
 lib/src/model/update_guild_name_request.dart
 lib/src/model/update_user_profile_request.dart
 lib/src/model/user_profile_dto.dart
-lib/src/model/user_register_request.dart
+lib/src/model/username_registration_request.dart

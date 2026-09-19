@@ -23,12 +23,12 @@ class AuthMutations {
 
   static Mutation<void> getRegister() => Mutation<void>();
   static MutationCallback<void> registerCb(
-    UserRegisterRequest request,
+    FullRegistrationRequest request,
   ) =>
       (tsx) => tsx
           .callApiE(
-            (x) => x.getAuthApi().registerUser(
-              userRegisterRequest: request,
+            (x) => x.getAuthApi().register(
+              fullRegistrationRequest: request,
             ),
             errorTitle: "Failed to register account",
             getError: (HttpValidationProblemDetails e) =>

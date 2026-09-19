@@ -1,6 +1,6 @@
 import 'package:riv/presentation/presentation.dart';
 
-InputDecorationTheme getInputDecoration(ThemeColors colors, Values values) {
+InputDecorationTheme getInputDecoration(ColorPalette colors, Values values) {
   // final font = fonts.labelRegular;
 
   // Color getColor(Set<WidgetState> states) {
@@ -12,9 +12,7 @@ InputDecorationTheme getInputDecoration(ThemeColors colors, Values values) {
 
   return InputDecorationTheme(
     fillColor: WidgetStateColor.resolveWith(
-      (states) => states.contains(WidgetState.hovered)
-          ? colors.light.background
-          : colors.body.background,
+      (states) => colors.getHover(states.contains(WidgetState.hovered)),
     ),
     filled: true,
     border: UnderlineInputBorder(borderSide: .none),

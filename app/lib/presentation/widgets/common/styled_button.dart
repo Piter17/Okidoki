@@ -11,18 +11,18 @@ enum ButtonType {
 
   ButtonStyle? style(BuildContext context) {
     final theme = Theme.of(context);
-    final colors = context.colors;
+    final colors = context.palette;
 
     ButtonStyle? getTextRadio() => theme.textButtonTheme.style?.copyWith(
       foregroundColor: WidgetStateColor.resolveWith(
-        (states) => colors.body.text,
+        (states) => colors.text,
       ),
     );
 
     ButtonStyle? getTextRadioOn() => getTextRadio()?.copyWith(
       textStyle: WidgetStatePropertyAll(context.fonts.bodyStronger),
       backgroundColor: WidgetStateColor.resolveWith(
-        (_) => context.colors.borderTranslucent,
+        (_) => context.palette.border,
       ),
     );
 

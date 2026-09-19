@@ -23,8 +23,8 @@ class BaseMainScreen extends StatefulWidget {
 class BaseMainScreenState extends State<BaseMainScreen> {
   @override
   Widget build(BuildContext context) {
-    return StyledContainer(
-      contextStyle: .body,
+    return Surface(
+      // contextStyle: .body,
       borderRadius: context.values.borderXL,
       child: Column(
         children: [

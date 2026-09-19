@@ -45,7 +45,6 @@ export 'theme/data/color/color_set.dart';
 export 'theme/data/theme_colors.dart';
 export 'theme/data/typography.dart';
 export 'theme/data/values.dart';
-export 'theme/theme.dart';
 export 'theme/theme_manager.dart';
 export 'widgets/animations/widget_shaker.dart';
 export 'widgets/base/base_main_appbar.dart';

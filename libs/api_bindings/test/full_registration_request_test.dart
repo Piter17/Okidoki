@@ -8,23 +8,18 @@ void main() {
   // TODO add properties to the entity
 
   group(FullRegistrationRequest, () {
-    // String email
-    test('to test the property `email`', () async {
-      // TODO
-    });
-
     // String userName
     test('to test the property `userName`', () async {
       // TODO
     });
 
-    // String password
-    test('to test the property `password`', () async {
+    // String email
+    test('to test the property `email`', () async {
       // TODO
     });
 
-    // String profileName
-    test('to test the property `profileName`', () async {
+    // String password
+    test('to test the property `password`', () async {
       // TODO
     });
   });
