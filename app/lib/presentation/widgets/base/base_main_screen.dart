@@ -56,6 +56,7 @@ class BaseMainScreenState extends State<BaseMainScreen> {
           Divider.shrink(),
           Expanded(
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(child: widget.body),
                 if (widget.right != null) ...[

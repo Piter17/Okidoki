@@ -81,8 +81,8 @@ class FrontColorScheme({
   required final List<BoxShadow> shadow,
   final String? debugLabel,
 }) with DiagnosticableTreeMixin {
-  factory generate(Color color) {
-    final textColor = color.isDark ? _white : _black;
+  factory generate(Color color, Color bgColor) {
+    final textColor = bgColor.isDark ? _white : _black;
     final shadowColor = color.isDark
         ? _black.withValues(alpha: 0.3)
         : _black.withValues(alpha: 0.1);
@@ -209,20 +209,29 @@ class ThemeColors extends ThemeExtension<ThemeColors> with _$ThemeColors {
     final popup = backgroundColor.relight(.1, .2);
 
     final bb = BackColorScheme.generate(backgroundColor);
-    final ff = FrontColorScheme.generate(primaryColor);
+    final ff = FrontColorScheme.generate(primaryColor, bb.background);
     return ThemeColors(
       borderTranslucent: _black.withValues(alpha: transparency),
-      bPrimary: .generate(backgroundColor),
-      bSecondary: .generate(secondaryBg),
-      bPopup: .generate(popup),
-      bTonal: .generate(popup),
+      bPrimary: BackColorScheme.generate(backgroundColor),
+      bSecondary: BackColorScheme.generate(secondaryBg),
+      bPopup: BackColorScheme.generate(popup),
+      bTonal: BackColorScheme.generate(popup),
       brightness: backgroundColor.brightness,
-      primary: .generate(primaryColor),
-      secondary: .generate(primaryColor.lighten(.3)),
-      danger: .generate(const Color(0xFFD32F2F)),
-      success: .generate(const Color(0xFF388E3C)),
-      warning: .generate(const Color(0xFFFBC02D)),
-      info: .generate(const Color(0xFF1976D2)),
+      primary: FrontColorScheme.generate(primaryColor, bb.background),
+      secondary: FrontColorScheme.generate(
+        primaryColor.lighten(.3),
+        bb.background,
+      ),
+      danger: FrontColorScheme.generate(const Color(0xFFD32F2F), bb.background),
+      success: FrontColorScheme.generate(
+        const Color(0xFF388E3C),
+        bb.background,
+      ),
+      warning: FrontColorScheme.generate(
+        const Color(0xFFFBC02D),
+        bb.background,
+      ),
+      info: FrontColorScheme.generate(const Color(0xFF1976D2), bb.background),
       defaultPalette: .generate(front: ff, back: bb),
     );
   }
