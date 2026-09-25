@@ -34,6 +34,8 @@ class GuildDto {
 
     required this.name,
 
+    this.mainChannelId,
+
     this.image,
   });
 
@@ -58,6 +60,9 @@ class GuildDto {
   @JsonKey(name: r'name', required: true, includeIfNull: false)
   final String name;
 
+  @JsonKey(name: r'mainChannelId', required: false, includeIfNull: false)
+  final String? mainChannelId;
+
   @JsonKey(name: r'image', required: false, includeIfNull: false)
   final String? image;
 
@@ -72,6 +77,7 @@ class GuildDto {
           other.memberCount == memberCount &&
           other.id == id &&
           other.name == name &&
+          other.mainChannelId == mainChannelId &&
           other.image == image;
 
   @override
@@ -83,6 +89,7 @@ class GuildDto {
       memberCount.hashCode +
       id.hashCode +
       name.hashCode +
+      (mainChannelId == null ? 0 : mainChannelId.hashCode) +
       (image == null ? 0 : image.hashCode);
 
   factory GuildDto.fromJson(Map<String, dynamic> json) =>

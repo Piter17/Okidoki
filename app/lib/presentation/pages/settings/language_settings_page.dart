@@ -11,10 +11,7 @@ class LanguageSettingsPage extends HookConsumerWidget {
 
     return BaseSettingsPage.column(
       [
-        Text(
-          context.s.settings_language_and_time,
-          style: context.fonts.largeTitle,
-        ),
+        TitleEntry(Text(context.s.settings_language_and_time)),
         DropdownEntryAlt<Language>(
           getLabel: (item) => item?.name(context.s),
           text: Text(context.s.settings_language),

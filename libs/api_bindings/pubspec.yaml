@@ -3,7 +3,7 @@ version: 1.0.0
 description: OpenAPI API client
 homepage: homepage
 
-
+resolution: workspace
 environment:
   sdk: ^3.13.0
 

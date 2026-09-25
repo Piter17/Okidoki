@@ -4,6 +4,7 @@ include:
 exclude:
   - "**/*.g.dart"
   - "**/*.freezed.dart"
+  - "**/*.g.theme.dart"
   
 defaults:
   file_name: # defaults to directory name

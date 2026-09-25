@@ -1,6 +1,8 @@
 name: json_convert_gen
 description: Generator for JsonSerializable models registry
 version: 1.0.0
+
+resolution: workspace
 environment:
   sdk: ">=3.13.0 <4.0.0"
 

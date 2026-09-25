@@ -26,6 +26,7 @@ abstract class UserSettings with _$UserSettings {
     required bool darkMode,
     required int color,
     required String? lastGuild,
+    required Map<String, String> lastChannels,
   }) = _UserSettings;
 
   // factory UserSettings.fromJson(Map<String, Object?> json) =>

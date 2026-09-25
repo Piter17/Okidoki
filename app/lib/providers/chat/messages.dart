@@ -15,7 +15,7 @@ FutureOr<List<ChatMessageDto>> messages(
     guildChannelId: chatId,
     cursor: pdx,
     direction: direction,
-    cancelToken: ct,
+    // cancelToken: ct,
   )),
   "Failed to fetch messages ($chatId, $pdx)",
 );

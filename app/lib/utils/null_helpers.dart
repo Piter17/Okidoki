@@ -16,6 +16,8 @@ extension NullableX<T> on T? {
   T valueOrThrow(String error) => this == null ? throw Exception(error) : this!;
 }
 
+T pass<T>(T value) => value;
+
 extension BoolX on bool {
   R? thenValue<R>(R r) => this ? r : null;
   R? then<R>(R Function() r) => this ? r() : null;
@@ -24,22 +26,16 @@ extension BoolX on bool {
 }
 
 extension WidgetNullX<T extends Widget> on T {
-  Widget wrapWith<E>(
-    E? item,
-    WrapperBuilder<T, E> builder, [
-    OrElseBuilder? orElse,
-  ]) => item != null
-      ? builder(item, this)
-      : orElse != null
-      ? orElse()
-      : this;
+  Widget wrapWith(
+    WrapperBuilder<T> builder,
+  ) => builder(this);
 
-  Widget wrapIf(bool cond, WrapperBuilder1<T> builder, [T? orElse]) =>
+  Widget wrapIf(bool cond, WrapperBuilder<T> builder, [T? orElse]) =>
       cond ? builder(this) : orElse ?? this;
 
   Widget wrapOrElse(
     bool cond,
-    WrapperBuilder1<T> builder, [
+    WrapperBuilder<T> builder, [
     OrElseBuilder? orElse,
   ]) => cond
       ? builder(this)
@@ -48,6 +44,5 @@ extension WidgetNullX<T extends Widget> on T {
       : orElse();
 }
 
-typedef WrapperBuilder<T, E> = Widget Function(E item, T child);
-typedef WrapperBuilder1<T> = Widget Function(T child);
+typedef WrapperBuilder<T> = Widget Function(T child);
 typedef OrElseBuilder = Widget Function();

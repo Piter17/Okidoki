@@ -1,11 +1,9 @@
 import 'package:riv/presentation/presentation.dart';
 
-class const DmNavigator({super.key, required final double? bottomSpace})
-    extends ConsumerWidget {
+class const DmNavigator({super.key}) extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SideNavigatorBase(
-      bottomSpace: bottomSpace,
       top: Button(
         buttonType: .primary,
         onPressed: () {},

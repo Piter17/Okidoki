@@ -61,7 +61,7 @@ try {
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://localhost:5088*
+All URIs are relative to *http://api-dev.okidoki.fun*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
@@ -75,8 +75,8 @@ Class | Method | HTTP request | Description
 [*AuthApi*](doc/AuthApi.md) | [**postRefresh**](doc/AuthApi.md#postrefresh) | **POST** /api/auth/refresh | 
 [*AuthApi*](doc/AuthApi.md) | [**postResendConfirmationEmail**](doc/AuthApi.md#postresendconfirmationemail) | **POST** /api/auth/resendConfirmationEmail | 
 [*AuthApi*](doc/AuthApi.md) | [**postResetPassword**](doc/AuthApi.md#postresetpassword) | **POST** /api/auth/resetPassword | 
-[*AuthApi*](doc/AuthApi.md) | [**register**](doc/AuthApi.md#register) | **POST** /api/auth/registerUser | 
-[*AuthApi*](doc/AuthApi.md) | [**registerUsername**](doc/AuthApi.md#registerusername) | **POST** /api/auth/registerUsername | 
+[*AuthApi*](doc/AuthApi.md) | [**register**](doc/AuthApi.md#register) | **POST** /api/auth/registerAnonymus | 
+[*AuthApi*](doc/AuthApi.md) | [**registerUser**](doc/AuthApi.md#registeruser) | **POST** /api/auth/registerUser | 
 [*ChatApi*](doc/ChatApi.md) | [**deleteMessage**](doc/ChatApi.md#deletemessage) | **DELETE** /api/Chat/{messageId} | 
 [*ChatApi*](doc/ChatApi.md) | [**editMessage**](doc/ChatApi.md#editmessage) | **PATCH** /api/Chat/{messageId} | 
 [*ChatApi*](doc/ChatApi.md) | [**getMessages**](doc/ChatApi.md#getmessages) | **GET** /api/Chat/Messages/{guildChannelId} | 
@@ -107,8 +107,6 @@ Class | Method | HTTP request | Description
 [*GuildsApi*](doc/GuildsApi.md) | [**updateName**](doc/GuildsApi.md#updatename) | **PATCH** /api/Guilds/{guildId}/name | 
 [*UserApi*](doc/UserApi.md) | [**getMe**](doc/UserApi.md#getme) | **GET** /api/User | 
 [*UserApi*](doc/UserApi.md) | [**updateUsername**](doc/UserApi.md#updateusername) | **PATCH** /api/User/SetUserName | 
-[*UserProfileApi*](doc/UserProfileApi.md) | [**createUserProfile**](doc/UserProfileApi.md#createuserprofile) | **POST** /api/UserProfile | 
-[*UserProfileApi*](doc/UserProfileApi.md) | [**getAllProfilesByUserId**](doc/UserProfileApi.md#getallprofilesbyuserid) | **GET** /api/UserProfile/all | 
 [*UserProfileApi*](doc/UserProfileApi.md) | [**getByUserId**](doc/UserProfileApi.md#getbyuserid) | **GET** /api/UserProfile/GetUserProfile | 
 [*UserProfileApi*](doc/UserProfileApi.md) | [**updateAvatar**](doc/UserProfileApi.md#updateavatar) | **PATCH** /api/UserProfile/SetAvatar | 
 [*UserProfileApi*](doc/UserProfileApi.md) | [**updateProfile**](doc/UserProfileApi.md#updateprofile) | **PATCH** /api/UserProfile/profile | 
@@ -118,16 +116,15 @@ Class | Method | HTTP request | Description
 
  - [AccessTokenResponse](doc/AccessTokenResponse.md)
  - [AddCredentialsRequest](doc/AddCredentialsRequest.md)
+ - [AnonymusRegistrationRequest](doc/AnonymusRegistrationRequest.md)
  - [ChannelType](doc/ChannelType.md)
  - [ChatMessageDto](doc/ChatMessageDto.md)
  - [CreateChatMessageRequest](doc/CreateChatMessageRequest.md)
  - [CreateGuildChannelRequest](doc/CreateGuildChannelRequest.md)
  - [CreateGuildInvitationRequest](doc/CreateGuildInvitationRequest.md)
  - [CreateGuildRoleRequest](doc/CreateGuildRoleRequest.md)
- - [CreateUserProfileRequest](doc/CreateUserProfileRequest.md)
  - [ForgotPasswordRequest](doc/ForgotPasswordRequest.md)
  - [FriendDto](doc/FriendDto.md)
- - [FullRegistrationRequest](doc/FullRegistrationRequest.md)
  - [GuildChannelDto](doc/GuildChannelDto.md)
  - [GuildDto](doc/GuildDto.md)
  - [GuildInvitationDto](doc/GuildInvitationDto.md)
@@ -142,6 +139,8 @@ Class | Method | HTTP request | Description
  - [ReceivedRequestDto](doc/ReceivedRequestDto.md)
  - [RefreshRequest](doc/RefreshRequest.md)
  - [RegisterRequest](doc/RegisterRequest.md)
+ - [RegisterResponse](doc/RegisterResponse.md)
+ - [RegistrationRequest](doc/RegistrationRequest.md)
  - [ResendConfirmationEmailRequest](doc/ResendConfirmationEmailRequest.md)
  - [ResetPasswordRequest](doc/ResetPasswordRequest.md)
  - [SentRequestDto](doc/SentRequestDto.md)
@@ -150,8 +149,8 @@ Class | Method | HTTP request | Description
  - [UpdateChatMessageRequest](doc/UpdateChatMessageRequest.md)
  - [UpdateGuildNameRequest](doc/UpdateGuildNameRequest.md)
  - [UpdateUserProfileRequest](doc/UpdateUserProfileRequest.md)
+ - [UserOnlineState](doc/UserOnlineState.md)
  - [UserProfileDto](doc/UserProfileDto.md)
- - [UsernameRegistrationRequest](doc/UsernameRegistrationRequest.md)
 
 
 ## Documentation For Authorization

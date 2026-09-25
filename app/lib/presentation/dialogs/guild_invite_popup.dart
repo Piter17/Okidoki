@@ -78,7 +78,6 @@ class _Invitation extends StatelessWidget {
     return InkWell(
       onTap: () => ClipboardHelpers.setText(value),
       child: Surface(
-        surfaceStyle: SurfaceStyle(foreground: .primary),
         padding: context.values.containerPadding,
         decoration: BoxDecoration(
           borderRadius: context.values.border,

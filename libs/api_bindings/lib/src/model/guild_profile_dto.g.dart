@@ -11,6 +11,8 @@ abstract class _$GuildProfileDtoCWProxy {
 
   GuildProfileDto name(String name);
 
+  GuildProfileDto mainChannelId(String? mainChannelId);
+
   GuildProfileDto image(String? image);
 
   /// Creates a new instance with the provided field values.
@@ -20,7 +22,12 @@ abstract class _$GuildProfileDtoCWProxy {
   /// ```dart
   /// GuildProfileDto(...).copyWith(id: 12, name: "My name")
   /// ```
-  GuildProfileDto call({String id, String name, String? image});
+  GuildProfileDto call({
+    String id,
+    String name,
+    String? mainChannelId,
+    String? image,
+  });
 }
 
 /// Callable proxy for `copyWith` functionality.
@@ -37,6 +44,10 @@ class _$GuildProfileDtoCWProxyImpl implements _$GuildProfileDtoCWProxy {
   GuildProfileDto name(String name) => call(name: name);
 
   @override
+  GuildProfileDto mainChannelId(String? mainChannelId) =>
+      call(mainChannelId: mainChannelId);
+
+  @override
   GuildProfileDto image(String? image) => call(image: image);
 
   /// Creates a new instance with the provided field values.
@@ -50,6 +61,7 @@ class _$GuildProfileDtoCWProxyImpl implements _$GuildProfileDtoCWProxy {
   GuildProfileDto call({
     Object? id = const $CopyWithPlaceholder(),
     Object? name = const $CopyWithPlaceholder(),
+    Object? mainChannelId = const $CopyWithPlaceholder(),
     Object? image = const $CopyWithPlaceholder(),
   }) {
     return GuildProfileDto(
@@ -61,6 +73,10 @@ class _$GuildProfileDtoCWProxyImpl implements _$GuildProfileDtoCWProxy {
           ? _value.name
           // ignore: cast_nullable_to_non_nullable
           : name as String,
+      mainChannelId: mainChannelId == const $CopyWithPlaceholder()
+          ? _value.mainChannelId
+          // ignore: cast_nullable_to_non_nullable
+          : mainChannelId as String?,
       image: image == const $CopyWithPlaceholder()
           ? _value.image
           // ignore: cast_nullable_to_non_nullable
@@ -86,6 +102,7 @@ GuildProfileDto _$GuildProfileDtoFromJson(Map<String, dynamic> json) =>
       final val = GuildProfileDto(
         id: $checkedConvert('id', (v) => v as String),
         name: $checkedConvert('name', (v) => v as String),
+        mainChannelId: $checkedConvert('mainChannelId', (v) => v as String?),
         image: $checkedConvert('image', (v) => v as String?),
       );
       return val;
@@ -95,5 +112,6 @@ Map<String, dynamic> _$GuildProfileDtoToJson(GuildProfileDto instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'mainChannelId': ?instance.mainChannelId,
       'image': ?instance.image,
     };

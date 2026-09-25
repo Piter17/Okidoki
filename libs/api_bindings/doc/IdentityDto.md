@@ -9,7 +9,7 @@ import 'package:api_bindings/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **userName** | **String** |  | 
-**email** | **String** |  | 
+**email** | **String** |  | [optional] 
 **userId** | **String** |  | 
 **isEmailConfirmed** | **bool** |  | 
 

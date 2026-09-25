@@ -39,6 +39,8 @@ class _ResizableSplitViewState extends ConsumerState<ResizableSplitLayout> {
     super.initState();
   }
 
+  final rightKey = GlobalKey(debugLabel: "Resizable.rightChild");
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder.constraints(
@@ -58,7 +60,7 @@ class _ResizableSplitViewState extends ConsumerState<ResizableSplitLayout> {
           children: [
             SizedBox(
               width: _leftWidth,
-              child: widget.leftChild,
+              child: RepaintBoundary(child: widget.leftChild),
             ),
 
             Container(
@@ -89,7 +91,10 @@ class _ResizableSplitViewState extends ConsumerState<ResizableSplitLayout> {
               ),
             ),
 
-            Expanded(child: widget.rightChild),
+            Expanded(
+              key: rightKey,
+              child: RepaintBoundary(child: widget.rightChild),
+            ),
           ],
         );
       },

@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
@@ -18,7 +19,9 @@ abstract class FlutterTitlebarPlatform extends PlatformInterface {
   /// Defaults to [MethodChannelFlutterTitlebar].
   static FlutterTitlebarPlatform? get instance {
     if (kIsWeb) return null;
-    if (Platform.isMacOS) return _instance = MethodChannelFlutterTitlebar();
+    if (Platform.isMacOS) {
+      return _instance ??= MethodChannelFlutterTitlebar();
+    }
     return null;
   }
 

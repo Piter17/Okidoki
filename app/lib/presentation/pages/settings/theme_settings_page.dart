@@ -11,10 +11,7 @@ class ThemeSettingsPage extends HookConsumerWidget {
     final brightness = settings.darkMode;
     return BaseSettingsPage.column(
       [
-        Text(
-          context.s.settings_theme_title,
-          style: context.fonts.largeTitle,
-        ),
+        TitleEntry(Text(context.s.settings_theme_title)),
         SwitchEntry(
           text: Text(context.s.settings_light_theme),
           value: brightness,

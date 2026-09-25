@@ -17,13 +17,24 @@ part 'guild_profile_dto.g.dart';
 )
 class GuildProfileDto {
   /// Returns a new [GuildProfileDto] instance.
-  GuildProfileDto({required this.id, required this.name, this.image});
+  GuildProfileDto({
+    required this.id,
+
+    required this.name,
+
+    this.mainChannelId,
+
+    this.image,
+  });
 
   @JsonKey(name: r'id', required: true, includeIfNull: false)
   final String id;
 
   @JsonKey(name: r'name', required: true, includeIfNull: false)
   final String name;
+
+  @JsonKey(name: r'mainChannelId', required: false, includeIfNull: false)
+  final String? mainChannelId;
 
   @JsonKey(name: r'image', required: false, includeIfNull: false)
   final String? image;
@@ -34,11 +45,15 @@ class GuildProfileDto {
       other is GuildProfileDto &&
           other.id == id &&
           other.name == name &&
+          other.mainChannelId == mainChannelId &&
           other.image == image;
 
   @override
   int get hashCode =>
-      id.hashCode + name.hashCode + (image == null ? 0 : image.hashCode);
+      id.hashCode +
+      name.hashCode +
+      (mainChannelId == null ? 0 : mainChannelId.hashCode) +
+      (image == null ? 0 : image.hashCode);
 
   factory GuildProfileDto.fromJson(Map<String, dynamic> json) =>
       _$GuildProfileDtoFromJson(json);

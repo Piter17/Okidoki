@@ -7,7 +7,7 @@ part of 'username_registration_request.dart';
 // **************************************************************************
 
 abstract class _$UsernameRegistrationRequestCWProxy {
-  UsernameRegistrationRequest userName(String userName);
+  UsernameRegistrationRequest profileName(String profileName);
 
   /// Creates a new instance with the provided field values.
   /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `UsernameRegistrationRequest(...).copyWith.fieldName(value)`.
@@ -16,7 +16,7 @@ abstract class _$UsernameRegistrationRequestCWProxy {
   /// ```dart
   /// UsernameRegistrationRequest(...).copyWith(id: 12, name: "My name")
   /// ```
-  UsernameRegistrationRequest call({String userName});
+  UsernameRegistrationRequest call({String profileName});
 }
 
 /// Callable proxy for `copyWith` functionality.
@@ -28,8 +28,8 @@ class _$UsernameRegistrationRequestCWProxyImpl
   final UsernameRegistrationRequest _value;
 
   @override
-  UsernameRegistrationRequest userName(String userName) =>
-      call(userName: userName);
+  UsernameRegistrationRequest profileName(String profileName) =>
+      call(profileName: profileName);
 
   /// Creates a new instance with the provided field values.
   /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `UsernameRegistrationRequest(...).copyWith.fieldName(value)`.
@@ -40,13 +40,14 @@ class _$UsernameRegistrationRequestCWProxyImpl
   /// ```
   @override
   UsernameRegistrationRequest call({
-    Object? userName = const $CopyWithPlaceholder(),
+    Object? profileName = const $CopyWithPlaceholder(),
   }) {
     return UsernameRegistrationRequest(
-      userName: userName == const $CopyWithPlaceholder() || userName == null
-          ? _value.userName
+      profileName:
+          profileName == const $CopyWithPlaceholder() || profileName == null
+          ? _value.profileName
           // ignore: cast_nullable_to_non_nullable
-          : userName as String,
+          : profileName as String,
     );
   }
 }
@@ -66,13 +67,13 @@ extension $UsernameRegistrationRequestCopyWith on UsernameRegistrationRequest {
 UsernameRegistrationRequest _$UsernameRegistrationRequestFromJson(
   Map<String, dynamic> json,
 ) => $checkedCreate('UsernameRegistrationRequest', json, ($checkedConvert) {
-  $checkKeys(json, requiredKeys: const ['userName']);
+  $checkKeys(json, requiredKeys: const ['profileName']);
   final val = UsernameRegistrationRequest(
-    userName: $checkedConvert('userName', (v) => v as String),
+    profileName: $checkedConvert('profileName', (v) => v as String),
   );
   return val;
 });
 
 Map<String, dynamic> _$UsernameRegistrationRequestToJson(
   UsernameRegistrationRequest instance,
-) => <String, dynamic>{'userName': instance.userName};
+) => <String, dynamic>{'profileName': instance.profileName};

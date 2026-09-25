@@ -1,14 +1,13 @@
 import 'package:api_bindings/src/model/access_token_response.dart';
 import 'package:api_bindings/src/model/add_credentials_request.dart';
+import 'package:api_bindings/src/model/anonymus_registration_request.dart';
 import 'package:api_bindings/src/model/chat_message_dto.dart';
 import 'package:api_bindings/src/model/create_chat_message_request.dart';
 import 'package:api_bindings/src/model/create_guild_channel_request.dart';
 import 'package:api_bindings/src/model/create_guild_invitation_request.dart';
 import 'package:api_bindings/src/model/create_guild_role_request.dart';
-import 'package:api_bindings/src/model/create_user_profile_request.dart';
 import 'package:api_bindings/src/model/forgot_password_request.dart';
 import 'package:api_bindings/src/model/friend_dto.dart';
-import 'package:api_bindings/src/model/full_registration_request.dart';
 import 'package:api_bindings/src/model/guild_channel_dto.dart';
 import 'package:api_bindings/src/model/guild_dto.dart';
 import 'package:api_bindings/src/model/guild_invitation_dto.dart';
@@ -22,6 +21,8 @@ import 'package:api_bindings/src/model/login_request.dart';
 import 'package:api_bindings/src/model/received_request_dto.dart';
 import 'package:api_bindings/src/model/refresh_request.dart';
 import 'package:api_bindings/src/model/register_request.dart';
+import 'package:api_bindings/src/model/register_response.dart';
+import 'package:api_bindings/src/model/registration_request.dart';
 import 'package:api_bindings/src/model/resend_confirmation_email_request.dart';
 import 'package:api_bindings/src/model/reset_password_request.dart';
 import 'package:api_bindings/src/model/sent_request_dto.dart';
@@ -31,7 +32,6 @@ import 'package:api_bindings/src/model/update_chat_message_request.dart';
 import 'package:api_bindings/src/model/update_guild_name_request.dart';
 import 'package:api_bindings/src/model/update_user_profile_request.dart';
 import 'package:api_bindings/src/model/user_profile_dto.dart';
-import 'package:api_bindings/src/model/username_registration_request.dart';
 
 final _regList = RegExp(r'^List<(.*)>$');
 final _regSet = RegExp(r'^Set<(.*)>$');
@@ -61,6 +61,9 @@ ReturnType deserialize<ReturnType, BaseType>(
     case 'AddCredentialsRequest':
       return AddCredentialsRequest.fromJson(value as Map<String, dynamic>)
           as ReturnType;
+    case 'AnonymusRegistrationRequest':
+      return AnonymusRegistrationRequest.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
     case 'ChannelType':
     case 'ChatMessageDto':
       return ChatMessageDto.fromJson(value as Map<String, dynamic>)
@@ -78,17 +81,11 @@ ReturnType deserialize<ReturnType, BaseType>(
     case 'CreateGuildRoleRequest':
       return CreateGuildRoleRequest.fromJson(value as Map<String, dynamic>)
           as ReturnType;
-    case 'CreateUserProfileRequest':
-      return CreateUserProfileRequest.fromJson(value as Map<String, dynamic>)
-          as ReturnType;
     case 'ForgotPasswordRequest':
       return ForgotPasswordRequest.fromJson(value as Map<String, dynamic>)
           as ReturnType;
     case 'FriendDto':
       return FriendDto.fromJson(value as Map<String, dynamic>) as ReturnType;
-    case 'FullRegistrationRequest':
-      return FullRegistrationRequest.fromJson(value as Map<String, dynamic>)
-          as ReturnType;
     case 'GuildChannelDto':
       return GuildChannelDto.fromJson(value as Map<String, dynamic>)
           as ReturnType;
@@ -124,6 +121,12 @@ ReturnType deserialize<ReturnType, BaseType>(
     case 'RegisterRequest':
       return RegisterRequest.fromJson(value as Map<String, dynamic>)
           as ReturnType;
+    case 'RegisterResponse':
+      return RegisterResponse.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
+    case 'RegistrationRequest':
+      return RegistrationRequest.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
     case 'ResendConfirmationEmailRequest':
       return ResendConfirmationEmailRequest.fromJson(
         value as Map<String, dynamic>,
@@ -149,11 +152,9 @@ ReturnType deserialize<ReturnType, BaseType>(
     case 'UpdateUserProfileRequest':
       return UpdateUserProfileRequest.fromJson(value as Map<String, dynamic>)
           as ReturnType;
+    case 'UserOnlineState':
     case 'UserProfileDto':
       return UserProfileDto.fromJson(value as Map<String, dynamic>)
-          as ReturnType;
-    case 'UsernameRegistrationRequest':
-      return UsernameRegistrationRequest.fromJson(value as Map<String, dynamic>)
           as ReturnType;
     default:
       RegExpMatch? match;

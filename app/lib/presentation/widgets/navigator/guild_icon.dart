@@ -1,9 +1,9 @@
 import 'dart:math';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:api_bindings/api_bindings.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
 import 'package:riv/utils/utils.dart';
 
 class GuildIcon extends HookConsumerWidget {
@@ -35,9 +35,12 @@ class GuildIcon extends HookConsumerWidget {
             isSelected: isSelected,
             onTap: guildProfile == null
                 ? null
-                : () => ref
-                      .read(chatNavigationProvider.notifier)
-                      .openGuild(guildProfile!.id),
+                : () => context.router.push(
+                    GuildChatRoute(
+                      guildId: guildProfile!.id,
+                      channelId: guildProfile!.mainChannelId,
+                    ),
+                  ),
             onHover: hovered.set,
           ).wrapIf(
             guildProfile != null,
@@ -94,7 +97,7 @@ class DMIcon extends StatelessWidget {
       builder: (context, ref, _) {
         return NavigatorBaseItem.custom(
           isSelected: isSelected,
-          onTap: () => ref.read(chatNavigationProvider.notifier).openFriends(),
+          onTap: () => context.router.push(FriendsRoute()),
           backgroundColor: context.palette.tone,
           // backgroundColor: context.appColors.surfaceTonal.background,
           badgeText: unreadItems != null && unreadItems! > 0

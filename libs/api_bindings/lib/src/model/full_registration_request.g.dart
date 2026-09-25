@@ -7,7 +7,7 @@ part of 'full_registration_request.dart';
 // **************************************************************************
 
 abstract class _$FullRegistrationRequestCWProxy {
-  FullRegistrationRequest userName(String userName);
+  FullRegistrationRequest profileName(String profileName);
 
   FullRegistrationRequest email(String email);
 
@@ -21,7 +21,7 @@ abstract class _$FullRegistrationRequestCWProxy {
   /// FullRegistrationRequest(...).copyWith(id: 12, name: "My name")
   /// ```
   FullRegistrationRequest call({
-    String userName,
+    String profileName,
     String email,
     String password,
   });
@@ -36,7 +36,8 @@ class _$FullRegistrationRequestCWProxyImpl
   final FullRegistrationRequest _value;
 
   @override
-  FullRegistrationRequest userName(String userName) => call(userName: userName);
+  FullRegistrationRequest profileName(String profileName) =>
+      call(profileName: profileName);
 
   @override
   FullRegistrationRequest email(String email) => call(email: email);
@@ -53,15 +54,16 @@ class _$FullRegistrationRequestCWProxyImpl
   /// ```
   @override
   FullRegistrationRequest call({
-    Object? userName = const $CopyWithPlaceholder(),
+    Object? profileName = const $CopyWithPlaceholder(),
     Object? email = const $CopyWithPlaceholder(),
     Object? password = const $CopyWithPlaceholder(),
   }) {
     return FullRegistrationRequest(
-      userName: userName == const $CopyWithPlaceholder() || userName == null
-          ? _value.userName
+      profileName:
+          profileName == const $CopyWithPlaceholder() || profileName == null
+          ? _value.profileName
           // ignore: cast_nullable_to_non_nullable
-          : userName as String,
+          : profileName as String,
       email: email == const $CopyWithPlaceholder() || email == null
           ? _value.email
           // ignore: cast_nullable_to_non_nullable
@@ -89,9 +91,9 @@ extension $FullRegistrationRequestCopyWith on FullRegistrationRequest {
 FullRegistrationRequest _$FullRegistrationRequestFromJson(
   Map<String, dynamic> json,
 ) => $checkedCreate('FullRegistrationRequest', json, ($checkedConvert) {
-  $checkKeys(json, requiredKeys: const ['userName', 'email', 'password']);
+  $checkKeys(json, requiredKeys: const ['profileName', 'email', 'password']);
   final val = FullRegistrationRequest(
-    userName: $checkedConvert('userName', (v) => v as String),
+    profileName: $checkedConvert('profileName', (v) => v as String),
     email: $checkedConvert('email', (v) => v as String),
     password: $checkedConvert('password', (v) => v as String),
   );
@@ -101,7 +103,7 @@ FullRegistrationRequest _$FullRegistrationRequestFromJson(
 Map<String, dynamic> _$FullRegistrationRequestToJson(
   FullRegistrationRequest instance,
 ) => <String, dynamic>{
-  'userName': instance.userName,
+  'profileName': instance.profileName,
   'email': instance.email,
   'password': instance.password,
 };

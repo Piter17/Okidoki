@@ -22,7 +22,7 @@ class _AuthGateState extends ConsumerState<AuthGate> {
   late final _appRouter = _routerDelegate.controller as AppRouter;
   ProviderSubscription<AsyncValue<IdentityDto?>>? _currentUserSubscription;
 
-  void _navigateToLoginPage() => _appRouter.replaceAll([LoginRoute()]);
+  void _navigateToLoginPage() => _appRouter.replaceAll([AuthRoute()]);
   void _navigateToChatPage() => _appRouter.replaceAll([MainRoute()]);
 
   @override

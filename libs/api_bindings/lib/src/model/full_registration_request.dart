@@ -18,15 +18,15 @@ part 'full_registration_request.g.dart';
 class FullRegistrationRequest {
   /// Returns a new [FullRegistrationRequest] instance.
   FullRegistrationRequest({
-    required this.userName,
+    required this.profileName,
 
     required this.email,
 
     required this.password,
   });
 
-  @JsonKey(name: r'userName', required: true, includeIfNull: false)
-  final String userName;
+  @JsonKey(name: r'profileName', required: true, includeIfNull: false)
+  final String profileName;
 
   @JsonKey(name: r'email', required: true, includeIfNull: false)
   final String email;
@@ -38,12 +38,12 @@ class FullRegistrationRequest {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is FullRegistrationRequest &&
-          other.userName == userName &&
+          other.profileName == profileName &&
           other.email == email &&
           other.password == password;
 
   @override
-  int get hashCode => userName.hashCode + email.hashCode + password.hashCode;
+  int get hashCode => profileName.hashCode + email.hashCode + password.hashCode;
 
   factory FullRegistrationRequest.fromJson(Map<String, dynamic> json) =>
       _$FullRegistrationRequestFromJson(json);

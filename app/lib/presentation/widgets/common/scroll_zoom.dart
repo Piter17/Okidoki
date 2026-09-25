@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/services.dart';
 import 'package:riv/presentation/presentation.dart';
+import 'package:riv/utils/utils.dart';
 import 'package:scaled_app/scaled_app.dart';
 
 class ScrollZoom extends HookWidget {
@@ -23,7 +23,7 @@ class ScrollZoom extends HookWidget {
     return Listener(
       onPointerSignal: (pointerSignal) {
         if (pointerSignal is PointerScrollEvent) {
-          if (HardwareKeyboard.instance.isControlPressed) {
+          if (isShortcutModifierPressed) {
             var s = scale.value;
             s += pointerSignal.scrollDelta.dy > 0 ? -1 : 1;
             s = s.clamp(0, scrollFactors.length - 1);

@@ -23,12 +23,12 @@ class AuthMutations {
 
   static Mutation<void> getRegister() => Mutation<void>();
   static MutationCallback<void> registerCb(
-    FullRegistrationRequest request,
+    RegistrationRequest request,
   ) =>
       (tsx) => tsx
           .callApiE(
-            (x) => x.getAuthApi().register(
-              fullRegistrationRequest: request,
+            (x) => x.getAuthApi().registerUser(
+              registrationRequest: request,
             ),
             errorTitle: "Failed to register account",
             getError: (HttpValidationProblemDetails e) =>
@@ -43,6 +43,33 @@ class AuthMutations {
               ),
             )(tsx),
           );
+
+  static MutationCallback<void> anonymusRegisterCb(
+    AnonymusRegistrationRequest request,
+  ) =>
+      (tsx) => tsx
+          .callApiE(
+            (x) => x.getAuthApi().register(
+              anonymusRegistrationRequest: request,
+            ),
+            errorTitle: "Failed to register account",
+            getError: (HttpValidationProblemDetails e) =>
+                e.errors?.entries.selectMany((a, i) => a.value).join("\n"),
+            authenticated: false,
+          )
+          .then(
+            (a) => tsx
+                .get(tokenStorageProvider.notifier)
+                .saveToken(AccessToken.fromResult(a)),
+          );
+  // .then(
+  //   (_) => loginCb(
+  //     LoginRequest(
+  //       email: request.email,
+  //       password: request.password,
+  //     ),
+  //   )(tsx),
+  // );
 
   static Mutation<void> getForgotPassword() => Mutation<void>();
   static MutationCallback<void> forgotPasswordCb(

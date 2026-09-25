@@ -87,29 +87,31 @@ ThemeData getTheme(
   ThemeColors colors,
   Values values,
 ) {
-  final palette = colors.getPaletteOrDef();
+  final palette = colors.defaultPalette;
   final data = ThemeData(
     colorScheme: m.ColorScheme.fromSeed(
-      seedColor: colors.primary.color,
-      brightness: colors.brightness,
+      seedColor: m.Colors.blue, //colors.primary.color,
+      brightness: Brightness.dark,
+      dynamicSchemeVariant: .vibrant,
     ),
     // textTheme: Typography.black,
     // fontFamily: FontFamily.redHatDisplay,
-    useMaterial3: true,
-    scaffoldBackgroundColor: palette.background,
-    brightness: colors.brightness,
-    switchTheme: getSwitchTheme(palette),
+    // scaffoldBackgroundColor: palette.background,
     // switchTheme: switchStyle(context),
     // sliderTheme: sliderStyle(context),
     // dividerTheme: divider(context),
     // toggleButtonsTheme: ToggleButtonsThemeData(
     //   borderColor: colors.transparent,
     // ),
-    inputDecorationTheme: getInputDecoration(palette, values),
-    textTheme: m.TextTheme(
-      // textEdit
-      bodyLarge: fonts.bodyStronger,
-    ),
+    // brightness: colors.brightness,
+
+    useMaterial3: true,
+    // switchTheme: getSwitchTheme(palette),
+    // inputDecorationTheme: getInputDecoration(palette, values),
+    // textTheme: m.TextTheme(
+    //   // textEdit
+    //   bodyLarge: fonts.bodyStronger,
+    // ),
     filledButtonTheme: ThemeButtons.getFilledButtonTheme(
       fonts,
       palette,
@@ -118,12 +120,39 @@ ThemeData getTheme(
 
     // outlinedButtonTheme: ThemeButtons.getOutlinedButtonTheme(colors),
     textButtonTheme: ThemeButtons.getTextButtonTheme(fonts, palette, values),
-    dialogTheme: .new(backgroundColor: colors.bPopup.background),
-    bottomSheetTheme: .new(
-      backgroundColor: colors.bPopup.background,
-    ),
+    // dialogTheme: .new(backgroundColor: colors.bPopup.background),
+    // bottomSheetTheme: .new(
+    //   backgroundColor: colors.bPopup.background,
+    // ),
     extensions: [
       colors,
+      SurfaceTheme(
+        primary: SurfaceThemeVariant(
+          background: colors.bPrimary.background,
+          text: colors.bPrimary.text,
+          // borderRadius: BorderRadius.all(.circular(16)),
+          icon: colors.bPrimary.text,
+          shadow: colors.bPrimary.shadow,
+          debugLabel: SurfaceThemes.primary.name,
+        ),
+        secondary: SurfaceThemeVariant(
+          background: colors.bSecondary.background,
+          text: colors.bSecondary.text,
+          borderRadius: BorderRadius.all(.circular(16)),
+          // border: BoxBorder.all(color: colors.bSecondary.border, ),
+          icon: colors.bSecondary.text,
+          shadow: colors.bSecondary.shadow,
+          debugLabel: SurfaceThemes.secondary.name,
+        ),
+        popup: SurfaceThemeVariant(
+          background: colors.bPopup.background,
+          text: colors.bPopup.text,
+          borderRadius: BorderRadius.all(.circular(16)),
+          icon: colors.bPopup.text,
+          shadow: colors.bPopup.shadow,
+          debugLabel: SurfaceThemes.popup.name,
+        ),
+      ),
     ],
   );
   return data;
@@ -134,15 +163,9 @@ extension ContextThemeX on BuildContext {
   ThemeFonts get fonts => _t.fonts;
   Values get values => _t.values;
 
-  ThemeColors get appColors => Theme.of(this).extension<ThemeColors>()!;
-  ColorPalette get palette => appColors.resolve(this);
+  ColorPalette get palette => appColors.defaultPalette;
 
-  // To Remove
-  // SemanticsColor? get _s => SemanticsColor.of(this);
-  // ColorPalette get palette => ColorPalette(
-  //   foreground: (_s?.context ?? .primary).toColors(this),
-  //   background: (_s?.surface ?? .body).toColors(this),
-  // );
+  // ColorPalette get palette => appColors.resolve(this);
 
   Axis get flexDirection {
     final direction = findAncestorRenderObjectOfType<RenderFlex>()?.direction;
@@ -154,19 +177,3 @@ extension ContextThemeX on BuildContext {
     return direction;
   }
 }
-
-// class ContextStyle extends StatelessWidget {
-//   const new({
-//     super.key,
-//     required this.color,
-//     required this.child,
-//   });
-
-//   final ContextColors color;
-//   final Widget child;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Theme(data: getTheme(context, color), child: child);
-//   }
-// }

@@ -9,12 +9,9 @@ import 'package:api_bindings/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **String** |  | 
-**guildId** | **String** |  | 
+**guild** | [**GuildProfileDto**](GuildProfileDto.md) |  | 
 **code** | **String** |  | [optional] 
-**validUntil** | [**DateTime**](DateTime.md) |  | [optional] 
-**maxUses** | **int** |  | [optional] 
-**createdById** | **String** |  | [optional] 
-**createdByUserName** | **String** |  | [optional] 
+**createdBy** | [**UserProfileDto**](UserProfileDto.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

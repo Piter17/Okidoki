@@ -59,7 +59,9 @@ extension TransactionMutationX on MutationTransaction {
         StackTrace.current,
       );
     } catch (e, st) {
+      print([e, st]);
       if (e is DioException) {
+        print(["DioException", e.response?.data]);
         final result = tryDeserialize<E>(e.response?.data);
         final error = result.fold(
           getError,
@@ -99,7 +101,7 @@ extension ResponseX<T> on Future<Response<T?>> {
       throw Exception(error);
     } catch (e, st) {
       if (e is DioException) {
-        debugPrint("resultOrThrow: ${e.response}");
+        debugPrint("resultOrThrow: ${e.error}");
         throw ApiException("Dio $error", e, st);
       }
       throw ApiException(error, e, st);

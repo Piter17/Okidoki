@@ -31,6 +31,7 @@ class Values {
          borderRadius: .circular(borderXL),
        ),
 
+       rightPaneWidth = 200,
        containerPadding = .all(padding),
        containerPaddingL = .all(paddingL),
        chatListItemPadding = .symmetric(horizontal: chatPadding),
@@ -52,6 +53,8 @@ class Values {
   final RoundedRectangleBorder roundBorder;
   final RoundedRectangleBorder roundBorderL;
   final RoundedRectangleBorder roundBorderXL;
+
+  final double rightPaneWidth;
 
   final double chatPadding;
   final EdgeInsets chatListItemPadding;

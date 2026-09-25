@@ -1,16 +1,16 @@
 import 'package:riv/presentation/presentation.dart';
 import 'package:riv/providers/providers.dart';
+import 'package:auto_route/auto_route.dart';
 
 class const GuildList({
   super.key,
-  required final double? bottomSpace,
 }) extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final guilds = ref.watch(guildsProvider);
-    final navigation = ref.watch(chatNavigationProvider);
-    final selectedGuildId = navigation.guildId;
-    final isFriendsSelected = navigation.isFriendsSelected;
+    final current = AutoRouter.of(context, watch: true).currentChild;
+    final selectedGuildId = current?.params.optString('guildId');
+    final isFriendsSelected = current?.name == FriendsRoute.name;
 
     // final itemCount = guilds.isLoading ? 10 : guilds.requireValue.length;
     // final items = guilds.isLoading
@@ -19,7 +19,6 @@ class const GuildList({
     return SizedBox(
       width: 40 + context.values.spacing * 2.5,
       child: SideNavigatorBase(
-        bottomSpace: bottomSpace,
         top: DMIcon(
           unreadItems: 4,
           isSelected: isFriendsSelected,

@@ -5,94 +5,14 @@
 import 'package:api_bindings/api.dart';
 ```
 
-All URIs are relative to *http://localhost:5088*
+All URIs are relative to *http://api-dev.okidoki.fun*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createUserProfile**](UserProfileApi.md#createuserprofile) | **POST** /api/UserProfile | 
-[**getAllProfilesByUserId**](UserProfileApi.md#getallprofilesbyuserid) | **GET** /api/UserProfile/all | 
 [**getByUserId**](UserProfileApi.md#getbyuserid) | **GET** /api/UserProfile/GetUserProfile | 
 [**updateAvatar**](UserProfileApi.md#updateavatar) | **PATCH** /api/UserProfile/SetAvatar | 
 [**updateProfile**](UserProfileApi.md#updateprofile) | **PATCH** /api/UserProfile/profile | 
 
-
-# **createUserProfile**
-> UserProfileDto createUserProfile(createUserProfileRequest)
-
-
-
-### Example
-```dart
-import 'package:api_bindings/api.dart';
-
-final api = ApiBindings().getUserProfileApi();
-final CreateUserProfileRequest createUserProfileRequest = ; // CreateUserProfileRequest | 
-
-try {
-    final response = api.createUserProfile(createUserProfileRequest);
-    print(response);
-} on DioException catch (e) {
-    print('Exception when calling UserProfileApi->createUserProfile: $e\n');
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **createUserProfileRequest** | [**CreateUserProfileRequest**](CreateUserProfileRequest.md)|  | 
-
-### Return type
-
-[**UserProfileDto**](UserProfileDto.md)
-
-### Authorization
-
-[Bearer](../README.md#Bearer)
-
-### HTTP request headers
-
- - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **getAllProfilesByUserId**
-> List<UserProfileDto> getAllProfilesByUserId()
-
-
-
-### Example
-```dart
-import 'package:api_bindings/api.dart';
-
-final api = ApiBindings().getUserProfileApi();
-
-try {
-    final response = api.getAllProfilesByUserId();
-    print(response);
-} on DioException catch (e) {
-    print('Exception when calling UserProfileApi->getAllProfilesByUserId: $e\n');
-}
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-[**List&lt;UserProfileDto&gt;**](UserProfileDto.md)
-
-### Authorization
-
-[Bearer](../README.md#Bearer)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getByUserId**
 > UserProfileDto getByUserId(userId, guildId)

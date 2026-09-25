@@ -11,9 +11,11 @@ InputDecorationTheme getInputDecoration(ColorPalette colors, Values values) {
   // }
 
   return InputDecorationTheme(
-    fillColor: WidgetStateColor.resolveWith(
-      (states) => colors.getHover(states.contains(WidgetState.hovered)),
-    ),
+    fillColor: WidgetStateColor.fromMap({
+      WidgetState.disabled: colors.disabled,
+      WidgetState.hovered: colors.hover,
+      WidgetState.any: colors.tone,
+    }),
     filled: true,
     border: UnderlineInputBorder(borderSide: .none),
     isCollapsed: false,

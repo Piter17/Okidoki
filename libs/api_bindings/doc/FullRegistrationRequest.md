@@ -8,7 +8,7 @@ import 'package:api_bindings/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**userName** | **String** |  | 
+**profileName** | **String** |  | 
 **email** | **String** |  | 
 **password** | **String** |  | 
 

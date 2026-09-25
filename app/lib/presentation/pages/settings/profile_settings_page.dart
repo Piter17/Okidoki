@@ -15,10 +15,7 @@ class ProfileSettingsPage extends HookConsumerWidget {
 
     return BaseSettingsPage.column(
       [
-        Text(
-          context.s.settings_profile,
-          style: context.fonts.largeTitle,
-        ),
+        TitleEntry(Text(context.s.settings_profile)),
         ImagePicker(
           onChanged: (img) {
             if (img != null) {

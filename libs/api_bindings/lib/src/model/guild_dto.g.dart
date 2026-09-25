@@ -21,6 +21,8 @@ abstract class _$GuildDtoCWProxy {
 
   GuildDto name(String name);
 
+  GuildDto mainChannelId(String? mainChannelId);
+
   GuildDto image(String? image);
 
   /// Creates a new instance with the provided field values.
@@ -38,6 +40,7 @@ abstract class _$GuildDtoCWProxy {
     int? memberCount,
     String id,
     String name,
+    String? mainChannelId,
     String? image,
   });
 }
@@ -73,6 +76,10 @@ class _$GuildDtoCWProxyImpl implements _$GuildDtoCWProxy {
   GuildDto name(String name) => call(name: name);
 
   @override
+  GuildDto mainChannelId(String? mainChannelId) =>
+      call(mainChannelId: mainChannelId);
+
+  @override
   GuildDto image(String? image) => call(image: image);
 
   /// Creates a new instance with the provided field values.
@@ -91,6 +98,7 @@ class _$GuildDtoCWProxyImpl implements _$GuildDtoCWProxy {
     Object? memberCount = const $CopyWithPlaceholder(),
     Object? id = const $CopyWithPlaceholder(),
     Object? name = const $CopyWithPlaceholder(),
+    Object? mainChannelId = const $CopyWithPlaceholder(),
     Object? image = const $CopyWithPlaceholder(),
   }) {
     return GuildDto(
@@ -122,6 +130,10 @@ class _$GuildDtoCWProxyImpl implements _$GuildDtoCWProxy {
           ? _value.name
           // ignore: cast_nullable_to_non_nullable
           : name as String,
+      mainChannelId: mainChannelId == const $CopyWithPlaceholder()
+          ? _value.mainChannelId
+          // ignore: cast_nullable_to_non_nullable
+          : mainChannelId as String?,
       image: image == const $CopyWithPlaceholder()
           ? _value.image
           // ignore: cast_nullable_to_non_nullable
@@ -164,6 +176,7 @@ GuildDto _$GuildDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
       memberCount: $checkedConvert('memberCount', (v) => (v as num?)?.toInt()),
       id: $checkedConvert('id', (v) => v as String),
       name: $checkedConvert('name', (v) => v as String),
+      mainChannelId: $checkedConvert('mainChannelId', (v) => v as String?),
       image: $checkedConvert('image', (v) => v as String?),
     );
     return val;
@@ -178,5 +191,6 @@ Map<String, dynamic> _$GuildDtoToJson(GuildDto instance) => <String, dynamic>{
   'memberCount': ?instance.memberCount,
   'id': instance.id,
   'name': instance.name,
+  'mainChannelId': ?instance.mainChannelId,
   'image': ?instance.image,
 };

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:darq/darq.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riv/core/core.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -30,6 +31,11 @@ class UserSettingsNotifier extends _$UserSettingsNotifier {
       color: _prefs.getInt('color') ?? 0xff0d6efd,
       darkMode: _prefs.getBool('darkMode') ?? false,
       lastGuild: _prefs.getString('lastGuild'),
+      lastChannels:
+          _prefs
+              .getStringList('lastChannels')
+              ?.toMap((e) => MapEntry(e.split('/').first, e.split('/').last)) ??
+          {},
     );
     return s;
   }
@@ -51,6 +57,16 @@ class UserSettingsNotifier extends _$UserSettingsNotifier {
     } else {
       await _prefs.setString('lastGuild', value);
     }
+  }
+
+  Future<void> setLastChannel(String guildId, String channelId) async {
+    state.lastChannels[guildId] = channelId;
+    // state = state.copyWith(lastChannels: lastChannels);
+
+    final lastChannelsList = state.lastChannels.entries
+        .map((e) => '${e.key}/${e.value}')
+        .toList();
+    await _prefs.setStringList('lastChannels', lastChannelsList);
   }
 }
 

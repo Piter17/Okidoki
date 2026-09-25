@@ -33,6 +33,7 @@ class SignalRClient extends _$SignalRClient {
       ),
       accessTokenFactory: () => Future.value(token.accessToken),
       logger: hubProtLogger,
+      requestTimeout: 10000,
       logMessageContent: true,
     );
 
@@ -134,6 +135,10 @@ class SignalrGateway extends _$SignalrGateway {
       }
     }
 
+    void userOnlineStateChanged(String userId, UserOnlineState userState) {
+      // Implement the logic to handle user online state changes
+    }
+
     // TODO implement friend related callbacks
     void friendRequest(UserProfileDto userProfile) {
       // final guildId = param.guildId!;
@@ -151,9 +156,8 @@ class SignalrGateway extends _$SignalrGateway {
     }
 
     void profileUpdated(UserProfileDto userProfile) {
-      final userId = userProfile.userId;
-      final guildId = userProfile.guildId;
-      final provider = userProfileProvider(userId, guildId);
+      final userId = userProfile.id;
+      final provider = userProfileProvider(userId);
       if (ref.exists(provider)) {
         ref.read(provider.notifier).set(userProfile);
       }
@@ -177,6 +181,11 @@ class SignalrGateway extends _$SignalrGateway {
     connection.onTyped<GuildProfileDto>(
       "UpdatedGuildProfile",
       updatedGuildProfile,
+    );
+
+    connection.onTyped2<String, UserOnlineState>(
+      "UserOnlineStateChangedAsync",
+      userOnlineStateChanged,
     );
 
     yield* controller.stream;

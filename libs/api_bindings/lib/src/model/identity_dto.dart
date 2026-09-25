@@ -20,7 +20,7 @@ class IdentityDto {
   IdentityDto({
     required this.userName,
 
-    required this.email,
+    this.email,
 
     required this.userId,
 
@@ -30,8 +30,8 @@ class IdentityDto {
   @JsonKey(name: r'userName', required: true, includeIfNull: false)
   final String userName;
 
-  @JsonKey(name: r'email', required: true, includeIfNull: false)
-  final String email;
+  @JsonKey(name: r'email', required: false, includeIfNull: false)
+  final String? email;
 
   @JsonKey(name: r'userId', required: true, includeIfNull: false)
   final String userId;

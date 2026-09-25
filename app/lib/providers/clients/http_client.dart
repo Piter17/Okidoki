@@ -30,7 +30,8 @@ class HttpClient extends _$HttpClient {
               requestHeader: true,
               responseHeader: true,
               requestBody: true,
-              // enabled: false,
+              // responseBody: true,
+              enabled: false,
             ),
           );
 

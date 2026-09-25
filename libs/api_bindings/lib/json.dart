@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:api_bindings/src/model/access_token_response.dart';
 import 'package:api_bindings/src/model/add_credentials_request.dart';
+import 'package:api_bindings/src/model/anonymus_registration_request.dart';
 import 'package:api_bindings/src/model/chat_message_dto.dart';
 import 'package:api_bindings/src/model/create_chat_message_request.dart';
 import 'package:api_bindings/src/model/create_guild_channel_request.dart';
@@ -23,6 +24,8 @@ import 'package:api_bindings/src/model/login_request.dart';
 import 'package:api_bindings/src/model/received_request_dto.dart';
 import 'package:api_bindings/src/model/refresh_request.dart';
 import 'package:api_bindings/src/model/register_request.dart';
+import 'package:api_bindings/src/model/register_response.dart';
+import 'package:api_bindings/src/model/registration_request.dart';
 import 'package:api_bindings/src/model/resend_confirmation_email_request.dart';
 import 'package:api_bindings/src/model/reset_password_request.dart';
 import 'package:api_bindings/src/model/sent_request_dto.dart';
@@ -51,6 +54,7 @@ class JsonConverter {
   static final Map<Type, Decoder> _factories = {
     AccessTokenResponse: AccessTokenResponse.fromJson,
     AddCredentialsRequest: AddCredentialsRequest.fromJson,
+    AnonymusRegistrationRequest: AnonymusRegistrationRequest.fromJson,
     ChatMessageDto: ChatMessageDto.fromJson,
     CreateChatMessageRequest: CreateChatMessageRequest.fromJson,
     CreateGuildChannelRequest: CreateGuildChannelRequest.fromJson,
@@ -73,6 +77,8 @@ class JsonConverter {
     ReceivedRequestDto: ReceivedRequestDto.fromJson,
     RefreshRequest: RefreshRequest.fromJson,
     RegisterRequest: RegisterRequest.fromJson,
+    RegisterResponse: RegisterResponse.fromJson,
+    RegistrationRequest: RegistrationRequest.fromJson,
     ResendConfirmationEmailRequest: ResendConfirmationEmailRequest.fromJson,
     ResetPasswordRequest: ResetPasswordRequest.fromJson,
     SentRequestDto: SentRequestDto.fromJson,

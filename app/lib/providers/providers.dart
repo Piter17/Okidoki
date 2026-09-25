@@ -1,7 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 export 'chat/messages.dart';
-export 'chat/navigation.dart';
 export 'clients/http_client.dart';
 export 'core/router.dart';
 export 'core/secure_storage.dart';

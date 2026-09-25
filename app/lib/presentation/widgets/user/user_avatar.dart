@@ -44,7 +44,7 @@ class _UserAvatarState extends State<UserAvatar> {
 
   @override
   Widget build(BuildContext context) {
-    final maxRadius = widget._radius ?? 150;
+    final maxRadius = widget._radius ?? 40;
     final borderRadius = BorderRadiusGeometry.circular(50);
 
     return Align(

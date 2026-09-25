@@ -17,18 +17,18 @@ part 'username_registration_request.g.dart';
 )
 class UsernameRegistrationRequest {
   /// Returns a new [UsernameRegistrationRequest] instance.
-  UsernameRegistrationRequest({required this.userName});
+  UsernameRegistrationRequest({required this.profileName});
 
-  @JsonKey(name: r'userName', required: true, includeIfNull: false)
-  final String userName;
+  @JsonKey(name: r'profileName', required: true, includeIfNull: false)
+  final String profileName;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is UsernameRegistrationRequest && other.userName == userName;
+      other is UsernameRegistrationRequest && other.profileName == profileName;
 
   @override
-  int get hashCode => userName.hashCode;
+  int get hashCode => profileName.hashCode;
 
   factory UsernameRegistrationRequest.fromJson(Map<String, dynamic> json) =>
       _$UsernameRegistrationRequestFromJson(json);

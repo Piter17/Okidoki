@@ -5,12 +5,14 @@ class BaseMainScreen extends StatefulWidget {
   final Widget? topBar;
   final Widget body;
   final Widget? bottom;
+  final Widget? right;
 
   const new({
     super.key,
     this.topBar,
     required this.body,
     this.bottom,
+    this.right,
   });
 
   static BaseMainScreenState? of(BuildContext context) =>
@@ -20,11 +22,30 @@ class BaseMainScreen extends StatefulWidget {
   State<BaseMainScreen> createState() => BaseMainScreenState();
 }
 
+// class BaseMainScreenState extends State<BaseMainScreen> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Surface(
+//       borderRadius: context.values.borderXL,
+//       child: Column(
+//         children: [
+//           SizedBox(
+//             height: context.values.topBarHeight,
+//             child: widget.topBar,
+//           ),
+//           Divider.shrink(),
+//           Expanded(child: widget.body),
+//           ?widget.bottom,
+//         ],
+//       ),
+//     );
+//   }
+// }
+
 class BaseMainScreenState extends State<BaseMainScreen> {
   @override
   Widget build(BuildContext context) {
     return Surface(
-      // contextStyle: .body,
       borderRadius: context.values.borderXL,
       child: Column(
         children: [
@@ -33,8 +54,21 @@ class BaseMainScreenState extends State<BaseMainScreen> {
             child: widget.topBar,
           ),
           Divider.shrink(),
-          Expanded(child: widget.body),
-          ?widget.bottom,
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(child: widget.body),
+                if (widget.right != null) ...[
+                  Divider.shrink(),
+                  SizedBox(
+                    width: context.values.rightPaneWidth,
+                    child: widget.right!,
+                  ),
+                ],
+              ],
+            ),
+          ),
+          // ?widget.bottom,
         ],
       ),
     );

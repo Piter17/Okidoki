@@ -18,16 +18,15 @@ FutureOr<UserProfileDto> currentUserProfile(Ref ref) {
 @riverpod
 class UserProfile extends _$UserProfile {
   @override
-  FutureOr<UserProfileDto> build(String userId, [String? guildId]) {
+  FutureOr<UserProfileDto> build(String userId) {
     return ref
         .cacheFor(Duration(minutes: 10))
         .callApi(
           (api, ct) => api.getUserProfileApi().getByUserId(
             userId: userId,
-            guildId: guildId,
             cancelToken: ct,
           ),
-          ("Failed to fetch userProfile ($userId, $guildId)"),
+          ("Failed to fetch userProfile ($userId)"),
         );
   }
 

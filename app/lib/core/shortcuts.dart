@@ -70,20 +70,10 @@ class AppShortcuts extends StatelessWidget {
       };
 
   @override
-  Widget build(BuildContext context) {
-    final keys = switch (defaultTargetPlatform) {
-      TargetPlatform.android ||
-      TargetPlatform.fuchsia ||
-      TargetPlatform.linux ||
-      TargetPlatform.windows => _shortcuts,
-      TargetPlatform.macOS || TargetPlatform.iOS => _appleShortcuts,
-    };
-    final effectiveShortcuts = <ShortcutActivator, Intent>{
-      ...WidgetsApp.defaultShortcuts,
-      ...keys,
-    };
-
-    // return child;
-    return Shortcuts(shortcuts: effectiveShortcuts, child: child);
-  }
+  Widget build(BuildContext context) => Actions(
+    actions: {
+      ShowGotoIntent: ShowGotoAction(),
+    },
+    child: Shortcuts(shortcuts: shorts, child: child),
+  );
 }

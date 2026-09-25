@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:api_bindings/api_bindings.dart';
 import 'package:riv/presentation/presentation.dart';
 import 'package:riv/providers/providers.dart';
@@ -7,10 +8,10 @@ class const SideNavigatorBase({
   super.key,
   final Widget? top,
   final Widget? child,
-  required final double? bottomSpace,
 }) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final bottomSpace = NavigationPaneLayoutScope.of(context).bottomSpace;
     return Surface(
       // contextStyle: .dark,
       child: Column(
@@ -34,14 +35,11 @@ class const GuildNavigator({
   super.key,
   required final String? guildId,
   required final String? channelId,
-  required final double? bottomSpace,
 }) extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (guildId == null) {
-      return SideNavigatorBase(
-        bottomSpace: bottomSpace,
-      );
+      return SideNavigatorBase();
     }
 
     final guild = ref.watch(guildProvider(guildId!));
@@ -52,7 +50,6 @@ class const GuildNavigator({
     final itemCount = isLoading ? 10 : channels?.length ?? 0;
 
     return SideNavigatorBase(
-      bottomSpace: bottomSpace,
       top: GuildHeader(guildId: guildId),
       child: Skeletonizer(
         enabled: isLoading,
@@ -68,9 +65,9 @@ class const GuildNavigator({
                   child: ChannelEntry(
                     channel,
                     channel.id == channelId,
-                    onTapOverride: () => ref
-                        .read(chatNavigationProvider.notifier)
-                        .openChannel(guildId!, channel.id),
+                    onTapOverride: () => context.router.push(
+                      GuildChatRoute(guildId: guildId!, channelId: channel.id),
+                    ),
                   ),
                 );
               },

@@ -5,7 +5,7 @@
 import 'package:api_bindings/api.dart';
 ```
 
-All URIs are relative to *http://localhost:5088*
+All URIs are relative to *http://api-dev.okidoki.fun*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -19,8 +19,8 @@ Method | HTTP request | Description
 [**postRefresh**](AuthApi.md#postrefresh) | **POST** /api/auth/refresh | 
 [**postResendConfirmationEmail**](AuthApi.md#postresendconfirmationemail) | **POST** /api/auth/resendConfirmationEmail | 
 [**postResetPassword**](AuthApi.md#postresetpassword) | **POST** /api/auth/resetPassword | 
-[**register**](AuthApi.md#register) | **POST** /api/auth/registerUser | 
-[**registerUsername**](AuthApi.md#registerusername) | **POST** /api/auth/registerUsername | 
+[**register**](AuthApi.md#register) | **POST** /api/auth/registerAnonymus | 
+[**registerUser**](AuthApi.md#registeruser) | **POST** /api/auth/registerUser | 
 
 
 # **addCredentials**
@@ -433,7 +433,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **register**
-> register(fullRegistrationRequest)
+> AccessTokenResponse register(anonymusRegistrationRequest)
 
 
 
@@ -442,10 +442,11 @@ No authorization required
 import 'package:api_bindings/api.dart';
 
 final api = ApiBindings().getAuthApi();
-final FullRegistrationRequest fullRegistrationRequest = ; // FullRegistrationRequest | 
+final AnonymusRegistrationRequest anonymusRegistrationRequest = ; // AnonymusRegistrationRequest | 
 
 try {
-    api.register(fullRegistrationRequest);
+    final response = api.register(anonymusRegistrationRequest);
+    print(response);
 } on DioException catch (e) {
     print('Exception when calling AuthApi->register: $e\n');
 }
@@ -455,11 +456,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **fullRegistrationRequest** | [**FullRegistrationRequest**](FullRegistrationRequest.md)|  | 
+ **anonymusRegistrationRequest** | [**AnonymusRegistrationRequest**](AnonymusRegistrationRequest.md)|  | 
 
 ### Return type
 
-void (empty response body)
+[**AccessTokenResponse**](AccessTokenResponse.md)
 
 ### Authorization
 
@@ -468,12 +469,12 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: application/problem+json
+ - **Accept**: application/problem+json, text/plain, application/json, text/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **registerUsername**
-> registerUsername(usernameRegistrationRequest)
+# **registerUser**
+> RegisterResponse registerUser(registrationRequest)
 
 
 
@@ -482,12 +483,13 @@ No authorization required
 import 'package:api_bindings/api.dart';
 
 final api = ApiBindings().getAuthApi();
-final UsernameRegistrationRequest usernameRegistrationRequest = ; // UsernameRegistrationRequest | 
+final RegistrationRequest registrationRequest = ; // RegistrationRequest | 
 
 try {
-    api.registerUsername(usernameRegistrationRequest);
+    final response = api.registerUser(registrationRequest);
+    print(response);
 } on DioException catch (e) {
-    print('Exception when calling AuthApi->registerUsername: $e\n');
+    print('Exception when calling AuthApi->registerUser: $e\n');
 }
 ```
 
@@ -495,11 +497,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **usernameRegistrationRequest** | [**UsernameRegistrationRequest**](UsernameRegistrationRequest.md)|  | 
+ **registrationRequest** | [**RegistrationRequest**](RegistrationRequest.md)|  | 
 
 ### Return type
 
-void (empty response body)
+[**RegisterResponse**](RegisterResponse.md)
 
 ### Authorization
 
@@ -508,7 +510,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: application/problem+json
+ - **Accept**: application/json, application/problem+json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

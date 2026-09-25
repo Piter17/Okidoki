@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:api_bindings/api_bindings.dart';
 import 'package:riv/presentation/presentation.dart';
 import 'package:riv/providers/providers.dart';
 import 'package:riv/mutations/mutations.dart';
 import 'package:riv/utils/utils.dart';
 
+@RoutePage()
 class FriendsPage extends HookConsumerWidget {
   const FriendsPage({super.key});
   @override

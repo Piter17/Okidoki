@@ -184,12 +184,12 @@ class GuildUserContextMenu extends ContextMenuButton {
   const GuildUserContextMenu({
     super.key,
     required super.child,
-    required this.guild,
-    required this.user,
+    required this.guildId,
+    required this.userId,
   });
 
-  final GuildDto guild;
-  final UserProfileDto user;
+  final String guildId;
+  final String userId;
 
   @override
   ContextMenu getMenu(BuildContext context, WidgetRef ref) {
@@ -198,7 +198,7 @@ class GuildUserContextMenu extends ContextMenuButton {
       entries: [
         MenuItem(
           onSelected: (value) {
-            AddChannelDialog.open(context, guild.id);
+            AddChannelDialog.open(context, guildId);
           },
           label: Text(context.s.guild_profile),
         ),
@@ -214,13 +214,13 @@ class GuildUserContextMenu extends ContextMenuButton {
           label: Text(context.s.guild_invite_friend),
           onSelected: (value) => sendInvite.run(
             ref,
-            FriendMutations.sendInviteByIdCb(user.userId),
+            FriendMutations.sendInviteByIdCb(userId),
           ),
         ),
         MenuItem(
           label: Text(context.s.generic_copy_id),
           onSelected: (value) {
-            ClipboardHelpers.setText(guild.id.toString());
+            ClipboardHelpers.setText(guildId);
           },
         ),
       ],
