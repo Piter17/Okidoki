@@ -5,7 +5,7 @@ on:
     branches:
       - main
       - stage
-      
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -32,40 +32,25 @@ jobs:
         run: flutter pub get
 
       - name: Build runner
-        run: dart run build_runner build --delete-conflicting-outputs
+        run: dart run build_runner build --force-jit
 
-      - name: Install API bindings depende  ncies
-        run: dart pub get
-        working-directory: libs/api_bindings
-
-      - name: Build API bindings
-        run: dart run build_runner build --delete-conflicting-outputs
-        working-directory: libs/api_bindings
-
-      - name: Select API URL
+      - name: Select env
         run: |
           if [[ "${GITHUB_REF_NAME}" == "main" ]]; then
             echo "API_URL=https://api.okidoki.fun" >> $GITHUB_ENV
+            echo "name=okidoki" >> $GITHUB_OUTPUT
           else
             echo "API_URL=https://api-dev.okidoki.fun" >> $GITHUB_ENV
+            echo "name=okidoki-test" >> $GITHUB_OUTPUT
           fi
 
       - name: Build web
         run: flutter build web --release --wasm --dart-define=API_URL=$API_URL
-
-      - name: Select cloudflare project
-        id: project
-        run: |
-          if [[ "${{ github.ref_name }}" == "main" ]]; then
-            echo "name=okidoki" >> $GITHUB_OUTPUT
-          else
-            echo "name=okidoki-test" >> $GITHUB_OUTPUT
-          fi
 
       - name: Deploy
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy YOUR_DIRECTORY_OF_STATIC_ASSETS --project-name=${{ steps.project.outputs.name }}
+          command: pages deploy ./app/build/web --project-name=${{ steps.project.outputs.name }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
