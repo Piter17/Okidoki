@@ -19,11 +19,10 @@ jobs:
             });
 
             for (const artifact of artifacts.data.artifacts) {
-              if (artifact.expired) {
-                await github.rest.actions.deleteArtifact({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  artifact_id: artifact.id
-                });
-              }
+              info(artifact);
+              await github.rest.actions.deleteArtifact({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                artifact_id: artifact.id
+              });
             }
