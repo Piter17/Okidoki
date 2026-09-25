@@ -22,7 +22,7 @@ class SignalRClient extends _$SignalRClient {
 
     if (token == null) return future;
 
-    final url = "${kServerBaseUrl}hubs/realtime";
+    final url = "${serverBaseUrl}hubs/realtime";
     final hubProtLogger = Logger("SignalR - hub");
     final transportProtLogger = Logger("SignalR - transport");
 

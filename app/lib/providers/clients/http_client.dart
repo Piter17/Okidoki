@@ -2,7 +2,7 @@ import 'package:api_bindings/api_bindings.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riv/core/dio_logger.dart';
-import 'package:riv/main.dart' show kServerBaseUrl;
+import 'package:riv/main.dart' show serverBaseUrl;
 import 'package:riv/providers/core/token_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -19,7 +19,7 @@ class HttpClient extends _$HttpClient {
               : ApiBindings(
                   dio: Dio(
                     BaseOptions(
-                      baseUrl: kServerBaseUrl,
+                      baseUrl: serverBaseUrl,
                       connectTimeout: const Duration(seconds: 10),
                       receiveTimeout: const Duration(seconds: 120),
                     ),

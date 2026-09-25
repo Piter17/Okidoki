@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -15,9 +14,10 @@ import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_db_inspector/sqflite_db_inspector.dart';
 import 'package:riv/providers/providers.dart' hide HttpClient;
 
-//const kServerBaseUrl = "https://api.okidoki.fun/";
-const kServerBaseUrl = "https://api-dev.okidoki.fun/";
-// const kServerBaseUrl = "http://localhost:5088/";
+const serverBaseUrl = String.fromEnvironment(
+  'API_URL',
+  defaultValue: "https://api-dev.okidoki.fun/",
+);
 
 Future loadRiverpodDependencyData() async {
   try {
