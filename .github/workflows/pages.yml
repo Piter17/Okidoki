@@ -35,6 +35,7 @@ jobs:
         run: dart run build_runner build --force-jit
 
       - name: Select env
+        id: project
         run: |
           if [[ "${GITHUB_REF_NAME}" == "main" ]]; then
             echo "API_URL=https://api.okidoki.fun" >> $GITHUB_ENV
