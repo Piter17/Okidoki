@@ -16,9 +16,6 @@ jobs:
       run:
         working-directory: app
 
-    env:
-      API_URL: ${{ secrets.API_URL }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,23 +32,22 @@ jobs:
         run: dart run build_runner build --force-jit
 
       - name: Select env
-        id: project
         run: |
           if [[ "${GITHUB_REF_NAME}" == "main" ]]; then
-            echo "API_URL=https://api.okidoki.fun" >> $GITHUB_ENV
-            echo "name=okidoki" >> $GITHUB_OUTPUT
+            echo "API_URL=https://api.okidoki.fun/" >> $GITHUB_ENV
+            echo "PROJECT_NAME=okidoki" >> $GITHUB_ENV
           else
-            echo "API_URL=https://api-dev.okidoki.fun" >> $GITHUB_ENV
-            echo "name=okidoki-test" >> $GITHUB_OUTPUT
+            echo "API_URL=https://api-dev.okidoki.fun/" >> $GITHUB_ENV
+            echo "PROJECT_NAME=okidoki-test" >> $GITHUB_ENV
           fi
 
       - name: Build web
-        run: flutter build web --release --wasm --dart-define=API_URL=$API_URL
+        run: flutter build web --release --wasm --dart-define=API_URL=${API_URL}
 
       - name: Deploy
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy ./app/build/web --project-name=${{ steps.project.outputs.name }}
+          command: pages deploy ./app/build/web --project-name=${{ env.PROJECT_NAME }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
