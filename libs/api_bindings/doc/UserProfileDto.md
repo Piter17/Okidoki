@@ -9,11 +9,10 @@ import 'package:api_bindings/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **String** |  | 
-**userId** | **String** |  | 
-**guildId** | **String** |  | [optional] 
+**userName** | **String** |  | 
 **nickname** | **String** |  | [optional] 
+**state** | [**UserOnlineState**](UserOnlineState.md) |  | [optional] 
 **profilePicture** | **String** |  | [optional] 
-**userName** | **String** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

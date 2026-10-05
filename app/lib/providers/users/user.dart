@@ -1,8 +1,7 @@
 import 'package:api_bindings/api_bindings.dart';
 import 'package:flutter/foundation.dart';
-import 'package:riv/providers/users/current_user.dart';
-import 'package:riv/utils/riverpod_extensions.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/providers/users/current_user.dart';
+import 'package:okidoki/utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'user.g.dart';
@@ -11,23 +10,22 @@ part 'user.g.dart';
 FutureOr<UserProfileDto> currentUserProfile(Ref ref) {
   final currentUser = ref.watch(currentUserProvider).requireValue;
   return currentUser != null
-      ? ref.watch(userProfileProvider(currentUser.userId)).requireValue
+      ? ref.watch(userProfileProvider(currentUser.id)).requireValue
       : throw 'asdf';
 }
 
 @riverpod
 class UserProfile extends _$UserProfile {
   @override
-  FutureOr<UserProfileDto> build(String userId, [String? guildId]) {
+  FutureOr<UserProfileDto> build(int userId) {
     return ref
         .cacheFor(Duration(minutes: 10))
         .callApi(
           (api, ct) => api.getUserProfileApi().getByUserId(
-            userId: userId,
-            guildId: guildId,
+            userId: userId.toString(),
             cancelToken: ct,
           ),
-          ("Failed to fetch userProfile ($userId, $guildId)"),
+          ("Failed to fetch userProfile ($userId)"),
         );
   }
 
@@ -37,20 +35,22 @@ class UserProfile extends _$UserProfile {
   }
 }
 
-// @riverpod
-// FutureOr<UserProfileDto> userProfile(Ref ref, {int? userId, int? guildId}) {
-//   if (userId == null) {
-//     final uid = ref.watch(currentUserProvider).requireValue!.userId;
-//     return ref.watch(userProfileProvider(userId: uid)).requireValue;
-//   }
-//   return ref
-//       .cacheFor(Duration(minutes: 10))
-//       .callApi(
-//         (api, ct) => api.getUserProfileApi().getGetuserprofile(
-//           userId: userId,
-//           guildId: guildId,
-//           cancelToken: ct,
-//         ),
-//         ("Failed to fetch userProfile ($userId, $guildId)"),
-//       );
-// }
+@riverpod
+class SkeletonUserProfile extends _$SkeletonUserProfile {
+  static final _items = List.generate(
+    10,
+    (index) => UserProfileDto(
+      id: index.toString(),
+      userName: TextGen.nick(),
+      nickname: TextGen.nick(),
+      state: .offline,
+      profilePicture: null,
+    ),
+  );
+
+  @override
+  FutureOr<UserProfileDto> build(Key key) async {
+    final item = key.hashCode % 10;
+    return _items[item];
+  }
+}

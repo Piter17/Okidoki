@@ -1,8 +1,8 @@
 import 'package:api_bindings/api_bindings.dart';
 import 'package:darq/darq.dart';
-import 'package:riv/mutations/mutations.dart';
-import 'package:riv/providers/providers.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/mutations/mutations.dart';
+import 'package:okidoki/providers/providers.dart';
+import 'package:okidoki/utils/utils.dart';
 
 class AuthMutations {
   static Mutation<void> getLogin() => Mutation<void>();
@@ -23,12 +23,12 @@ class AuthMutations {
 
   static Mutation<void> getRegister() => Mutation<void>();
   static MutationCallback<void> registerCb(
-    UserRegisterRequest request,
+    RegistrationRequest request,
   ) =>
       (tsx) => tsx
           .callApiE(
             (x) => x.getAuthApi().registerUser(
-              userRegisterRequest: request,
+              registrationRequest: request,
             ),
             errorTitle: "Failed to register account",
             getError: (HttpValidationProblemDetails e) =>
@@ -42,6 +42,25 @@ class AuthMutations {
                 password: request.password,
               ),
             )(tsx),
+          );
+
+  static MutationCallback<void> anonymusRegisterCb(
+    AnonymusRegistrationRequest request,
+  ) =>
+      (tsx) => tsx
+          .callApiE(
+            (x) => x.getAuthApi().register(
+              anonymusRegistrationRequest: request,
+            ),
+            errorTitle: "Failed to register account",
+            getError: (HttpValidationProblemDetails e) =>
+                e.errors?.entries.selectMany((a, i) => a.value).join("\n"),
+            authenticated: false,
+          )
+          .then(
+            (a) => tsx
+                .get(tokenStorageProvider.notifier)
+                .saveToken(AccessToken.fromResult(a)),
           );
 
   static Mutation<void> getForgotPassword() => Mutation<void>();

@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:auto_route/annotations.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
-import 'package:riv/core/types/file_content.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
-import 'package:riv/mutations/mutations.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/core/types/file_content.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart';
+import 'package:okidoki/mutations/mutations.dart';
+import 'package:okidoki/utils/utils.dart';
 
 @RoutePage()
 class AddGuildPage extends HookConsumerWidget {
@@ -29,11 +29,11 @@ class AddGuildPage extends HookConsumerWidget {
       duration: Duration(milliseconds: 300),
       curve: Curves.decelerate,
     );
-    return StyledContainer(
+    return Surface(
       decoration: BoxDecoration(
         borderRadius: context.values.borderL,
       ),
-      contextStyle: ContextColors.light,
+      // contextStyle: ContextColors.light,
       child: PageView(
         controller: controller,
         physics: NeverScrollableScrollPhysics(),

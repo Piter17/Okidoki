@@ -17,10 +17,7 @@ part 'update_user_profile_request.g.dart';
 )
 class UpdateUserProfileRequest {
   /// Returns a new [UpdateUserProfileRequest] instance.
-  UpdateUserProfileRequest({this.guildId, this.profileName});
-
-  @JsonKey(name: r'guildId', required: false, includeIfNull: false)
-  final String? guildId;
+  UpdateUserProfileRequest({this.profileName});
 
   @JsonKey(name: r'profileName', required: false, includeIfNull: false)
   final String? profileName;
@@ -28,14 +25,10 @@ class UpdateUserProfileRequest {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is UpdateUserProfileRequest &&
-          other.guildId == guildId &&
-          other.profileName == profileName;
+      other is UpdateUserProfileRequest && other.profileName == profileName;
 
   @override
-  int get hashCode =>
-      (guildId == null ? 0 : guildId.hashCode) +
-      (profileName == null ? 0 : profileName.hashCode);
+  int get hashCode => (profileName == null ? 0 : profileName.hashCode);
 
   factory UpdateUserProfileRequest.fromJson(Map<String, dynamic> json) =>
       _$UpdateUserProfileRequestFromJson(json);

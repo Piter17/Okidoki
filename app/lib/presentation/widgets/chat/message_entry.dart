@@ -2,32 +2,39 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/experimental/mutation.dart';
-import 'package:riv/core/core.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/mutations/mutations/chat/chat_mutations.dart';
+import 'package:okidoki/core/core.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/mutations/mutations/chat/chat_mutations.dart';
+import 'package:okidoki/providers/providers.dart';
 
 // import 'package:super_clipboard/super_clipboard.dart';
 
-class const MessageEntry({
+class const MessageTextField({
   super.key,
   required final String hintText,
-  required final String channelId,
+  final int? guildId,
+  required final int channelId,
 }) extends ConsumerStatefulWidget {
   @override
-  ConsumerState<MessageEntry> createState() => MessageEntryState();
+  ConsumerState<MessageTextField> createState() => MessageEntryState();
 }
 
-class MessageEntryState extends ConsumerState<MessageEntry> {
-  late final _inputController = TextEditingController();
+class MessageEntryState extends ConsumerState<MessageTextField> {
+  late TextEditingController _inputController;
 
-  // @override
-  // void initState() {
-  // final events = ClipboardEvents.instance;
-  // events?.registerPasteEventListener((asdf) {
-  //   debugPrint(asdf.toString());
-  // });
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    // final events = ClipboardEvents.instance;
+    // events?.registerPasteEventListener((asdf) {
+    //   debugPrint(asdf.toString());
+    // });
+    _inputController = TextEditingController()..addListener(onMessageChanged);
+    super.initState();
+  }
+
+  void onMessageChanged() {
+    ref.read(chatProvider(widget.channelId).notifier).sendTyping();
+  }
 
   // FutureOr<void> _attachFile(DataReaderFile file) {
   //   debugPrint(file.fileName);
@@ -51,6 +58,12 @@ class MessageEntryState extends ConsumerState<MessageEntry> {
 
   @override
   Widget build(BuildContext context) {
+    final chat = ref.watch(chatProvider(widget.channelId));
+
+    final typingText = chat.usersTyping.isEmpty
+        ? null
+        : "${chat.usersTyping.keys.join(', ')} are typing...";
+
     var textField = Actions(
       actions: {
         PasteTextIntent: PasteSpecialAction(
@@ -71,10 +84,12 @@ class MessageEntryState extends ConsumerState<MessageEntry> {
           },
         ),
         focusNode: _focusNode,
+        textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
-          fillColor: context.colors.transparent,
+          fillColor: context.appColors.transparent,
           hintText: widget.hintText,
           prefixIcon: Icon(Icons.add_circle),
+
           maintainLabelSize: true,
           border: UnderlineInputBorder(borderSide: BorderSide.none),
         ),
@@ -87,8 +102,9 @@ class MessageEntryState extends ConsumerState<MessageEntry> {
     );
     final attachments = [];
 
-    final container = StyledContainer(
-      contextStyle: ContextColors.light,
+    final container = Surface(
+      variant: .popup,
+      // contextStyle: ContextColors.light,
       borderRadius: context.values.borderS,
       // decoration: BoxDecoration(
       //   borderRadius: .circular(8),
@@ -103,7 +119,6 @@ class MessageEntryState extends ConsumerState<MessageEntry> {
               height: 100,
               child: ListView.separated(
                 padding: .all(8),
-
                 scrollDirection: .horizontal,
                 itemBuilder: (i, item) => AttachmentTile(),
                 itemCount: attachments.length,
@@ -114,7 +129,17 @@ class MessageEntryState extends ConsumerState<MessageEntry> {
         ],
       ),
     );
-    return container;
+    return Column(
+      children: [
+        SizedBox(
+          height: 24,
+          child: Row(
+            children: [if (typingText != null) Text(typingText)],
+          ),
+        ),
+        container,
+      ],
+    );
   }
 
   Future<void> _submit() async {
@@ -129,7 +154,7 @@ class MessageEntryState extends ConsumerState<MessageEntry> {
     _sendMutation.run(
       ref,
       ChatMutations.sendMessageCb(
-        chatId: widget.channelId,
+        chatId: widget.channelId.toString(),
         content: text,
       ),
     );

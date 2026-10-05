@@ -2,17 +2,45 @@ import 'dart:async';
 
 import 'package:api_bindings/api_bindings.dart';
 import 'package:api_bindings/json.dart';
+import 'package:darq/darq.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
-import 'package:riv/main.dart';
-import 'package:riv/providers/providers.dart';
+import 'package:okidoki/main.dart';
+import 'package:okidoki/providers/providers.dart';
+import 'package:okidoki/domain/domain.dart' as domain;
+import 'package:okidoki/utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:signalr_netcore/http_connection_options.dart';
 import 'package:signalr_netcore/hub_connection.dart';
 import 'package:signalr_netcore/hub_connection_builder.dart';
+import 'package:signalr_netcore/iretry_policy.dart';
 import 'package:signalr_netcore/web_supporting_http_client.dart';
 
 part 'signalr_gateway.g.dart';
+
+class SignalRRetryPolicy implements IRetryPolicy {
+  late List<int?> _retryDelays;
+
+  static const List<int?> kDefRetries = [
+    0,
+    1000,
+    2000,
+    4000,
+    8000,
+  ];
+
+  new({List<int>? retryDelays}) {
+    _retryDelays = retryDelays != null ? [...retryDelays, null] : kDefRetries;
+  }
+
+  @override
+  int? nextRetryDelayInMilliseconds(RetryContext retryContext) {
+    return _retryDelays.elementAtOrDefault(
+      retryContext.previousRetryCount,
+      defaultValue: _retryDelays.last,
+    );
+  }
+}
 
 @riverpod
 class SignalRClient extends _$SignalRClient {
@@ -22,7 +50,7 @@ class SignalRClient extends _$SignalRClient {
 
     if (token == null) return future;
 
-    final url = "${kServerBaseUrl}hubs/realtime";
+    final url = "${serverBaseUrl}hubs/realtime";
     final hubProtLogger = Logger("SignalR - hub");
     final transportProtLogger = Logger("SignalR - transport");
 
@@ -33,12 +61,13 @@ class SignalRClient extends _$SignalRClient {
       ),
       accessTokenFactory: () => Future.value(token.accessToken),
       logger: hubProtLogger,
+      requestTimeout: 10000,
       logMessageContent: true,
     );
 
     final hubConnection = HubConnectionBuilder()
         .withUrl(url, options: httpConnectionOptions)
-        .withAutomaticReconnect(retryDelays: [2000, 5000, 10000, 20000])
+        .withAutomaticReconnect(reconnectPolicy: SignalRRetryPolicy())
         .configureLogging(transportProtLogger)
         .configureDeserializeCallback(deserializeCallback)
         .build();
@@ -49,8 +78,16 @@ class SignalRClient extends _$SignalRClient {
   }
 
   T deserializeCallback<T>(dynamic value) {
+    debugPrint("Deserializing value: $value to $T");
     return JsonConverter.fromJson(value);
   }
+
+  Future<Object?>? typing(int channelId) => state.value?.invoke(
+    "Typing",
+    args: [
+      channelId.toString(),
+    ],
+  );
 }
 
 class RealTimeEvent {
@@ -85,6 +122,12 @@ class MessageDeleted extends RealTimeEvent {
   final String id;
 }
 
+class const Typing({
+  required final String channelId,
+  required final String userId,
+  required final DateTime dateTime,
+}) extends RealTimeEvent {}
+
 @riverpod
 class SignalrGateway extends _$SignalrGateway {
   @override
@@ -103,6 +146,9 @@ class SignalrGateway extends _$SignalrGateway {
     }
 
     void messageReceived(ChatMessageDto message) {
+      final msg = domain.ChatMessage.fromDto(message);
+      ref.read(chatProvider(msg.chatId).notifier).updatedMessage(msg);
+
       controller.add(MessageReceived(message));
     }
 
@@ -115,23 +161,34 @@ class SignalrGateway extends _$SignalrGateway {
     }
 
     void joinGuild(GuildProfileDto guildProfile) {
-      ref.read(guildsProvider.notifier).add(guildProfile);
+      ref
+          .read(guildsProvider.notifier)
+          .add(domain.Guild.profileFromDto(guildProfile));
     }
 
     void leaveGuild(String guildId) {
-      ref.read(guildsProvider.notifier).remove(guildId);
+      ref.read(guildsProvider.notifier).remove(guildId.toInt());
     }
 
-    void addedChannel(GuildChannelDto channel) {
-      if (ref.exists(guildProvider(channel.guildId))) {
-        ref.read(guildProvider(channel.guildId).notifier).addChannel(channel);
+    void addedChannel(GuildChannelDto channelDto) {
+      final channel = domain.GuildChannel.fromDto(channelDto);
+      if (ref.exists(guildProvider(channel.guildId.toInt()))) {
+        ref
+            .read(guildProvider(channel.guildId.toInt()).notifier)
+            .addChannel(channel);
       }
     }
 
     void removedChannel(String guildId, String channelId) {
-      if (ref.exists(guildProvider(guildId))) {
-        ref.read(guildProvider(channelId).notifier).removeChannel(channelId);
+      if (ref.exists(guildProvider(guildId.toInt()))) {
+        ref
+            .read(guildProvider(guildId.toInt()).notifier)
+            .removeChannel(channelId.toInt());
       }
+    }
+
+    void userOnlineStateChanged(String userId, UserOnlineState userState) {
+      // Implement the logic to handle user online state changes
     }
 
     // TODO implement friend related callbacks
@@ -146,14 +203,13 @@ class SignalrGateway extends _$SignalrGateway {
     }
 
     void updatedGuildProfile(GuildProfileDto param) {
-      final guildId = param.id;
-      ref.read(guildProvider(guildId).notifier).updateProfile(param);
+      final guild = domain.Guild.profileFromDto(param);
+      ref.read(guildProvider(guild.id).notifier).updateProfile(guild);
     }
 
     void profileUpdated(UserProfileDto userProfile) {
-      final userId = userProfile.userId;
-      final guildId = userProfile.guildId;
-      final provider = userProfileProvider(userId, guildId);
+      final userId = userProfile.id.toInt();
+      final provider = userProfileProvider(userId);
       if (ref.exists(provider)) {
         ref.read(provider.notifier).set(userProfile);
       }
@@ -177,6 +233,27 @@ class SignalrGateway extends _$SignalrGateway {
     connection.onTyped<GuildProfileDto>(
       "UpdatedGuildProfile",
       updatedGuildProfile,
+    );
+
+    connection.onTyped2<String, UserOnlineState>(
+      "UserOnlineStateChangedAsync",
+      userOnlineStateChanged,
+    );
+
+    connection.onTyped3<String, String, DateTime>(
+      "Typing",
+      (channelId, userId, dateTime) {
+        ref
+            .read(chatProvider(channelId.toInt()).notifier)
+            .receiveTyping(userId.toInt(), dateTime);
+        // controller.add(
+        //   Typing(
+        //     channelId: channelId,
+        //     userId: userId,
+        //     dateTime: dateTime,
+        //   ),
+        // );
+      },
     );
 
     yield* controller.stream;

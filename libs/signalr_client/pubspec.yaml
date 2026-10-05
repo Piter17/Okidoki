@@ -3,6 +3,7 @@ description: A flutter client for ASP.NET Core SignalR. The client is able to in
 version: 1.4.4
 homepage: https://github.com/sefidgaran/signalr_client
 
+resolution: workspace
 environment:
   sdk: ^3.13.0
 

@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:api_bindings/src/model/user_online_state.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -20,54 +21,47 @@ class UserProfileDto {
   UserProfileDto({
     required this.id,
 
-    required this.userId,
-
-    this.guildId,
+    required this.userName,
 
     this.nickname,
 
-    this.profilePicture,
+    this.state,
 
-    this.userName,
+    this.profilePicture,
   });
 
   @JsonKey(name: r'id', required: true, includeIfNull: false)
   final String id;
 
-  @JsonKey(name: r'userId', required: true, includeIfNull: false)
-  final String userId;
-
-  @JsonKey(name: r'guildId', required: false, includeIfNull: false)
-  final String? guildId;
+  @JsonKey(name: r'userName', required: true, includeIfNull: false)
+  final String userName;
 
   @JsonKey(name: r'nickname', required: false, includeIfNull: false)
   final String? nickname;
 
+  @JsonKey(name: r'state', required: false, includeIfNull: false)
+  final UserOnlineState? state;
+
   @JsonKey(name: r'profilePicture', required: false, includeIfNull: false)
   final String? profilePicture;
-
-  @JsonKey(name: r'userName', required: false, includeIfNull: false)
-  final String? userName;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is UserProfileDto &&
           other.id == id &&
-          other.userId == userId &&
-          other.guildId == guildId &&
+          other.userName == userName &&
           other.nickname == nickname &&
-          other.profilePicture == profilePicture &&
-          other.userName == userName;
+          other.state == state &&
+          other.profilePicture == profilePicture;
 
   @override
   int get hashCode =>
       id.hashCode +
-      userId.hashCode +
-      (guildId == null ? 0 : guildId.hashCode) +
+      userName.hashCode +
       (nickname == null ? 0 : nickname.hashCode) +
-      (profilePicture == null ? 0 : profilePicture.hashCode) +
-      userName.hashCode;
+      (state == null ? 0 : state.hashCode) +
+      (profilePicture == null ? 0 : profilePicture.hashCode);
 
   factory UserProfileDto.fromJson(Map<String, dynamic> json) =>
       _$UserProfileDtoFromJson(json);

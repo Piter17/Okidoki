@@ -1,11 +1,10 @@
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart';
+import 'package:okidoki/utils/utils.dart';
 
 class const GuildGeneralSettingsPage({
   super.key,
-  required final String _guildId,
-  // required final GlobalKey<FormState> formKey,
+  required final int _guildId,
 }) extends ConsumerStatefulWidget {
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -27,12 +26,9 @@ class GuildGeneralSettingsPageState
     return BaseSettingsScreen(
       formKey: formKey,
       save: (formState) async {
-        // print(formKey.currentState?.fields);
-        // print(formKey.currentState?.fields.where((x) => x.))
         debugPrint("save");
         formState.save();
         formState.fields.where((x) => x.isDirty).forEach((x) => x.save());
-        // formState.fields
         debugPrint("save2");
       },
       child: Skeletonizer(
@@ -46,13 +42,6 @@ class GuildGeneralSettingsPageState
               onSaved: (newValue) {
                 debugPrint("image onSaved $newValue");
               },
-              // onChanged: (img) => updateImage.run(
-              //   ref,
-              //   GuildMutations.updateImage(
-              //     guildId: widget._guildId,
-              //     image: img,
-              //   ),
-              // ),
             ),
             TextFormEntry(
               text: Text(context.s.guild_name),
@@ -60,12 +49,6 @@ class GuildGeneralSettingsPageState
               value: guild.value?.name ?? TextGen.guildName(),
               onSaved: (v) => debugPrint("name: $v"),
             ),
-            // TextFormEntry(
-            //   text: Text("Nazwa gildii2"),
-            //   fieldKey: nameKey2,
-            //   value: guild.value?.guildProfile?.name ?? "asdfasdfasdfasdf",
-            //   onSaved: (v) => debugPrint("name2: $v"),
-            // ),
           ],
         ),
       ),

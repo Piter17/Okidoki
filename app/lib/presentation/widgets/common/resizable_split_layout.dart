@@ -1,5 +1,5 @@
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart';
 
 class ResizableSplitLayout extends ConsumerStatefulWidget {
   const ResizableSplitLayout({
@@ -39,6 +39,8 @@ class _ResizableSplitViewState extends ConsumerState<ResizableSplitLayout> {
     super.initState();
   }
 
+  final rightKey = GlobalKey(debugLabel: "Resizable.rightChild");
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder.constraints(
@@ -58,11 +60,11 @@ class _ResizableSplitViewState extends ConsumerState<ResizableSplitLayout> {
           children: [
             SizedBox(
               width: _leftWidth,
-              child: widget.leftChild,
+              child: RepaintBoundary(child: widget.leftChild),
             ),
 
             Container(
-              color: context.colors.border,
+              color: context.palette.border,
               width: widget.dividerWidth,
               child: MouseRegion(
                 cursor: SystemMouseCursors.resizeLeftRight,
@@ -89,7 +91,10 @@ class _ResizableSplitViewState extends ConsumerState<ResizableSplitLayout> {
               ),
             ),
 
-            Expanded(child: widget.rightChild),
+            Expanded(
+              key: rightKey,
+              child: RepaintBoundary(child: widget.rightChild),
+            ),
           ],
         );
       },

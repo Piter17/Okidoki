@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/utils/datatime_extensions.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/utils/utils.dart';
 
 extension LanguageExtension on S {
   Formatter get formatter =>

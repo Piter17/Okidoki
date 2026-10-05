@@ -103,6 +103,22 @@ class SPl extends S {
   String get settings_theme_title => 'Motyw';
 
   @override
+  String get settings_developer_mode => 'Tryb dewelopera';
+
+  @override
+  String get settings_developer_mode_description =>
+      'Dodaje opcje `kopiuj id` w menu kontekstowych i url w aplikacji na desktop i telefon';
+
+  @override
+  String get settings_developer_mode_copy_bearer => 'Skopiuj bearer token';
+
+  @override
+  String get settings_developer_mode_copy_refresh => 'Skopiuj refresh token';
+
+  @override
+  String get debug_reload => 'Załaduj ponownie';
+
+  @override
   String get profile_display_name => 'Nazwa wyświetlana';
 
   @override

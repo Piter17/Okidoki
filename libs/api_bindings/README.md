@@ -49,22 +49,23 @@ import 'package:api_bindings/api_bindings.dart';
 
 
 final api = ApiBindings().getAuthApi();
+final AddCredentialsRequest addCredentialsRequest = ; // AddCredentialsRequest | 
 
 try {
-    final response = await api.getInfo();
-    print(response);
+    api.addCredentials(addCredentialsRequest);
 } on DioException catch (e) {
-    print("Exception when calling AuthApi->getInfo: $e\n");
+    print("Exception when calling AuthApi->addCredentials: $e\n");
 }
 
 ```
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://okivps.polandcentral.cloudapp.azure.com*
+All URIs are relative to *http://api-dev.okidoki.fun*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+[*AuthApi*](doc/AuthApi.md) | [**addCredentials**](doc/AuthApi.md#addcredentials) | **POST** /api/auth/credentials | 
 [*AuthApi*](doc/AuthApi.md) | [**getInfo**](doc/AuthApi.md#getinfo) | **GET** /api/auth/manage/info | 
 [*AuthApi*](doc/AuthApi.md) | [**mapIdentityApiApiAuthConfirmEmail**](doc/AuthApi.md#mapidentityapiapiauthconfirmemail) | **GET** /api/auth/confirmEmail | 
 [*AuthApi*](doc/AuthApi.md) | [**post2fa**](doc/AuthApi.md#post2fa) | **POST** /api/auth/manage/2fa | 
@@ -74,6 +75,7 @@ Class | Method | HTTP request | Description
 [*AuthApi*](doc/AuthApi.md) | [**postRefresh**](doc/AuthApi.md#postrefresh) | **POST** /api/auth/refresh | 
 [*AuthApi*](doc/AuthApi.md) | [**postResendConfirmationEmail**](doc/AuthApi.md#postresendconfirmationemail) | **POST** /api/auth/resendConfirmationEmail | 
 [*AuthApi*](doc/AuthApi.md) | [**postResetPassword**](doc/AuthApi.md#postresetpassword) | **POST** /api/auth/resetPassword | 
+[*AuthApi*](doc/AuthApi.md) | [**register**](doc/AuthApi.md#register) | **POST** /api/auth/registerAnonymus | 
 [*AuthApi*](doc/AuthApi.md) | [**registerUser**](doc/AuthApi.md#registeruser) | **POST** /api/auth/registerUser | 
 [*ChatApi*](doc/ChatApi.md) | [**deleteMessage**](doc/ChatApi.md#deletemessage) | **DELETE** /api/Chat/{messageId} | 
 [*ChatApi*](doc/ChatApi.md) | [**editMessage**](doc/ChatApi.md#editmessage) | **PATCH** /api/Chat/{messageId} | 
@@ -96,6 +98,7 @@ Class | Method | HTTP request | Description
 [*GuildsApi*](doc/GuildsApi.md) | [**getGuildById**](doc/GuildsApi.md#getguildbyid) | **GET** /api/Guilds/{guildId} | 
 [*GuildsApi*](doc/GuildsApi.md) | [**getGuildsForUser**](doc/GuildsApi.md#getguildsforuser) | **GET** /api/Guilds/user | 
 [*GuildsApi*](doc/GuildsApi.md) | [**getInvitation**](doc/GuildsApi.md#getinvitation) | **GET** /api/Guilds/invites/{invitationCode} | 
+[*GuildsApi*](doc/GuildsApi.md) | [**getUserList**](doc/GuildsApi.md#getuserlist) | **GET** /api/Guilds/{guildId}/userList | 
 [*GuildsApi*](doc/GuildsApi.md) | [**kickUser**](doc/GuildsApi.md#kickuser) | **DELETE** /api/Guilds/{guildId}/users/{userId} | 
 [*GuildsApi*](doc/GuildsApi.md) | [**leaveGuild**](doc/GuildsApi.md#leaveguild) | **DELETE** /api/Guilds/{guildId}/membership | 
 [*GuildsApi*](doc/GuildsApi.md) | [**removeChannel**](doc/GuildsApi.md#removechannel) | **DELETE** /api/Guilds/{guildId}/channels/{channelId} | 
@@ -105,8 +108,6 @@ Class | Method | HTTP request | Description
 [*GuildsApi*](doc/GuildsApi.md) | [**updateName**](doc/GuildsApi.md#updatename) | **PATCH** /api/Guilds/{guildId}/name | 
 [*UserApi*](doc/UserApi.md) | [**getMe**](doc/UserApi.md#getme) | **GET** /api/User | 
 [*UserApi*](doc/UserApi.md) | [**updateUsername**](doc/UserApi.md#updateusername) | **PATCH** /api/User/SetUserName | 
-[*UserProfileApi*](doc/UserProfileApi.md) | [**createUserProfile**](doc/UserProfileApi.md#createuserprofile) | **POST** /api/UserProfile | 
-[*UserProfileApi*](doc/UserProfileApi.md) | [**getAllProfilesByUserId**](doc/UserProfileApi.md#getallprofilesbyuserid) | **GET** /api/UserProfile/all | 
 [*UserProfileApi*](doc/UserProfileApi.md) | [**getByUserId**](doc/UserProfileApi.md#getbyuserid) | **GET** /api/UserProfile/GetUserProfile | 
 [*UserProfileApi*](doc/UserProfileApi.md) | [**updateAvatar**](doc/UserProfileApi.md#updateavatar) | **PATCH** /api/UserProfile/SetAvatar | 
 [*UserProfileApi*](doc/UserProfileApi.md) | [**updateProfile**](doc/UserProfileApi.md#updateprofile) | **PATCH** /api/UserProfile/profile | 
@@ -115,13 +116,14 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [AccessTokenResponse](doc/AccessTokenResponse.md)
+ - [AddCredentialsRequest](doc/AddCredentialsRequest.md)
+ - [AnonymusRegistrationRequest](doc/AnonymusRegistrationRequest.md)
  - [ChannelType](doc/ChannelType.md)
  - [ChatMessageDto](doc/ChatMessageDto.md)
  - [CreateChatMessageRequest](doc/CreateChatMessageRequest.md)
  - [CreateGuildChannelRequest](doc/CreateGuildChannelRequest.md)
  - [CreateGuildInvitationRequest](doc/CreateGuildInvitationRequest.md)
  - [CreateGuildRoleRequest](doc/CreateGuildRoleRequest.md)
- - [CreateUserProfileRequest](doc/CreateUserProfileRequest.md)
  - [ForgotPasswordRequest](doc/ForgotPasswordRequest.md)
  - [FriendDto](doc/FriendDto.md)
  - [GuildChannelDto](doc/GuildChannelDto.md)
@@ -139,6 +141,7 @@ Class | Method | HTTP request | Description
  - [RefreshRequest](doc/RefreshRequest.md)
  - [RegisterRequest](doc/RegisterRequest.md)
  - [RegisterResponse](doc/RegisterResponse.md)
+ - [RegistrationRequest](doc/RegistrationRequest.md)
  - [ResendConfirmationEmailRequest](doc/ResendConfirmationEmailRequest.md)
  - [ResetPasswordRequest](doc/ResetPasswordRequest.md)
  - [SentRequestDto](doc/SentRequestDto.md)
@@ -147,8 +150,8 @@ Class | Method | HTTP request | Description
  - [UpdateChatMessageRequest](doc/UpdateChatMessageRequest.md)
  - [UpdateGuildNameRequest](doc/UpdateGuildNameRequest.md)
  - [UpdateUserProfileRequest](doc/UpdateUserProfileRequest.md)
+ - [UserOnlineState](doc/UserOnlineState.md)
  - [UserProfileDto](doc/UserProfileDto.md)
- - [UserRegisterRequest](doc/UserRegisterRequest.md)
 
 
 ## Documentation For Authorization

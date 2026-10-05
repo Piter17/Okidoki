@@ -1,8 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-typedef Decoder = Object Function(Map<String, dynamic>);
-
+typedef Decoder = Object Function(dynamic);
 class JsonConverter {
-  static T fromJson<T>(Map<String, dynamic> json) {
+  static T fromJson<T>(dynamic json) {
     final factory = _factories[T];
     if (factory == null) throw StateError('No JSON factory registered for type T.');
     return factory(json) as T;
@@ -14,5 +13,7 @@ class JsonConverter {
   }
 
   static final Map<Type, Decoder> _factories = {
+    String: (json) => '$json',
+    DateTime: (json) => DateTime.parse('$json'),
   };
 }

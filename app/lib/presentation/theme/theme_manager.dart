@@ -1,19 +1,16 @@
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart';
+import 'package:flutter/material.dart' as m;
+import 'package:flutter/rendering.dart';
 
-export 'package:riv/presentation/theme/data/typography.dart'
+export 'package:okidoki/presentation/theme/data/typography.dart'
     show TextStyleExtensions;
 
-class ThemeManager extends ConsumerStatefulWidget {
-  const ThemeManager({
-    super.key,
-    required this.child,
-  });
-
-  final Widget child;
-
+class const ThemeManager({
+  super.key,
+  required final Widget child,
+}) extends ConsumerStatefulWidget {
   @override
   ConsumerState<ThemeManager> createState() => ThemeManagerState();
 }
@@ -28,25 +25,26 @@ class ThemeManagerState extends ConsumerState<ThemeManager> {
   Widget build(BuildContext context) {
     final settings = ref.watch(appSettingsProvider);
 
-    colors = settings.darkMode
-        ? ThemeColors.light(Color(settings.color))
-        : ThemeColors.dark(Color(settings.color));
+    colors = ThemeColors.fromConfig(
+      primaryColor: settings.color,
+      backgroundColor: settings.darkMode
+          ? Color(0xff212529)
+          : Color(0xffdee2e6),
+      transparency: 0.2,
+    );
 
     final fonts = ThemeFonts(colors);
-    final values = Values(DeviceUtils.isPhone);
+    final values = Values(LayoutType.fromContext(context) == LayoutType.phone);
     return ThemeValues(
       colors: colors,
       fonts: fonts,
       values: values,
       markdownStyleSheet: fonts.getMarkdownStyle(),
-      // child: widget.child,
       child: Builder(
-        builder: (context) {
-          return Theme(
-            data: getTheme(context, fonts, colors, values),
-            child: widget.child,
-          );
-        },
+        builder: (context) => Theme(
+          data: getTheme(context, fonts, colors, values),
+          child: widget.child,
+        ),
       ),
     );
   }
@@ -83,47 +81,98 @@ class ThemeValues extends InheritedWidget {
   }
 }
 
-enum ContextColors {
-  body,
-  primary,
-  secondary,
-  tertiary,
-  success,
-  info,
-  warning,
-  danger,
-  light,
-  dark;
+ThemeData getTheme(
+  BuildContext context,
+  ThemeFonts fonts,
+  ThemeColors colors,
+  Values values,
+) {
+  final palette = colors.defaultPalette;
+  final data = ThemeData(
+    colorScheme: m.ColorScheme.fromSeed(
+      seedColor: colors.primary.color,
+      brightness: colors.brightness,
+      dynamicSchemeVariant: .vibrant,
+    ),
+    fontFamily: FontFamily.redHatDisplay,
+    scaffoldBackgroundColor: palette.background,
+    useMaterial3: true,
+    textTheme: m.TextTheme(
+      // textEdit
+      bodyLarge: fonts.bodyStronger,
+    ),
+    // switchTheme: switchStyle(context),
+    // sliderTheme: sliderStyle(context),
+    // dividerTheme: divider(context),
+    // toggleButtonsTheme: ToggleButtonsThemeData(
+    //   borderColor: colors.transparent,
+    // ),
+    // switchTheme: getSwitchTheme(palette),
+    // inputDecorationTheme: getInputDecoration(palette, values),
+    filledButtonTheme: ThemeButtons.getFilledButtonTheme(
+      fonts,
+      palette,
+      values,
+    ),
 
-  ColorSet getColorSet(BuildContext context) {
-    final colors = context.colors;
-    return switch (this) {
-      ContextColors.body => colors.body,
-      ContextColors.secondary => colors.secondary,
-      ContextColors.tertiary => colors.tertiary,
-      ContextColors.primary => colors.primary,
-      ContextColors.success => colors.success,
-      ContextColors.info => colors.info,
-      ContextColors.warning => colors.warrning,
-      ContextColors.danger => colors.danger,
-      ContextColors.light => colors.light,
-      ContextColors.dark => colors.dark,
-    };
-  }
+    // outlinedButtonTheme: ThemeButtons.getOutlinedButtonTheme(colors),
+    textButtonTheme: ThemeButtons.getTextButtonTheme(fonts, palette, values),
+    // dialogTheme: .new(backgroundColor: colors.bPopup.background),
+    bottomSheetTheme: .new(
+      backgroundColor: colors.bPopup.background,
+    ),
+    extensions: [
+      colors,
+      switch (colors.brightness) {
+        Brightness.dark => GlassThemeData.dark(),
+        Brightness.light => GlassThemeData.light(),
+      },
+      SurfaceTheme(
+        primary: SurfaceThemeVariant(
+          background: colors.bPrimary.background,
+          text: colors.bPrimary.text,
+          // borderRadius: BorderRadius.all(.circular(16)),
+          icon: colors.bPrimary.text,
+          shadow: colors.bPrimary.shadow,
+          debugLabel: SurfaceThemes.primary.name,
+        ),
+        secondary: SurfaceThemeVariant(
+          background: colors.bSecondary.background,
+          text: colors.bSecondary.text,
+          borderRadius: BorderRadius.all(.circular(16)),
+          // border: BoxBorder.all(color: colors.bSecondary.border, ),
+          icon: colors.bSecondary.text,
+          shadow: colors.bSecondary.shadow,
+          debugLabel: SurfaceThemes.secondary.name,
+        ),
+        popup: SurfaceThemeVariant(
+          background: colors.bPopup.background,
+          text: colors.bPopup.text,
+          borderRadius: BorderRadius.all(.circular(16)),
+          icon: colors.bPopup.text,
+          shadow: colors.bPopup.shadow,
+          debugLabel: SurfaceThemes.popup.name,
+        ),
+      ),
+    ],
+  );
+  return data;
 }
 
-// class ContextStyle extends StatelessWidget {
-//   const new({
-//     super.key,
-//     required this.color,
-//     required this.child,
-//   });
+extension ContextThemeX on BuildContext {
+  ThemeValues get _t => ThemeValues.of(this);
+  ThemeFonts get fonts => _t.fonts;
+  Values get values => _t.values;
 
-//   final ContextColors color;
-//   final Widget child;
+  ColorPalette get palette => appColors.defaultPalette;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Theme(data: getTheme(context, color), child: child);
-//   }
-// }
+  Axis get flexDirection {
+    final direction = findAncestorRenderObjectOfType<RenderFlex>()?.direction;
+
+    if (direction == null) {
+      throw "Missing RenderFlex parrent.";
+    }
+
+    return direction;
+  }
+}

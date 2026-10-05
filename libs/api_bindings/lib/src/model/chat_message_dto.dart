@@ -24,11 +24,9 @@ class ChatMessageDto {
 
     required this.senderId,
 
-    this.senderUserName,
-
     required this.content,
 
-    this.sendTime,
+    required this.sendTime,
 
     this.modifiedTime,
   });
@@ -42,14 +40,11 @@ class ChatMessageDto {
   @JsonKey(name: r'senderId', required: true, includeIfNull: false)
   final String senderId;
 
-  @JsonKey(name: r'senderUserName', required: false, includeIfNull: false)
-  final String? senderUserName;
-
   @JsonKey(name: r'content', required: true, includeIfNull: false)
   final String content;
 
-  @JsonKey(name: r'sendTime', required: false, includeIfNull: false)
-  final DateTime? sendTime;
+  @JsonKey(name: r'sendTime', required: true, includeIfNull: false)
+  final DateTime sendTime;
 
   @JsonKey(name: r'modifiedTime', required: false, includeIfNull: false)
   final DateTime? modifiedTime;
@@ -61,7 +56,6 @@ class ChatMessageDto {
           other.id == id &&
           other.guildChannelId == guildChannelId &&
           other.senderId == senderId &&
-          other.senderUserName == senderUserName &&
           other.content == content &&
           other.sendTime == sendTime &&
           other.modifiedTime == modifiedTime;
@@ -71,7 +65,6 @@ class ChatMessageDto {
       id.hashCode +
       guildChannelId.hashCode +
       senderId.hashCode +
-      senderUserName.hashCode +
       content.hashCode +
       sendTime.hashCode +
       (modifiedTime == null ? 0 : modifiedTime.hashCode);

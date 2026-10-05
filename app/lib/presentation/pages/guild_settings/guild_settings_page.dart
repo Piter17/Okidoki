@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/utils/utils.dart';
 
 @RoutePage()
 class GuildSettingsPage extends HookConsumerWidget {
@@ -11,7 +11,7 @@ class GuildSettingsPage extends HookConsumerWidget {
 
   final List<SettingsTab> settings;
 
-  static Future<void> open(BuildContext context, String guildId) {
+  static Future<void> open(BuildContext context, int guildId) {
     final guildSettings = [
       SettingsTab(
         lang: (s) => s.guild_title,

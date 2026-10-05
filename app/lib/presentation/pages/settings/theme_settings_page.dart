@@ -1,5 +1,5 @@
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart';
 
 class ThemeSettingsPage extends HookConsumerWidget {
   const new({super.key});
@@ -11,10 +11,7 @@ class ThemeSettingsPage extends HookConsumerWidget {
     final brightness = settings.darkMode;
     return BaseSettingsPage.column(
       [
-        Text(
-          context.s.settings_theme_title,
-          style: context.fonts.largeTitle,
-        ),
+        TitleEntry(Text(context.s.settings_theme_title)),
         SwitchEntry(
           text: Text(context.s.settings_light_theme),
           value: brightness,
@@ -22,7 +19,7 @@ class ThemeSettingsPage extends HookConsumerWidget {
         ),
         DropdownEntry<Color>(
           text: Text(context.s.settings_primary_color),
-          value: Color(settings.color),
+          value: settings.color,
           possibleValues: {
             Color(0xffff0000): context.s.settings_color_red,
             Color(0xff00ff00): context.s.settings_color_green,
@@ -30,9 +27,7 @@ class ThemeSettingsPage extends HookConsumerWidget {
           },
           onItemSelected: (newItem) {
             if (newItem != null) {
-              ref
-                  .read(appSettingsProvider.notifier)
-                  .setColor(newItem.toARGB32());
+              ref.read(appSettingsProvider.notifier).setColor(newItem);
             }
           },
         ),

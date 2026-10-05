@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/gestures.dart';
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 class InputDetector extends StatefulWidget {
   final Widget child;

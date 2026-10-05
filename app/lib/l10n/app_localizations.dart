@@ -283,6 +283,36 @@ abstract class S {
   /// **'Motyw'**
   String get settings_theme_title;
 
+  /// No description provided for @settings_developer_mode.
+  ///
+  /// In pl, this message translates to:
+  /// **'Tryb dewelopera'**
+  String get settings_developer_mode;
+
+  /// No description provided for @settings_developer_mode_description.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dodaje opcje `kopiuj id` w menu kontekstowych i url w aplikacji na desktop i telefon'**
+  String get settings_developer_mode_description;
+
+  /// No description provided for @settings_developer_mode_copy_bearer.
+  ///
+  /// In pl, this message translates to:
+  /// **'Skopiuj bearer token'**
+  String get settings_developer_mode_copy_bearer;
+
+  /// No description provided for @settings_developer_mode_copy_refresh.
+  ///
+  /// In pl, this message translates to:
+  /// **'Skopiuj refresh token'**
+  String get settings_developer_mode_copy_refresh;
+
+  /// No description provided for @debug_reload.
+  ///
+  /// In pl, this message translates to:
+  /// **'Załaduj ponownie'**
+  String get debug_reload;
+
   /// No description provided for @profile_display_name.
   ///
   /// In pl, this message translates to:

@@ -25,14 +25,14 @@ class ServerSentEventsTransport implements ITransport {
   OnReceive? onReceive;
 
   ServerSentEventsTransport(
-      SignalRHttpClient httpClient,
-      AccessTokenFactory? accessTokenFactory,
-      Logger? logger,
-      bool logMessageContent)
-      : _httpClient = httpClient,
-        _accessTokenFactory = accessTokenFactory,
-        _logger = logger,
-        _logMessageContent = logMessageContent;
+    SignalRHttpClient httpClient,
+    AccessTokenFactory? accessTokenFactory,
+    Logger? logger,
+    bool logMessageContent,
+  ) : _httpClient = httpClient,
+      _accessTokenFactory = accessTokenFactory,
+      _logger = logger,
+      _logMessageContent = logMessageContent;
 
   // Methods
   @override
@@ -44,10 +44,11 @@ class ServerSentEventsTransport implements ITransport {
     _url = url;
 
     if (_accessTokenFactory != null) {
-      final token = await _accessTokenFactory!();
+      final token = await _accessTokenFactory();
       if (!isStringEmpty(token)) {
         final encodedToken = Uri.encodeComponent(token);
-        url = url! +
+        url =
+            url! +
             (url.indexOf("?") < 0 ? "?" : "&") +
             "access_token=$encodedToken";
       }
@@ -55,8 +56,11 @@ class ServerSentEventsTransport implements ITransport {
 
     var opened = false;
     if (transferFormat != TransferFormat.Text) {
-      return Future.error(GeneralError(
-          "The Server-Sent Events transport only supports the 'Text' transfer format"));
+      return Future.error(
+        GeneralError(
+          "The Server-Sent Events transport only supports the 'Text' transfer format",
+        ),
+      );
     }
 
     SseChannel client;
@@ -69,30 +73,35 @@ class ServerSentEventsTransport implements ITransport {
       return Future.error(e);
     }
 
-    _sseClient!.stream.listen((data) {
-      if (onReceive != null) {
-        try {
-          _logger?.finest(
-              '(SSE transport) data received. ${getDataDetail(data, _logMessageContent)}.');
-          onReceive!(data);
-        } catch (error) {
-          _close(error: error);
-          return;
+    _sseClient!.stream.listen(
+      (data) {
+        if (onReceive != null) {
+          try {
+            _logger?.finest(
+              '(SSE transport) data received. ${getDataDetail(data, _logMessageContent)}.',
+            );
+            onReceive!(data);
+          } catch (error) {
+            _close(error: error);
+            return;
+          }
         }
-      }
-    }, onError: (e) {
-      _logger?.severe('(SSE transport) error when listening to stream: $e');
-      if (opened) {
-        _close(error: e);
-      }
-    });
+      },
+      onError: (e) {
+        _logger?.severe('(SSE transport) error when listening to stream: $e');
+        if (opened) {
+          _close(error: e);
+        }
+      },
+    );
   }
 
   @override
   Future<void> send(Object data) async {
     if (_sseClient == null) {
       return Future.error(
-          new GeneralError("Cannot send until the transport is connected"));
+        new GeneralError("Cannot send until the transport is connected"),
+      );
     }
     await sendMessage(
       _logger,

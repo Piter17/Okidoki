@@ -4,6 +4,7 @@ include:
 exclude:
   - "**/*.g.dart"
   - "**/*.freezed.dart"
+  - "**/*.g.theme.dart"
   
 defaults:
   file_name: # defaults to directory name
@@ -61,7 +62,9 @@ dirs:
           - ButtonStyle
           - InputDecorationTheme
           - ThemeData
-          - ColorScheme
+          # - ColorScheme
+          - DialogThemeData
+          - BottomSheetThemeData
           - SelectionArea
           - UnderlineInputBorder
           - Tooltip
@@ -70,6 +73,7 @@ dirs:
           - DividerTheme
           - IconAlignment
           - ScaffoldMessenger
+          - ThemeExtension
 
   - path: lib/providers
   - path: lib/mutations
@@ -82,4 +86,6 @@ dirs:
   - path: lib/utils
 
   - path: lib/core
+
+  - path: lib/domain
 

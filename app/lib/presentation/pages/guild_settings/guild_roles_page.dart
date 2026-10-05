@@ -1,4 +1,4 @@
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 class GuildRolesPage extends ConsumerWidget {
   const new({super.key});

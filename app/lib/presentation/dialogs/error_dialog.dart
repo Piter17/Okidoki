@@ -1,5 +1,5 @@
-import 'package:riv/core/core.dart';
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/core/core.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 class const ErrorDialog({
   super.key,
@@ -50,8 +50,8 @@ class const ErrorDialog({
 
   @override
   Widget build(BuildContext context) {
-    return StyledContainer(
-      contextStyle: .danger,
+    return Surface(
+      variant: .popup,
       borderRadius: context.values.borderL,
       child: Column(
         children: [

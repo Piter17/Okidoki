@@ -40,7 +40,9 @@ class JsonFragmentBuilder implements Builder {
         if (name == null) continue;
 
         buffer.writeln("import '$uri';");
-        buffer.writeln('const \$jsonDecoder_$name = "$name: $name.fromJson";');
+        buffer.writeln(
+          'const \$jsonDecoder_$name = "$name: (json) => $name.fromJson(json as Map<String, dynamic>)";',
+        );
         buffer.writeln();
         wroteAnything = true;
       }

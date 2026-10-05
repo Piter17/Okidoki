@@ -5,16 +5,24 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_titlebar/flutter_titlebar.dart';
 import 'package:hooks_riverpod/misc.dart';
 import 'package:logging/logging.dart';
-import 'package:riv/core/core.dart';
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/core/core.dart';
+import 'package:okidoki/presentation/presentation.dart';
 import 'package:riverpod_devtools/riverpod_devtools.dart';
 import 'package:scaled_app/scaled_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_db_inspector/sqflite_db_inspector.dart';
-import 'package:riv/providers/providers.dart' hide HttpClient;
+import 'package:okidoki/providers/providers.dart' hide HttpClient;
 
-const kServerBaseUrl = "https://api.okidoki.fun/";
+const serverBaseUrl = String.fromEnvironment(
+  'API_URL',
+  defaultValue: "https://api-dev.okidoki.fun/",
+);
+
+const appBaseUrl = String.fromEnvironment(
+  'APP_URL',
+  defaultValue: "https://test.okidoki.fun/",
+);
 
 Future loadRiverpodDependencyData() async {
   try {
@@ -89,7 +97,13 @@ class MyApp extends HookConsumerWidget {
       ],
       supportedLocales: Language.supportedLocales,
       locale: settings.language.locale,
-      routerConfig: ref.read(appRouterProvider).config(),
+      routerConfig: ref
+          .read(appRouterProvider)
+          .config(
+            // navigatorObservers: () => [
+            //   ref.read(appRouterObserverProvider),
+            // ],
+          ),
       debugShowCheckedModeBanner: false,
       builder: (context, child) => AppShortcuts(
         child: ScrollZoom(

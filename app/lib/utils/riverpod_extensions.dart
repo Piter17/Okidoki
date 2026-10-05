@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:api_bindings/api_bindings.dart';
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/experimental/mutation.dart';
-import 'package:riv/core/core.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/core/core.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart';
+import 'package:okidoki/utils/utils.dart';
 
 extension RiverpodX on Ref {
   Ref cacheFor(Duration duration) {
@@ -21,10 +21,40 @@ extension RiverpodX on Ref {
     String? throwError,
   ]) => _callApi(f: f, throwError: throwError, authenticated: false);
 
+  Future<List<TEntity>> callApiConvertAll<TDto, TEntity>(
+    Future<Response<List<TDto>>> Function(ApiBindings api, CancelToken ct) f,
+    TEntity Function(TDto dto) transform, [
+    String? throwError,
+  ]) {
+    return callApiConvert(
+      f,
+      (x) => x.map(transform).toList(),
+      throwError,
+    );
+  }
+
+  Future<TEntity> callApiConvert<TDto, TEntity>(
+    Future<Response<TDto>> Function(ApiBindings api, CancelToken ct) f,
+    TEntity Function(TDto dto) transform, [
+    String? throwError,
+  ]) {
+    return _callApi(
+      f: f,
+      throwError: throwError,
+      authenticated: true,
+    ).then(transform);
+  }
+
   Future<R> callApi<R>(
     Future<Response<R>> Function(ApiBindings api, CancelToken ct) f, [
     String? throwError,
-  ]) => _callApi(f: f, throwError: throwError, authenticated: true);
+  ]) {
+    return _callApi(
+      f: f,
+      throwError: throwError,
+      authenticated: true,
+    );
+  }
 
   Future<R> _callApi<R>({
     required Future<Response<R>> Function(ApiBindings api, CancelToken ct) f,
@@ -59,7 +89,9 @@ extension TransactionMutationX on MutationTransaction {
         StackTrace.current,
       );
     } catch (e, st) {
+      debugPrint([e, st].join("\n"));
       if (e is DioException) {
+        print(["DioException", e.response?.data]);
         final result = tryDeserialize<E>(e.response?.data);
         final error = result.fold(
           getError,
@@ -99,7 +131,7 @@ extension ResponseX<T> on Future<Response<T?>> {
       throw Exception(error);
     } catch (e, st) {
       if (e is DioException) {
-        debugPrint("resultOrThrow: ${e.response}");
+        debugPrint("resultOrThrow: ${e.error} ${e.response}");
         throw ApiException("Dio $error", e, st);
       }
       throw ApiException(error, e, st);

@@ -9,15 +9,13 @@ part of 'user_profile_dto.dart';
 abstract class _$UserProfileDtoCWProxy {
   UserProfileDto id(String id);
 
-  UserProfileDto userId(String userId);
-
-  UserProfileDto guildId(String? guildId);
+  UserProfileDto userName(String userName);
 
   UserProfileDto nickname(String? nickname);
 
-  UserProfileDto profilePicture(String? profilePicture);
+  UserProfileDto state(UserOnlineState? state);
 
-  UserProfileDto userName(String? userName);
+  UserProfileDto profilePicture(String? profilePicture);
 
   /// Creates a new instance with the provided field values.
   /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `UserProfileDto(...).copyWith.fieldName(value)`.
@@ -28,11 +26,10 @@ abstract class _$UserProfileDtoCWProxy {
   /// ```
   UserProfileDto call({
     String id,
-    String userId,
-    String? guildId,
+    String userName,
     String? nickname,
+    UserOnlineState? state,
     String? profilePicture,
-    String? userName,
   });
 }
 
@@ -47,20 +44,17 @@ class _$UserProfileDtoCWProxyImpl implements _$UserProfileDtoCWProxy {
   UserProfileDto id(String id) => call(id: id);
 
   @override
-  UserProfileDto userId(String userId) => call(userId: userId);
-
-  @override
-  UserProfileDto guildId(String? guildId) => call(guildId: guildId);
+  UserProfileDto userName(String userName) => call(userName: userName);
 
   @override
   UserProfileDto nickname(String? nickname) => call(nickname: nickname);
 
   @override
-  UserProfileDto profilePicture(String? profilePicture) =>
-      call(profilePicture: profilePicture);
+  UserProfileDto state(UserOnlineState? state) => call(state: state);
 
   @override
-  UserProfileDto userName(String? userName) => call(userName: userName);
+  UserProfileDto profilePicture(String? profilePicture) =>
+      call(profilePicture: profilePicture);
 
   /// Creates a new instance with the provided field values.
   /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `UserProfileDto(...).copyWith.fieldName(value)`.
@@ -72,37 +66,32 @@ class _$UserProfileDtoCWProxyImpl implements _$UserProfileDtoCWProxy {
   @override
   UserProfileDto call({
     Object? id = const $CopyWithPlaceholder(),
-    Object? userId = const $CopyWithPlaceholder(),
-    Object? guildId = const $CopyWithPlaceholder(),
-    Object? nickname = const $CopyWithPlaceholder(),
-    Object? profilePicture = const $CopyWithPlaceholder(),
     Object? userName = const $CopyWithPlaceholder(),
+    Object? nickname = const $CopyWithPlaceholder(),
+    Object? state = const $CopyWithPlaceholder(),
+    Object? profilePicture = const $CopyWithPlaceholder(),
   }) {
     return UserProfileDto(
       id: id == const $CopyWithPlaceholder() || id == null
           ? _value.id
           // ignore: cast_nullable_to_non_nullable
           : id as String,
-      userId: userId == const $CopyWithPlaceholder() || userId == null
-          ? _value.userId
+      userName: userName == const $CopyWithPlaceholder() || userName == null
+          ? _value.userName
           // ignore: cast_nullable_to_non_nullable
-          : userId as String,
-      guildId: guildId == const $CopyWithPlaceholder()
-          ? _value.guildId
-          // ignore: cast_nullable_to_non_nullable
-          : guildId as String?,
+          : userName as String,
       nickname: nickname == const $CopyWithPlaceholder()
           ? _value.nickname
           // ignore: cast_nullable_to_non_nullable
           : nickname as String?,
+      state: state == const $CopyWithPlaceholder()
+          ? _value.state
+          // ignore: cast_nullable_to_non_nullable
+          : state as UserOnlineState?,
       profilePicture: profilePicture == const $CopyWithPlaceholder()
           ? _value.profilePicture
           // ignore: cast_nullable_to_non_nullable
           : profilePicture as String?,
-      userName: userName == const $CopyWithPlaceholder()
-          ? _value.userName
-          // ignore: cast_nullable_to_non_nullable
-          : userName as String?,
     );
   }
 }
@@ -120,14 +109,16 @@ extension $UserProfileDtoCopyWith on UserProfileDto {
 
 UserProfileDto _$UserProfileDtoFromJson(Map<String, dynamic> json) =>
     $checkedCreate('UserProfileDto', json, ($checkedConvert) {
-      $checkKeys(json, requiredKeys: const ['id', 'userId']);
+      $checkKeys(json, requiredKeys: const ['id', 'userName']);
       final val = UserProfileDto(
         id: $checkedConvert('id', (v) => v as String),
-        userId: $checkedConvert('userId', (v) => v as String),
-        guildId: $checkedConvert('guildId', (v) => v as String?),
+        userName: $checkedConvert('userName', (v) => v as String),
         nickname: $checkedConvert('nickname', (v) => v as String?),
+        state: $checkedConvert(
+          'state',
+          (v) => $enumDecodeNullable(_$UserOnlineStateEnumMap, v),
+        ),
         profilePicture: $checkedConvert('profilePicture', (v) => v as String?),
-        userName: $checkedConvert('userName', (v) => v as String?),
       );
       return val;
     });
@@ -135,9 +126,15 @@ UserProfileDto _$UserProfileDtoFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$UserProfileDtoToJson(UserProfileDto instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'userId': instance.userId,
-      'guildId': ?instance.guildId,
+      'userName': instance.userName,
       'nickname': ?instance.nickname,
+      'state': ?_$UserOnlineStateEnumMap[instance.state],
       'profilePicture': ?instance.profilePicture,
-      'userName': ?instance.userName,
     };
+
+const _$UserOnlineStateEnumMap = {
+  UserOnlineState.offline: 'Offline',
+  UserOnlineState.dnd: 'Dnd',
+  UserOnlineState.away: 'Away',
+  UserOnlineState.online: 'Online',
+};

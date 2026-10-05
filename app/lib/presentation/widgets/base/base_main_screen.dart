@@ -1,16 +1,18 @@
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/utils/utils.dart';
 
 class BaseMainScreen extends StatefulWidget {
   final Widget? topBar;
   final Widget body;
   final Widget? bottom;
+  final Widget? right;
 
   const new({
     super.key,
     this.topBar,
     required this.body,
     this.bottom,
+    this.right,
   });
 
   static BaseMainScreenState? of(BuildContext context) =>
@@ -23,8 +25,7 @@ class BaseMainScreen extends StatefulWidget {
 class BaseMainScreenState extends State<BaseMainScreen> {
   @override
   Widget build(BuildContext context) {
-    return StyledContainer(
-      contextStyle: .body,
+    return Surface(
       borderRadius: context.values.borderXL,
       child: Column(
         children: [
@@ -33,8 +34,22 @@ class BaseMainScreenState extends State<BaseMainScreen> {
             child: widget.topBar,
           ),
           Divider.shrink(),
-          Expanded(child: widget.body),
-          ?widget.bottom,
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(child: widget.body),
+                if (widget.right != null) ...[
+                  Divider.shrink(),
+                  SizedBox(
+                    width: context.values.rightPaneWidth,
+                    child: widget.right!,
+                  ),
+                ],
+              ],
+            ),
+          ),
+          // ?widget.bottom,
         ],
       ),
     );

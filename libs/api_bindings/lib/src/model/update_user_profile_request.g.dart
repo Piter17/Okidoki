@@ -7,8 +7,6 @@ part of 'update_user_profile_request.dart';
 // **************************************************************************
 
 abstract class _$UpdateUserProfileRequestCWProxy {
-  UpdateUserProfileRequest guildId(String? guildId);
-
   UpdateUserProfileRequest profileName(String? profileName);
 
   /// Creates a new instance with the provided field values.
@@ -18,7 +16,7 @@ abstract class _$UpdateUserProfileRequestCWProxy {
   /// ```dart
   /// UpdateUserProfileRequest(...).copyWith(id: 12, name: "My name")
   /// ```
-  UpdateUserProfileRequest call({String? guildId, String? profileName});
+  UpdateUserProfileRequest call({String? profileName});
 }
 
 /// Callable proxy for `copyWith` functionality.
@@ -28,9 +26,6 @@ class _$UpdateUserProfileRequestCWProxyImpl
   const _$UpdateUserProfileRequestCWProxyImpl(this._value);
 
   final UpdateUserProfileRequest _value;
-
-  @override
-  UpdateUserProfileRequest guildId(String? guildId) => call(guildId: guildId);
 
   @override
   UpdateUserProfileRequest profileName(String? profileName) =>
@@ -45,14 +40,9 @@ class _$UpdateUserProfileRequestCWProxyImpl
   /// ```
   @override
   UpdateUserProfileRequest call({
-    Object? guildId = const $CopyWithPlaceholder(),
     Object? profileName = const $CopyWithPlaceholder(),
   }) {
     return UpdateUserProfileRequest(
-      guildId: guildId == const $CopyWithPlaceholder()
-          ? _value.guildId
-          // ignore: cast_nullable_to_non_nullable
-          : guildId as String?,
       profileName: profileName == const $CopyWithPlaceholder()
           ? _value.profileName
           // ignore: cast_nullable_to_non_nullable
@@ -77,7 +67,6 @@ UpdateUserProfileRequest _$UpdateUserProfileRequestFromJson(
   Map<String, dynamic> json,
 ) => $checkedCreate('UpdateUserProfileRequest', json, ($checkedConvert) {
   final val = UpdateUserProfileRequest(
-    guildId: $checkedConvert('guildId', (v) => v as String?),
     profileName: $checkedConvert('profileName', (v) => v as String?),
   );
   return val;
@@ -85,7 +74,4 @@ UpdateUserProfileRequest _$UpdateUserProfileRequestFromJson(
 
 Map<String, dynamic> _$UpdateUserProfileRequestToJson(
   UpdateUserProfileRequest instance,
-) => <String, dynamic>{
-  'guildId': ?instance.guildId,
-  'profileName': ?instance.profileName,
-};
+) => <String, dynamic>{'profileName': ?instance.profileName};

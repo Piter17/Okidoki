@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 // ignore: unnecessary_import
-import 'package:riv/presentation/routers/router_config.gr.dart';
-import 'package:riv/providers/providers.dart';
+import 'package:okidoki/presentation/routers/router_config.gr.dart';
+import 'package:okidoki/providers/providers.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')
 class AppRouter extends RootStackRouter {
@@ -10,38 +10,56 @@ class AppRouter extends RootStackRouter {
   AppRouter(this.ref);
 
   @override
-  RouteType get defaultRouteType => RouteType.material(); //.cupertino, .adaptive ..etc
-
+  RouteType get defaultRouteType => RouteType.custom(
+    transitionsBuilder: TransitionsBuilders.noTransition,
+  );
   @override
   List<AutoRoute> get routes => [
-    // HomeScreen is generated as HomeRoute because
-    // of the replaceInRouteName property
     AutoRoute(
       page: MainRoute.page,
       path: '/',
+
       guards: [AuthGuard(ref)],
+      type: RouteType.material(),
+      children: [
+        AutoRoute(
+          page: EmptyRoute.page,
+          initial: true,
+          maintainState: false,
+        ),
+        AutoRoute(
+          page: GuildRoute.page,
+          path: 'guild/:guildId',
+          maintainState: false,
+        ),
+        AutoRoute(
+          page: GuildChatRoute.page,
+          path: 'chat/:guildId/:channelId',
+          maintainState: false,
+        ),
+        AutoRoute(
+          page: FriendsRoute.page,
+          path: 'friends',
+          maintainState: false,
+        ),
+        AutoRoute(
+          page: SettingsRoute.page,
+          path: 'settings',
+          type: RouteType.cupertino(),
+          maintainState: false,
+        ),
+      ],
+    ),
+    AutoRoute(
+      page: AuthRoute.page,
+      path: '/',
     ),
     AutoRoute(page: LoginRoute.page, path: '/login'),
     AutoRoute(page: RegisterRoute.page, path: '/register'),
-    // AutoRoute(
-    //   page: AuthenticatedRoute.page,
-    //   path: '/logged',
-    //   // children: [
-    //   //   AutoRoute(page: ChatRoute.page, path: 'chat'),
-    //   // ],
-    // ),
-    AutoRoute(
-      page: SettingsRoute.page,
-      path: '/settings',
-      type: RouteType.cupertino(),
-    ),
   ];
 
   @override
   List<AutoRouteGuard> get guards => [];
-
-  static AppRouter of(BuildContext context, {bool watch = false}) =>
-      AutoRouter.of(context, watch: watch) as AppRouter;
 }
 
 class AuthGuard extends AutoRouteGuard {
@@ -51,12 +69,12 @@ class AuthGuard extends AutoRouteGuard {
 
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
-    final currentUser = ref.read(currentUserProvider);
+    final currentUser = ref.watch(currentUserProvider);
 
     if (currentUser.hasValue && currentUser.value != null) {
       resolver.next(true);
     } else {
-      router.replace(const LoginRoute());
+      router.replace(const AuthRoute());
     }
   }
 }

@@ -1,13 +1,23 @@
 import 'package:api_bindings/api_bindings.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/mutations/mutations.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/mutations/mutations.dart';
 
-class RegisterForm extends FormGroup {
-  new()
+abstract class FormGroupMutation<T> extends FormGroup {
+  new(super.controls);
+
+  MutationCallback<T> getMutation();
+}
+
+class RegisterForm({
+  bool allowAnonymus = true,
+  this._guildInvitationCode,
+}) extends FormGroup implements FormGroupMutation<void> {
+  this
     : super(
         {
           profileName: FormControl<String>(validators: [Validators.required]),
+          anonymus: FormControl<bool>(value: allowAnonymus),
           password: FormControl<String>(
             validators: [
               Validators.required,
@@ -17,103 +27,105 @@ class RegisterForm extends FormGroup {
           email: FormControl<String>(
             validators: [Validators.required, Validators.email],
           ),
-          password2: FormControl<String>(
-            validators: [
-              Validators.required,
-              Validators.minLength(6),
-            ],
-          ),
         },
-        validators: [
-          MustMatchValidator(
-            password,
-            password2,
-            true,
-          ),
-        ],
       );
 
   static const profileName = "profileName";
   static const email = "email";
   static const password = "password";
-  static const password2 = "password2";
+  static const anonymus = "anonymus";
 
-  UserRegisterRequest getModel() => UserRegisterRequest(
+  bool get _anonymus => control(anonymus).value as bool;
+  final String? _guildInvitationCode;
+
+  @override
+  MutationCallback<void> getMutation() => _anonymus
+      ? AuthMutations.anonymusRegisterCb(_anonModel)
+      : AuthMutations.registerCb(_model);
+
+  AnonymusRegistrationRequest get _anonModel => AnonymusRegistrationRequest(
+    profileName: control(profileName).value as String,
+    guildInvitationCode: _guildInvitationCode,
+  );
+
+  RegistrationRequest get _model => RegistrationRequest(
     email: control(email).value as String,
     profileName: control(profileName).value as String,
     password: control(password).value as String,
+    guildInvitationCode: _guildInvitationCode,
   );
 }
 
 @RoutePage()
-class RegisterPage extends HookConsumerWidget {
-  const RegisterPage({
-    super.key,
-  });
-
+class const RegisterPage({
+  super.key,
+  required RegisterForm super.form,
+  required super.mutation,
+  required super.isBusy,
+  required final VoidCallback goToLogin,
+}) extends BaseAuthPage {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final formGroup = useMemoized(RegisterForm.new);
-    final register = useMemoized(AuthMutations.getRegister);
-
-    final registerState = ref.watch(register);
-    Future send() => register.run(
+    Future send() => mutation.run(
       ref,
-      AuthMutations.registerCb(formGroup.getModel()),
+      form.getMutation(),
     );
 
-    register.showPopupOnError(context, ref);
+    mutation.showPopupOnError(context, ref);
 
-    return Scaffold(
-      body: BackgroundPage(
-        isLoading: registerState is MutationPending,
-        child: ReactiveForm(
-          formGroup: formGroup,
-          child: Column(
-            spacing: context.values.spacing,
-            children: [
-              ReactiveTextField(
-                formControlName: RegisterForm.profileName,
-                decoration: InputDecoration(
-                  labelText: context.s.profile_display_name,
-                ),
-              ),
-              ReactiveTextField(
-                formControlName: RegisterForm.email,
-                decoration: InputDecoration(labelText: context.s.generic_email),
-              ),
-              ReactiveTextField(
-                formControlName: RegisterForm.password,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: context.s.generic_password,
-                ),
-              ),
-              ReactiveTextField(
-                formControlName: RegisterForm.password2,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: context.s.generic_password,
-                ),
-              ),
-              ReactiveFormConsumer(
-                child: Text(context.s.generic_register),
-                builder: (_, formGroup, child) => Button(
-                  onPressed:
-                      formGroup.valid && registerState is! MutationPending
-                      ? send
-                      : null,
-                  child: child!,
-                ),
-              ),
-              Button(
-                onPressed: () => context.router.replace(LoginRoute()),
-                buttonType: ButtonType.text,
-                child: Text(context.s.generic_login),
-              ),
-            ],
+    return ReactiveForm(
+      formGroup: form,
+      child: Column(
+        spacing: context.values.spacing,
+        children: [
+          ReactiveTextField(
+            formControlName: RegisterForm.profileName,
+            decoration: InputDecoration(
+              labelText: context.s.profile_display_name,
+            ),
           ),
-        ),
+          ReactiveFormConsumer(
+            builder: (_, formGroup, child) {
+              if (formGroup.control(RegisterForm.anonymus).value) {
+                formGroup.control(RegisterForm.email).markAsDisabled();
+                formGroup.control(RegisterForm.password).markAsDisabled();
+              } else {
+                formGroup.control(RegisterForm.email).markAsEnabled();
+                formGroup.control(RegisterForm.password).markAsEnabled();
+              }
+
+              return Column(
+                children: [
+                  if (formGroup.control(RegisterForm.anonymus).value ==
+                      false) ...[
+                    ReactiveTextField(
+                      formControlName: RegisterForm.email,
+                      decoration: InputDecoration(
+                        labelText: context.s.generic_email,
+                      ),
+                    ),
+                    ReactiveTextField(
+                      formControlName: RegisterForm.password,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: context.s.generic_password,
+                      ),
+                    ),
+                  ],
+                  Button(
+                    onPressed: formGroup.valid && isBusy == false ? send : null,
+                    child: Text(context.s.generic_register),
+                  ),
+                  Button(
+                    onPressed: goToLogin,
+                    buttonType: ButtonType.text,
+                    child: Text(context.s.generic_login),
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
       ),
     );
   }

@@ -1,42 +1,50 @@
-import 'package:api_bindings/api_bindings.dart';
-import 'package:riv/utils/riverpod_extensions.dart';
+import 'package:okidoki/utils/riverpod_extensions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:okidoki/domain/domain.dart' as domain;
 
 part 'guild.g.dart';
 
 @Riverpod()
 class Guild extends _$Guild {
   @override
-  FutureOr<GuildDto> build(String id) => ref
+  FutureOr<domain.Guild> build(int id) async => await ref
       .cacheFor(const Duration(hours: 12))
-      .callApi(
-        (api, ct) =>
-            api.getGuildsApi().getGuildById(guildId: id, cancelToken: ct),
+      .callApiConvert(
+        (api, ct) => api.getGuildsApi().getGuildById(
+          guildId: id.toString(),
+          cancelToken: ct,
+        ),
+        domain.Guild.fromDto,
         "Failed to fetch guild ($id)",
       );
 
-  void updateProfile(GuildProfileDto profile) => state.hasValue == false
+  void updateProfile(domain.Guild profile) => state.hasValue == false
       ? null
       : state = AsyncData(
           state.value!.copyWith(
             name: profile.name,
             image: profile.image,
+            mainChannelId: profile.mainChannelId,
           ),
         );
 
-  void addChannel(GuildChannelDto channel) => state.hasValue == false
-      ? null
-      : state = .data(
-          state.value!.copyWith(channels: [...state.value!.channels!, channel]),
-        );
+  void addChannel(domain.GuildChannel channel) {
+    final guild = state.value;
+    if (guild is domain.GuildAsMember) {
+      state = .data(
+        guild.copyWith(channels: [...guild.channels!, channel]),
+      );
+    }
+  }
 
-  void removeChannel(String channelId) => state.hasValue == false
-      ? null
-      : state = .data(
-          state.value!.copyWith(
-            channels: state.value!.channels!
-                .where((x) => x.id != channelId)
-                .toList(),
-          ),
-        );
+  void removeChannel(int channelId) {
+    final guild = state.value;
+    if (guild is domain.GuildAsMember) {
+      state = .data(
+        guild.copyWith(
+          channels: guild.channels!.where((x) => x.id != channelId).toList(),
+        ),
+      );
+    }
+  }
 }

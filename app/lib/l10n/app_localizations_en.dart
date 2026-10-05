@@ -103,6 +103,22 @@ class SEn extends S {
   String get settings_theme_title => 'Theme';
 
   @override
+  String get settings_developer_mode => 'Developer mode';
+
+  @override
+  String get settings_developer_mode_description =>
+      'Adds a copy id option in context menus and url in desktop and mobile app';
+
+  @override
+  String get settings_developer_mode_copy_bearer => 'Copy bearer token';
+
+  @override
+  String get settings_developer_mode_copy_refresh => 'Copy refresh token';
+
+  @override
+  String get debug_reload => 'Reload';
+
+  @override
   String get profile_display_name => 'Display name';
 
   @override

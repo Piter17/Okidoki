@@ -1,8 +1,8 @@
-import 'package:api_bindings/api_bindings.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
-import 'package:riv/providers/users/current_user.dart';
+import 'package:okidoki/domain/domain.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart';
+import 'package:okidoki/providers/users/current_user.dart';
 
 class AuthGate extends ConsumerStatefulWidget {
   const AuthGate({
@@ -20,15 +20,15 @@ class _AuthGateState extends ConsumerState<AuthGate> {
   late final _router = widget.child as Router<Object>;
   late final _routerDelegate = _router.routerDelegate as AutoRouterDelegate;
   late final _appRouter = _routerDelegate.controller as AppRouter;
-  ProviderSubscription<AsyncValue<IdentityDto?>>? _currentUserSubscription;
+  ProviderSubscription<AsyncValue<User?>>? _currentUserSubscription;
 
-  void _navigateToLoginPage() => _appRouter.replaceAll([LoginRoute()]);
+  void _navigateToLoginPage() => _appRouter.replaceAll([AuthRoute()]);
   void _navigateToChatPage() => _appRouter.replaceAll([MainRoute()]);
 
   @override
   void initState() {
     super.initState();
-    _currentUserSubscription = ref.listenManual<AsyncValue<IdentityDto?>>(
+    _currentUserSubscription = ref.listenManual<AsyncValue<User?>>(
       currentUserProvider,
       (prev, next) {
         debugPrint(
@@ -39,7 +39,7 @@ class _AuthGateState extends ConsumerState<AuthGate> {
             "isRefreshing: ${prev?.isRefreshing} -> ${next.isRefreshing}",
             "hasError: ${prev?.hasError} -> ${next.hasError}",
             "hasValue: ${prev?.hasValue} -> ${next.hasValue}",
-            "value?.userId: ${prev?.value?.userId} -> ${next.value?.userId}",
+            "value?.userId: ${prev?.value?.id} -> ${next.value?.id}",
             "value?.userName: ${prev?.value?.userName} -> ${next.value?.userName}",
           ].join("\n"),
         );
@@ -50,8 +50,8 @@ class _AuthGateState extends ConsumerState<AuthGate> {
 
         next.when(
           data: (user) {
-            final previousUserId = prev.value?.userId;
-            final nextUserId = user?.userId;
+            final previousUserId = prev.value?.id;
+            final nextUserId = user?.id;
 
             if (user != null && previousUserId == null && nextUserId != null) {
               _navigateToChatPage();

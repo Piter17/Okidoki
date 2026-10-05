@@ -3,6 +3,8 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:api_bindings/src/model/guild_profile_dto.dart';
+import 'package:api_bindings/src/model/user_profile_dto.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -20,61 +22,37 @@ class GuildInvitationDto {
   GuildInvitationDto({
     required this.id,
 
-    required this.guildId,
+    required this.guild,
 
     this.code,
 
-    this.validUntil,
-
-    this.maxUses,
-
-    this.createdById,
-
-    this.createdByUserName,
+    this.createdBy,
   });
 
   @JsonKey(name: r'id', required: true, includeIfNull: false)
   final String id;
 
-  @JsonKey(name: r'guildId', required: true, includeIfNull: false)
-  final String guildId;
+  @JsonKey(name: r'guild', required: true, includeIfNull: false)
+  final GuildProfileDto guild;
 
   @JsonKey(name: r'code', required: false, includeIfNull: false)
   final String? code;
 
-  @JsonKey(name: r'validUntil', required: false, includeIfNull: false)
-  final DateTime? validUntil;
-
-  @JsonKey(name: r'maxUses', required: false, includeIfNull: false)
-  final int? maxUses;
-
-  @JsonKey(name: r'createdById', required: false, includeIfNull: false)
-  final String? createdById;
-
-  @JsonKey(name: r'createdByUserName', required: false, includeIfNull: false)
-  final String? createdByUserName;
+  @JsonKey(name: r'createdBy', required: false, includeIfNull: false)
+  final UserProfileDto? createdBy;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is GuildInvitationDto &&
           other.id == id &&
-          other.guildId == guildId &&
+          other.guild == guild &&
           other.code == code &&
-          other.validUntil == validUntil &&
-          other.maxUses == maxUses &&
-          other.createdById == createdById &&
-          other.createdByUserName == createdByUserName;
+          other.createdBy == createdBy;
 
   @override
   int get hashCode =>
-      id.hashCode +
-      guildId.hashCode +
-      code.hashCode +
-      (validUntil == null ? 0 : validUntil.hashCode) +
-      (maxUses == null ? 0 : maxUses.hashCode) +
-      createdById.hashCode +
-      createdByUserName.hashCode;
+      id.hashCode + guild.hashCode + code.hashCode + createdBy.hashCode;
 
   factory GuildInvitationDto.fromJson(Map<String, dynamic> json) =>
       _$GuildInvitationDtoFromJson(json);

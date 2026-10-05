@@ -1,47 +1,39 @@
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 import 'package:markdown/markdown.dart' as md;
-import 'package:api_bindings/api_bindings.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/providers/providers.dart';
+import 'package:okidoki/utils/utils.dart';
 
-class ChatMessage extends HookWidget {
-  final ChatMessageDto? message;
-  final AsyncValue<UserProfileDto>? user;
-  final GuildDto? guild;
+class UiMessage extends HookConsumerWidget {
+  final int? messageId;
+  final int? guildId;
+  final int? chatId;
   final bool compact;
-  final bool editMode;
+  final bool? editMode;
   final bool isSkeleton;
 
-  final String content;
-  final DateTime sendTime;
-  final DateTime? modifiedTime;
-
-  ChatMessage({
+  const UiMessage({
     super.key,
-    this.guild,
-    required this.message,
-    required this.user,
+    required this.messageId,
+    required this.guildId,
+    required this.chatId,
     required this.compact,
     this.editMode = false,
-  }) : content = message!.content,
+  }) : isSkeleton = false;
 
-       modifiedTime = message.modifiedTime,
-       sendTime = message.sendTime!,
-       isSkeleton = false;
-
-  ChatMessage.skeleton({super.key, this.compact = false})
-    : content = TextGen.message(),
-      guild = null,
+  const UiMessage.skeleton({super.key, this.compact = false})
+    : guildId = null,
       editMode = false,
-      message = null,
-      modifiedTime = null,
-      sendTime = TextGen.date(),
-      user = null,
+      chatId = null,
+      messageId = null,
       isSkeleton = true;
 
-  bool get isUserLoading => user?.isLoading ?? false;
-
-  Widget _userNick(BuildContext context, String? nickname) {
+  Widget _userNick(
+    BuildContext context,
+    bool isUserLoading,
+    String? nickname,
+    DateTime sendTime,
+  ) {
     return Text.rich(
       TextSpan(
         text: nickname,
@@ -49,7 +41,7 @@ class ChatMessage extends HookWidget {
         children: [
           TextSpan(text: '  '),
           TextSpan(
-            text: context.formatter.formatMessageTime(sendTime.toLocal()),
+            text: context.formatter.formatMessageTime(sendTime),
             style: context.fonts.chatDate,
           ),
         ],
@@ -57,18 +49,23 @@ class ChatMessage extends HookWidget {
     ).wrapIf(isUserLoading, (c) => Skeletonizer(child: c));
   }
 
-  Widget _userAvatar(String? profilePicture) {
+  Widget _userAvatar(bool isUserLoading, String? profilePicture) {
     return UserAvatar(
       image: profilePicture,
     ).wrapIf(isUserLoading, (c) => Skeletonizer(child: c));
   }
 
-  Widget _sendDate(BuildContext context, bool hovered) {
+  Widget _sendDate(
+    BuildContext context,
+    bool isUserLoading,
+    bool hovered,
+    DateTime sendTime,
+  ) {
     return SizedBox(
       height: 16,
       child: hovered.thenValue(
         Text(
-          context.formatter.formatTime(sendTime.toLocal()),
+          context.formatter.formatTime(sendTime),
           style: context.fonts.chatDate,
         ),
       ),
@@ -76,23 +73,33 @@ class ChatMessage extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final markdown = ThemeValues.of(context).markdownStyleSheet;
     final hovered = useState(false);
 
-    final profilePicture = user?.value?.profilePicture;
-    final nickname = user?.value?.nickname ?? TextGen.nick();
+    final message = isSkeleton
+        ? ref.watch(skeletonMessageProvider(key!))
+        : ref.watch(messageProvider(chatId!, messageId!));
 
-    final colorSet = editMode ? context.colors.warrning : context.colors.body;
+    final senderId = message.senderId;
+
+    final userProv = senderId.isNullOrZero
+        ? ref.watch(skeletonUserProfileProvider(key!))
+        : ref.watch(userProfileProvider(senderId));
+
+    final isUserLoading = userProv.isLoading;
+
+    final user =
+        userProv.value ?? ref.watch(skeletonUserProfileProvider(key!)).value;
 
     return Skeletonizer(
       enabled: isSkeleton,
       child: Container(
         decoration: BoxDecoration(
-          color: colorSet.background.mixMain(hovered.value ? 10 : 0),
-          border: colorSet == context.colors.body
-              ? null
-              : Border(left: BorderSide(color: colorSet.color, width: 4)),
+          color: context.palette.getHover(hovered.value),
+          // border: colorSet == context.palette.background
+          //     ? null
+          //     : Border(left: BorderSide(color: colorSet.background, width: 4)),
         ),
         child:
             InkWell(
@@ -106,12 +113,20 @@ class ChatMessage extends HookWidget {
                   SizedBox(
                     width: 50,
                     child: compact
-                        ? _sendDate(context, hovered.value)
-                        : _userAvatar(profilePicture).wrapIf(
-                            user?.hasValue == true && guild != null,
+                        ? _sendDate(
+                            context,
+                            isUserLoading,
+                            hovered.value,
+                            message.sent,
+                          )
+                        : _userAvatar(
+                            isUserLoading,
+                            user?.profilePicture,
+                          ).wrapIf(
+                            senderId.isNotNullOrZero && guildId != null,
                             (x) => GuildUserContextMenu(
-                              user: user!.requireValue,
-                              guild: guild!,
+                              userId: senderId,
+                              guildId: guildId!,
                               child: x,
                             ),
                           ),
@@ -120,9 +135,15 @@ class ChatMessage extends HookWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (compact == false) _userNick(context, nickname),
+                        if (compact == false)
+                          _userNick(
+                            context,
+                            isUserLoading,
+                            user?.nickname,
+                            message.sent,
+                          ),
                         MarkdownBody(
-                          data: content,
+                          data: message.content,
                           selectable: false,
                           shrinkWrap: true,
                           softLineBreak: true,
@@ -135,11 +156,11 @@ class ChatMessage extends HookWidget {
                             ],
                           ),
                         ),
-                        if (modifiedTime != null)
+                        if (message.modified != null)
                           Text(
                             context.s.chat_messageModified(
                               context.formatter.formatMessageTime(
-                                modifiedTime!,
+                                message.modified!,
                               ),
                             ),
                           ),
@@ -156,9 +177,9 @@ class ChatMessage extends HookWidget {
             //     child: c,
             //   ),
             // )
-            .wrapWith(
-              message,
-              (x, c) => MessageContextMenu(message: x, child: c),
+            .wrapIf(
+              isSkeleton == false,
+              (x) => MessageContextMenu(message: message, child: x),
             ),
       ),
     );

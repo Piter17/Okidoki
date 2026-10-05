@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart' as m show showModalBottomSheet;
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 const double _kDefaultScrollControlDisabledMaxHeightRatio = 9.0 / 16.0;
 

@@ -1,5 +1,5 @@
-// import 'package:riv/presentation/presentation.dart';
-// import 'package:riverpod_annotation/riverpod_annotation.dart';
+// import 'package:okidoki/presentation/presentation.dart';
+// import 'package:okidokierpod_annotation/riverpod_annotation.dart';
 
 // part 'roles.g.dart';
 // @riverpod

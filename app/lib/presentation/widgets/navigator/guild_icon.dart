@@ -1,10 +1,10 @@
 import 'dart:math';
 
-import 'package:api_bindings/api_bindings.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/domain/domain.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/utils/utils.dart';
 
 class GuildIcon extends HookConsumerWidget {
   const new({
@@ -18,7 +18,7 @@ class GuildIcon extends HookConsumerWidget {
       isSelected = false,
       isSkeleton = true;
 
-  final GuildProfileDto? guildProfile;
+  final Guild? guildProfile;
   final bool isSelected;
   final bool isSkeleton;
 
@@ -33,11 +33,15 @@ class GuildIcon extends HookConsumerWidget {
           NavigatorBaseItem(
             image: img,
             isSelected: isSelected,
+            backgroundColor: context.palette.tone,
             onTap: guildProfile == null
                 ? null
-                : () => ref
-                      .read(chatNavigationProvider.notifier)
-                      .openGuild(guildProfile!.id),
+                : () => context.router.push(
+                    GuildChatRoute(
+                      guildId: guildProfile!.id,
+                      channelId: guildProfile!.mainChannelId,
+                    ),
+                  ),
             onHover: hovered.set,
           ).wrapIf(
             guildProfile != null,
@@ -72,7 +76,7 @@ class SelectedGuildIndicator extends StatelessWidget {
         CustomPaint(
           painter: isSelected == false
               ? null
-              : SemicirclePainter(color: context.colors.border),
+              : SemicirclePainter(color: context.palette.hover),
           size: Size(width, height),
         ),
         child,
@@ -94,8 +98,9 @@ class DMIcon extends StatelessWidget {
       builder: (context, ref, _) {
         return NavigatorBaseItem.custom(
           isSelected: isSelected,
-          onTap: () => ref.read(chatNavigationProvider.notifier).openFriends(),
-          backgroundColor: context.colors.dark.color,
+          onTap: () => context.router.push(FriendsRoute()),
+          backgroundColor: context.palette.tone,
+          // backgroundColor: context.appColors.surfaceTonal.background,
           badgeText: unreadItems != null && unreadItems! > 0
               ? unreadItems.toString()
               : null,
@@ -111,13 +116,13 @@ class AddGuildIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => NavigatorBaseItem.custom(
-    backgroundColor: context.colors.secondary.color,
+    backgroundColor: context.palette.hover,
     onTap: () => AddGuildPage.open(context),
     child: Container(
       width: 40,
       height: 40,
       decoration: BoxDecoration(
-        color: context.colors.border,
+        color: context.palette.border,
         borderRadius: .circular(40),
       ),
       child: Icon(Icons.add),
@@ -208,10 +213,10 @@ class NavigatorBaseItem extends StatelessWidget {
             child: CustomPaint(
               size: Size.square(size),
               foregroundPainter: BadgePainter(
-                color: context.colors.secondary.background,
+                color: context.appColors.primary.color,
                 text: badgeText,
                 textStyle: context.fonts.caption1Stronger.withColor(
-                  context.colors.danger.color,
+                  context.appColors.bSecondary.background,
                 ),
               ),
               child: av,

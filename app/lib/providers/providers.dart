@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+export 'chat/chat_messages.dart';
 export 'chat/messages.dart';
-export 'chat/navigation.dart';
 export 'clients/http_client.dart';
 export 'core/router.dart';
 export 'core/secure_storage.dart';
@@ -11,6 +11,7 @@ export 'core/storage.dart';
 export 'core/theme.dart';
 export 'core/token_storage.dart';
 export 'guilds/guild.dart';
+export 'guilds/guild_users.dart';
 export 'guilds/guilds.dart';
 export 'guilds/roles.dart';
 export 'users/current_user.dart';

@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart';
+import 'package:okidoki/utils/utils.dart';
 
 @RoutePage()
 class SettingsPage extends HookWidget {
@@ -26,6 +26,11 @@ class SettingsPage extends HookWidget {
         lang: (s) => s.settings_language_and_time,
         icon: Icons.insert_chart_outlined_sharp,
         pageBuilder: (context) => LanguageSettingsPage(),
+      ),
+      SettingsTab(
+        lang: (s) => s.settings_developer_mode,
+        icon: Icons.insert_chart_outlined_sharp,
+        pageBuilder: (context) => DeveloperSettingsPage(),
       ),
       SettingsTab.button(
         lang: (x) => x.generic_logoff,
@@ -80,10 +85,14 @@ class SettingsTopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final adaptableLayout = AdaptableLayout.maybeOf(context);
     return BaseTopBar(
-      prefixIcon: Button(
-        buttonType: .primary,
-        onPressed: adaptableLayout?.backToMenu,
-        child: Text(context.s.generic_back),
+      prefixIcon: LayoutBuilder(
+        builder: (context, layout, _) => layout == .phone
+            ? Button(
+                buttonType: .primary,
+                onPressed: adaptableLayout?.backToMenu,
+                child: Text(context.s.generic_back),
+              )
+            : SizedBox.shrink(),
       ),
       title: Text(selectedMenu?.lang(S.of(context)!) ?? ""),
       actions: [

@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart' as w show LayoutBuilder;
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 typedef LayoutChangedCallback = void Function(
   LayoutType oldLayout,
@@ -11,6 +11,14 @@ typedef AdaptiveBuilder = Widget Function(
   LayoutType layoutType,
   bool isPhone,
 );
+
+// enum Orientation {
+//   landscape,
+//   portrait;
+
+//   static Orientation fromConstraints(BoxConstraints constraints) =>
+//       constraints.maxWidth > constraints.maxHeight ? .landscape : .portrait;
+// }
 
 enum LayoutType {
   phone,
@@ -27,6 +35,9 @@ enum LayoutType {
     < 800 => LayoutType.tablet,
     _ => LayoutType.desktop,
   };
+
+  static LayoutType fromConstraints(BoxConstraints constraints) =>
+      fromWidth(constraints.maxWidth);
 
   static LayoutType fromContext(BuildContext context) =>
       fromWidth(MediaQuery.sizeOf(context).width);

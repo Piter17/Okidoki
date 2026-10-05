@@ -1,6 +1,6 @@
-import 'package:riv/core/core.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
+import 'package:okidoki/core/core.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart';
 
 class LanguageSettingsPage extends HookConsumerWidget {
   const new({super.key});
@@ -11,12 +11,9 @@ class LanguageSettingsPage extends HookConsumerWidget {
 
     return BaseSettingsPage.column(
       [
-        Text(
-          context.s.settings_language_and_time,
-          style: context.fonts.largeTitle,
-        ),
+        TitleEntry(Text(context.s.settings_language_and_time)),
         DropdownEntryAlt<Language>(
-          getLabel: (item) => item.name(context.s),
+          getLabel: (item) => item?.name(context.s),
           text: Text(context.s.settings_language),
           value: settings.language,
           items: Language.list,

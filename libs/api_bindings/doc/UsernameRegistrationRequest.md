@@ -1,0 +1,15 @@
+# api_bindings.model.UsernameRegistrationRequest
+
+## Load the model package
+```dart
+import 'package:api_bindings/api.dart';
+```
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**profileName** | **String** |  | 
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

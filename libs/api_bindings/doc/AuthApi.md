@@ -5,10 +5,11 @@
 import 'package:api_bindings/api.dart';
 ```
 
-All URIs are relative to *http://okivps.polandcentral.cloudapp.azure.com*
+All URIs are relative to *http://api-dev.okidoki.fun*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**addCredentials**](AuthApi.md#addcredentials) | **POST** /api/auth/credentials | 
 [**getInfo**](AuthApi.md#getinfo) | **GET** /api/auth/manage/info | 
 [**mapIdentityApiApiAuthConfirmEmail**](AuthApi.md#mapidentityapiapiauthconfirmemail) | **GET** /api/auth/confirmEmail | 
 [**post2fa**](AuthApi.md#post2fa) | **POST** /api/auth/manage/2fa | 
@@ -18,8 +19,49 @@ Method | HTTP request | Description
 [**postRefresh**](AuthApi.md#postrefresh) | **POST** /api/auth/refresh | 
 [**postResendConfirmationEmail**](AuthApi.md#postresendconfirmationemail) | **POST** /api/auth/resendConfirmationEmail | 
 [**postResetPassword**](AuthApi.md#postresetpassword) | **POST** /api/auth/resetPassword | 
+[**register**](AuthApi.md#register) | **POST** /api/auth/registerAnonymus | 
 [**registerUser**](AuthApi.md#registeruser) | **POST** /api/auth/registerUser | 
 
+
+# **addCredentials**
+> addCredentials(addCredentialsRequest)
+
+
+
+### Example
+```dart
+import 'package:api_bindings/api.dart';
+
+final api = ApiBindings().getAuthApi();
+final AddCredentialsRequest addCredentialsRequest = ; // AddCredentialsRequest | 
+
+try {
+    api.addCredentials(addCredentialsRequest);
+} on DioException catch (e) {
+    print('Exception when calling AuthApi->addCredentials: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **addCredentialsRequest** | [**AddCredentialsRequest**](AddCredentialsRequest.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, text/json, application/*+json
+ - **Accept**: application/problem+json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getInfo**
 > InfoResponse getInfo()
@@ -390,8 +432,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **registerUser**
-> RegisterResponse registerUser(userRegisterRequest)
+# **register**
+> AccessTokenResponse register(anonymusRegistrationRequest)
 
 
 
@@ -400,10 +442,51 @@ No authorization required
 import 'package:api_bindings/api.dart';
 
 final api = ApiBindings().getAuthApi();
-final UserRegisterRequest userRegisterRequest = ; // UserRegisterRequest | 
+final AnonymusRegistrationRequest anonymusRegistrationRequest = ; // AnonymusRegistrationRequest | 
 
 try {
-    final response = api.registerUser(userRegisterRequest);
+    final response = api.register(anonymusRegistrationRequest);
+    print(response);
+} on DioException catch (e) {
+    print('Exception when calling AuthApi->register: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **anonymusRegistrationRequest** | [**AnonymusRegistrationRequest**](AnonymusRegistrationRequest.md)|  | 
+
+### Return type
+
+[**AccessTokenResponse**](AccessTokenResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, text/json, application/*+json
+ - **Accept**: application/problem+json, text/plain, application/json, text/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **registerUser**
+> RegisterResponse registerUser(registrationRequest)
+
+
+
+### Example
+```dart
+import 'package:api_bindings/api.dart';
+
+final api = ApiBindings().getAuthApi();
+final RegistrationRequest registrationRequest = ; // RegistrationRequest | 
+
+try {
+    final response = api.registerUser(registrationRequest);
     print(response);
 } on DioException catch (e) {
     print('Exception when calling AuthApi->registerUser: $e\n');
@@ -414,7 +497,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **userRegisterRequest** | [**UserRegisterRequest**](UserRegisterRequest.md)|  | 
+ **registrationRequest** | [**RegistrationRequest**](RegistrationRequest.md)|  | 
 
 ### Return type
 

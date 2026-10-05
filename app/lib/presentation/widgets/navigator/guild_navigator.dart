@@ -1,18 +1,19 @@
-import 'package:api_bindings/api_bindings.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:okidoki/domain/guild/guild.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart';
+import 'package:okidoki/utils/utils.dart';
 
 class const SideNavigatorBase({
   super.key,
   final Widget? top,
   final Widget? child,
-  required final double? bottomSpace,
 }) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StyledContainer(
-      contextStyle: .dark,
+    final bottomSpace = NavigationPaneLayoutScope.of(context).bottomSpace;
+    return Surface(
+      // contextStyle: .dark,
       child: Column(
         mainAxisAlignment: .start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,27 +33,25 @@ class const SideNavigatorBase({
 
 class const GuildNavigator({
   super.key,
-  required final String? guildId,
-  required final String? channelId,
-  required final double? bottomSpace,
+  required final int? guildId,
+  required final int? channelId,
 }) extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (guildId == null) {
-      return SideNavigatorBase(
-        bottomSpace: bottomSpace,
-      );
+      return SideNavigatorBase();
     }
 
     final guild = ref.watch(guildProvider(guildId!));
 
-    final channels = guild.value?.channels;
+    final channels = guild.value?.mapOrNull(
+      asMember: (value) => value.channels,
+    );
     final isLoading = guild.isLoading;
 
     final itemCount = isLoading ? 10 : channels?.length ?? 0;
 
     return SideNavigatorBase(
-      bottomSpace: bottomSpace,
       top: GuildHeader(guildId: guildId),
       child: Skeletonizer(
         enabled: isLoading,
@@ -68,9 +67,9 @@ class const GuildNavigator({
                   child: ChannelEntry(
                     channel,
                     channel.id == channelId,
-                    onTapOverride: () => ref
-                        .read(chatNavigationProvider.notifier)
-                        .openChannel(guildId!, channel.id),
+                    onTapOverride: () => context.router.push(
+                      GuildChatRoute(guildId: guildId!, channelId: channel.id),
+                    ),
                   ),
                 );
               },
@@ -86,14 +85,14 @@ class const GuildNavigator({
 
 class ChannelEntry extends StatelessWidget {
   final bool isSelected;
-  final String? guildId;
-  final String? channelId;
+  final int? guildId;
+  final int? channelId;
   final String? _name;
   final bool isSkeleton;
   final VoidCallback? onTapOverride;
 
   ChannelEntry(
-    GuildChannelDto channel,
+    GuildChannel channel,
     this.isSelected, {
     super.key,
     this.onTapOverride,
@@ -125,12 +124,10 @@ class ChannelEntry extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: context.values.border,
-            color: isSelected
-                ? context.colors.border
-                : context.colors.transparent,
+            color: context.palette.getHover(isSelected),
           ),
           child: InkWell(
-            hoverColor: context.colors.border,
+            hoverColor: context.palette.hover,
             onTap: onTap,
             borderRadius: context.values.borderS,
             child: Padding(
@@ -150,7 +147,7 @@ class ChannelEntry extends StatelessWidget {
   }
 }
 
-class const GuildHeader({super.key, required final String? guildId})
+class const GuildHeader({super.key, required final int? guildId})
     extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -177,9 +174,7 @@ class const GuildHeader({super.key, required final String? guildId})
                       padding: context.values.containerPadding,
                       decoration: BoxDecoration(
                         borderRadius: context.values.border,
-                        color: isHovered.value.thenValue(
-                          context.colors.borderTranslucent,
-                        ),
+                        color: context.palette.getHover(isHovered.value),
                       ),
                       child: Text(
                         guildName,

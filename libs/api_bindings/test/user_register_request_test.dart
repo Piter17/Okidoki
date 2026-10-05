@@ -1,12 +1,13 @@
 import 'package:test/test.dart';
 import 'package:api_bindings/api_bindings.dart';
 
-// tests for UserRegisterRequest
+// tests for FullRegistrationRequest
 void main() {
-  final UserRegisterRequest? instance = /* UserRegisterRequest(...) */ null;
+  final FullRegistrationRequest? instance = /* FullRegistrationRequest(...) */
+      null;
   // TODO add properties to the entity
 
-  group(UserRegisterRequest, () {
+  group(FullRegistrationRequest, () {
     // String email
     test('to test the property `email`', () async {
       // TODO

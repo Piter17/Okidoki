@@ -1,9 +1,8 @@
 import 'package:darq/darq.dart';
 
 import 'package:flutter_svg/svg.dart';
-import 'package:riv/domain/user/user_state.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/domain/user/user_state.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 class UserAvatar extends StatefulWidget {
   const UserAvatar({
@@ -44,7 +43,7 @@ class _UserAvatarState extends State<UserAvatar> {
 
   @override
   Widget build(BuildContext context) {
-    final maxRadius = widget._radius ?? 150;
+    final maxRadius = widget._radius ?? 40;
     final borderRadius = BorderRadiusGeometry.circular(50);
 
     return Align(

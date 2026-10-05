@@ -1,8 +1,10 @@
-name: Deploy Flutter Web to GitHub Pages
+name: Deploy Flutter Web to Cloudflare Pages
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - stage
 
 jobs:
   build:
@@ -27,22 +29,27 @@ jobs:
         run: flutter pub get
 
       - name: Build runner
-        run: dart run build_runner build --delete-conflicting-outputs
+        run: dart run build_runner build --force-jit
 
-      - name: Install API bindings dependencies
-        run: dart pub get
-        working-directory: libs/api_bindings
-
-      - name: Build API bindings
-        run: dart run build_runner build --delete-conflicting-outputs
-        working-directory: libs/api_bindings
+      - name: Select env
+        run: |
+          if [[ "${GITHUB_REF_NAME}" == "main" ]]; then
+            echo "API_URL=https://api.okidoki.fun/" >> $GITHUB_ENV
+            echo "APP_URL=https://okidoki.fun/" >> $GITHUB_ENV
+            echo "PROJECT_NAME=okidoki" >> $GITHUB_ENV
+          else
+            echo "API_URL=https://api-dev.okidoki.fun/" >> $GITHUB_ENV
+            echo "APP_URL=https://test.okidoki.fun/" >> $GITHUB_ENV
+            echo "PROJECT_NAME=okidoki-test" >> $GITHUB_ENV
+          fi
 
       - name: Build web
-        run: flutter build web --release --wasm
+        run: flutter build web --release --wasm --dart-define=API_URL=${API_URL} --dart-define=APP_URL=$APP_URL
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./app/build/web
-          publish_branch: gh-pages
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy ./app/build/web --project-name=$PROJECT_NAME
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}

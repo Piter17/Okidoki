@@ -19,17 +19,13 @@ public class FlutterTitlebarPlugin: NSObject, FlutterPlugin {
                 addButtons()
                 result(nil)
             case "setBackEnabled":
-                if let args = call.arguments as? [Any], args.count > 0 {
-                    if let isEnabled = args[0] as? Bool {
-                        setBackEnabled(isEnabled: isEnabled)
-                    }
+                if let isEnabled = call.arguments as? Bool {
+                    setBackEnabled(isEnabled: isEnabled)
                 }
                 result(nil)
             case "setContinueEnabled":
-                if let args = call.arguments as? [Any], args.count > 0 {
-                    if let isEnabled = args[0] as? Bool {
-                        setContinueEnabled(isEnabled: isEnabled)
-                    }
+                if let isEnabled = call.arguments as? Bool {
+                    setContinueEnabled(isEnabled: isEnabled)
                 }
                 result(nil)
             default:
@@ -59,14 +55,20 @@ public class FlutterTitlebarPlugin: NSObject, FlutterPlugin {
             )
         }
 
-        window.addTitlebarAccessoryViewController(FlutterTitlebarPlugin.backController!)
-        window.addTitlebarAccessoryViewController(FlutterTitlebarPlugin.continueController!)
+        if let backController = FlutterTitlebarPlugin.backController,
+           !window.titlebarAccessoryViewControllers.contains(where: { $0 === backController }) {
+            window.addTitlebarAccessoryViewController(backController)
+        }
+        if let continueController = FlutterTitlebarPlugin.continueController,
+           !window.titlebarAccessoryViewControllers.contains(where: { $0 === continueController }) {
+            window.addTitlebarAccessoryViewController(continueController)
+        }
     }
 
     private func setBackEnabled(isEnabled: Bool) {
-        FlutterTitlebarPlugin.backController!.button?.isEnabled = isEnabled
+        FlutterTitlebarPlugin.backController?.button?.isEnabled = isEnabled
     }
     private func setContinueEnabled(isEnabled: Bool) {
-        FlutterTitlebarPlugin.continueController!.button?.isEnabled = isEnabled
+        FlutterTitlebarPlugin.continueController?.button?.isEnabled = isEnabled
     }
 }

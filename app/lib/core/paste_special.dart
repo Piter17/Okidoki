@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 class PasteSpecialAction extends CallbackAction<PasteTextIntent> {
   final FutureOr<void> Function(dynamic file) _attachFile;

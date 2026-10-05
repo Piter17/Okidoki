@@ -1,4 +1,4 @@
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 class const BaseSettingsPage({super.key, required final Widget child})
     extends StatelessWidget {

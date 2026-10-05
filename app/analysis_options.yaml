@@ -31,8 +31,7 @@ linter:
 formatter:
   trailing_commas: preserve
 
-plugins:
-  riverpod_lint: ^3.1.8
+
 
 analyzer:
   exclude:
@@ -46,7 +45,6 @@ analyzer:
 
   errors:
     invalid_annotation_target: ignore
-
 
   enable-experiment:
     - primary-constructors
