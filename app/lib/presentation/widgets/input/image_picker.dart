@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:darq/darq.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
-import 'package:riv/core/core.dart';
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/core/core.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 class ImagePicker extends StatefulWidget {
   const new({

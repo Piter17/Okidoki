@@ -1,12 +1,9 @@
-import 'dart:math' as math;
-
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/utils/utils.dart';
 
 @RoutePage()
 class EmptyPage extends HookWidget {
@@ -65,13 +62,13 @@ class EmptyPage extends HookWidget {
 
   void b(BuildContext context) => showDialog(
     context: context,
-    barrierColor: Colors.black.withOpacity(0.6),
+    barrierColor: Colors.black.withValues(alpha: 0.6),
     builder: (_) => BlurDialog(),
   );
 
   void a(BuildContext context) => showDialog(
     context: context,
-    barrierColor: Colors.black.withOpacity(0.6),
+    barrierColor: Colors.black.withValues(alpha: 0.6),
     builder: (_) {
       return GlassModal(
         child: Column(
@@ -94,7 +91,7 @@ class EmptyPage extends HookWidget {
               decoration: InputDecoration(
                 hintText: "# nowy-kanał",
                 filled: true,
-                fillColor: Colors.white.withOpacity(0.06),
+                fillColor: Colors.white.withValues(alpha: 0.06),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -172,15 +169,15 @@ class BlurDialog extends HookWidget {
               padding: padding,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface
-                    .withOpacity(opacity.value),
+                    .withValues(alpha: opacity.value),
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: Colors.white.withOpacity(borderOpacity.value),
+                  color: Colors.white.withValues(alpha: borderOpacity.value),
                   width: 1.2,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.35),
+                    color: Colors.black.withValues(alpha: 0.35),
                     blurRadius: 40,
                     spreadRadius: -4,
                     offset: const Offset(0, 12),
@@ -239,68 +236,32 @@ class BlurDialog extends HookWidget {
 class GlassModal extends HookWidget {
   final Widget child;
   final EdgeInsets padding;
-  final double blur;
-  final double opacity;
-  final double borderOpacity;
+  final BoxConstraints constraints;
   final Duration duration;
 
   const GlassModal({
     super.key,
     required this.child,
     this.padding = const EdgeInsets.all(24),
-    this.blur = 30,
-    this.opacity = 0.12,
-    this.borderOpacity = 0.25,
+    this.constraints = const BoxConstraints(
+      maxWidth: 1500,
+      maxHeight: 900,
+      minHeight: 350,
+      minWidth: 360,
+    ),
     this.duration = const Duration(milliseconds: 240),
   });
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Dialog(
       backgroundColor: Colors.transparent,
-      constraints: BoxConstraints.tightFor(
-        width: 400,
-        height: 300,
-      ),
+      constraints: constraints,
       child: Center(
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
-            child: Container(
-              padding: padding,
-              decoration: BoxDecoration(
-                color: theme.colorScheme.surface.withOpacity(opacity),
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: Colors.white.withOpacity(borderOpacity),
-                  width: 1.2,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.35),
-                    blurRadius: 40,
-                    spreadRadius: -4,
-                    offset: const Offset(0, 12),
-                  ),
-                ],
-              ),
-              child: child,
-            ),
-          ),
+        child: GlassSurface(
+          child: child,
         ),
       ),
     );
-
-    // return FadeTransition(
-    //   opacity: animation,
-    //   child: ScaleTransition(
-    //     scale: Tween<double>(begin: 0.95, end: 1.0).animate(animation),
-    //     child:
-
-    //   ),
-    // );
   }
 }

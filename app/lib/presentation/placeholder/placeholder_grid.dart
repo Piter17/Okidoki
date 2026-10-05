@@ -1,4 +1,4 @@
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 class const PlaceholderGrid({
   super.key,

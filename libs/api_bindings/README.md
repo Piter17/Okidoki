@@ -98,6 +98,7 @@ Class | Method | HTTP request | Description
 [*GuildsApi*](doc/GuildsApi.md) | [**getGuildById**](doc/GuildsApi.md#getguildbyid) | **GET** /api/Guilds/{guildId} | 
 [*GuildsApi*](doc/GuildsApi.md) | [**getGuildsForUser**](doc/GuildsApi.md#getguildsforuser) | **GET** /api/Guilds/user | 
 [*GuildsApi*](doc/GuildsApi.md) | [**getInvitation**](doc/GuildsApi.md#getinvitation) | **GET** /api/Guilds/invites/{invitationCode} | 
+[*GuildsApi*](doc/GuildsApi.md) | [**getUserList**](doc/GuildsApi.md#getuserlist) | **GET** /api/Guilds/{guildId}/userList | 
 [*GuildsApi*](doc/GuildsApi.md) | [**kickUser**](doc/GuildsApi.md#kickuser) | **DELETE** /api/Guilds/{guildId}/users/{userId} | 
 [*GuildsApi*](doc/GuildsApi.md) | [**leaveGuild**](doc/GuildsApi.md#leaveguild) | **DELETE** /api/Guilds/{guildId}/membership | 
 [*GuildsApi*](doc/GuildsApi.md) | [**removeChannel**](doc/GuildsApi.md#removechannel) | **DELETE** /api/Guilds/{guildId}/channels/{channelId} | 

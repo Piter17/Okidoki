@@ -2,10 +2,10 @@ import 'dart:ui';
 
 import 'package:darq/darq.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:riv/core/core.dart';
+import 'package:okidoki/core/core.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:riv/core/core.dart' as c;
+import 'package:okidoki/core/core.dart' as c;
 
 part 'settings.g.dart';
 
@@ -82,7 +82,9 @@ class AppSettingsNotifier extends Notifier<c.Settings> {
       color: Color(_prefs.getInt('color') ?? 0xff0d6efd),
       darkMode: _prefs.getBool('darkMode') ?? false,
       navigatorWidth: _prefs.getDouble("navigatorWidth") ?? 234,
+      isUserListVisible: _prefs.getBool("isUserListVisible") ?? true,
       language: Language.fromStorage(_prefs.getString('languageCode') ?? "pl"),
+      developerMode: _prefs.getBool("developerMode") ?? false,
     );
     return s;
   }
@@ -94,7 +96,7 @@ class AppSettingsNotifier extends Notifier<c.Settings> {
 
   Future<void> setColor(Color value) async {
     state = state.copyWith(color: value);
-    await _prefs.setInt('setColor', value.toARGB32());
+    await _prefs.setInt('color', value.toARGB32());
   }
 
   Future<void> setNavigatorWidth(double value) async {
@@ -102,8 +104,18 @@ class AppSettingsNotifier extends Notifier<c.Settings> {
     await _prefs.setDouble('navigatorWidth', value);
   }
 
+  Future<void> setUserListVisible(bool isUserListVisible) async {
+    state = state.copyWith(isUserListVisible: isUserListVisible);
+    await _prefs.setBool('isUserListVisible', isUserListVisible);
+  }
+
   Future<void> setLanguage(Language lang) async {
     state = state.copyWith(language: lang);
     await _prefs.setString('languageCode', lang.forStorage());
+  }
+
+  Future<void> setDeveloperMode(bool developerMode) async {
+    state = state.copyWith(developerMode: developerMode);
+    await _prefs.setBool('developerMode', developerMode);
   }
 }

@@ -22,14 +22,14 @@ class $LibGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  /// File path: assets/images/background.svg
-  String get background => 'assets/images/background.svg';
-
   /// File path: assets/images/logo.svg
   String get logo => 'assets/images/logo.svg';
 
+  /// File path: assets/images/logo2.svg
+  String get logo2 => 'assets/images/logo2.svg';
+
   /// List of all assets
-  List<String> get values => [background, logo];
+  List<String> get values => [logo, logo2];
 }
 
 abstract final class Assets {

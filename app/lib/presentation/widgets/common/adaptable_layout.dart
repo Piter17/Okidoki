@@ -1,5 +1,5 @@
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/utils/utils.dart';
 
 class const AdaptableLayout({
   super.key,
@@ -56,6 +56,7 @@ class AdaptableLayoutState extends State<AdaptableLayout> {
                 width: 250,
                 child: widget.navigator,
               ),
+              Divider.shrink(),
               Expanded(
                 child: BaseMainScreen(
                   topBar: widget.topBar,

@@ -1,11 +1,11 @@
-import 'package:riv/mutations/mutations.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/mutations/mutations.dart';
+import 'package:okidoki/utils/utils.dart';
 
 class FriendMutations {
   static Mutation<void> getSendInviteById() => Mutation<void>();
-  static MutationCallback<void> sendInviteByIdCb(String id) =>
+  static MutationCallback<void> sendInviteByIdCb(int id) =>
       (tsx) => tsx.callApi(
-        (x) => x.getFriendsApi().sendRequestById(userId: id),
+        (x) => x.getFriendsApi().sendRequestById(userId: id.toString()),
         errorText: "",
       );
 
@@ -16,23 +16,23 @@ class FriendMutations {
         errorText: "",
       );
   static Mutation<void> getAcceptInvite() => Mutation<void>();
-  static MutationCallback<void> acceptInviteCb(String id) =>
+  static MutationCallback<void> acceptInviteCb(int id) =>
       (tsx) => tsx.callApi(
-        (x) => x.getFriendsApi().acceptRequest(senderId: id),
+        (x) => x.getFriendsApi().acceptRequest(senderId: id.toString()),
         errorText: "",
       );
 
   static Mutation<void> getDeclineInvite() => Mutation<void>();
-  static MutationCallback<void> declineInviteCb(String id) =>
+  static MutationCallback<void> declineInviteCb(int id) =>
       (tsx) => tsx.callApi(
-        (x) => x.getFriendsApi().declineRequest(senderId: id),
+        (x) => x.getFriendsApi().declineRequest(senderId: id.toString()),
         errorText: "",
       );
 
   static Mutation<void> getRevokeFriendInvite() => Mutation<void>();
-  static MutationCallback<void> revokeFriendInviteCb(String id) =>
+  static MutationCallback<void> revokeFriendInviteCb(int id) =>
       (tsx) => tsx.callApi(
-        (x) => x.getFriendsApi().revokeRequest(targetId: id),
+        (x) => x.getFriendsApi().revokeRequest(targetId: id.toString()),
         errorText: "",
       );
 }

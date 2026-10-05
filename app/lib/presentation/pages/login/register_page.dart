@@ -1,7 +1,7 @@
 import 'package:api_bindings/api_bindings.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/mutations/mutations.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/mutations/mutations.dart';
 
 abstract class FormGroupMutation<T> extends FormGroup {
   new(super.controls);

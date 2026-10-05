@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 // ignore: unnecessary_import
-import 'package:riv/presentation/routers/router_config.gr.dart';
-import 'package:riv/providers/providers.dart';
+import 'package:okidoki/presentation/routers/router_config.gr.dart';
+import 'package:okidoki/providers/providers.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')
 class AppRouter extends RootStackRouter {
@@ -10,8 +10,9 @@ class AppRouter extends RootStackRouter {
   AppRouter(this.ref);
 
   @override
-  RouteType get defaultRouteType => RouteType.material(); //.cupertino, .adaptive ..etc
-
+  RouteType get defaultRouteType => RouteType.custom(
+    transitionsBuilder: TransitionsBuilders.noTransition,
+  );
   @override
   List<AutoRoute> get routes => [
     AutoRoute(
@@ -19,6 +20,7 @@ class AppRouter extends RootStackRouter {
       path: '/',
 
       guards: [AuthGuard(ref)],
+      type: RouteType.material(),
       children: [
         AutoRoute(
           page: EmptyRoute.page,
@@ -58,9 +60,6 @@ class AppRouter extends RootStackRouter {
 
   @override
   List<AutoRouteGuard> get guards => [];
-
-  static AppRouter of(BuildContext context, {bool watch = false}) =>
-      AutoRouter.of(context, watch: watch) as AppRouter;
 }
 
 class AuthGuard extends AutoRouteGuard {

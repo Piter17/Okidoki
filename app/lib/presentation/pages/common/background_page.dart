@@ -1,9 +1,7 @@
 import 'dart:ui';
-import 'dart:ui' as ui;
 
-import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 class const BackDropS({
   super.key,
@@ -62,12 +60,6 @@ class const BackgroundPage({
         };
         return Stack(
           children: [
-            // Animowane tło
-            // AnimatedBackground(),
-            // PlaceholderGrid(),
-            // GlassSurface(
-            //   child: SizedBox.expand(),
-            // ),
             Align(
               child: Padding(padding: .all(16), child: view),
             ),

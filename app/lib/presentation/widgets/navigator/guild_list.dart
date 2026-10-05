@@ -1,5 +1,5 @@
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart';
 import 'package:auto_route/auto_route.dart';
 
 class const GuildList({
@@ -9,7 +9,7 @@ class const GuildList({
   Widget build(BuildContext context, WidgetRef ref) {
     final guilds = ref.watch(guildsProvider);
     final current = AutoRouter.of(context, watch: true).currentChild;
-    final selectedGuildId = current?.params.optString('guildId');
+    final selectedGuildId = current?.params.optInt('guildId');
     final isFriendsSelected = current?.name == FriendsRoute.name;
 
     // final itemCount = guilds.isLoading ? 10 : guilds.requireValue.length;

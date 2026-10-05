@@ -1,4 +1,4 @@
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 Future<T?> showResponsivePopup<T>({
   required BuildContext context,
@@ -22,7 +22,7 @@ Future<T?> showResponsivePopup<T>({
   }
 
   Widget effectiveDialogBuilder(BuildContext context) {
-    return Dialog(
+    return GlassModal(
       constraints: dialogConstraints,
       child: builder(context),
     );

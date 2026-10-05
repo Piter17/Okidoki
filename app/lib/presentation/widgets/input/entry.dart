@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/utils/utils.dart';
 
 class Entry extends HookWidget {
   final Widget text;

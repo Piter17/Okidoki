@@ -1,14 +1,14 @@
 import 'package:hooks_riverpod/experimental/mutation.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/mutations/mutations/guild/guild_mutations.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/mutations/mutations/guild/guild_mutations.dart';
+import 'package:okidoki/utils/utils.dart';
 
 class AddChannelDialog extends HookConsumerWidget {
   const AddChannelDialog({super.key, required this.guildId});
 
-  final String guildId;
+  final int guildId;
 
-  static Future<void> open(BuildContext context, String guildId) {
+  static Future<void> open(BuildContext context, int guildId) {
     return showResponsivePopup(
       context: context,
       showDragHandle: true,

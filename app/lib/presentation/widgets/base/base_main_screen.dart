@@ -1,5 +1,5 @@
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/utils/utils.dart';
 
 class BaseMainScreen extends StatefulWidget {
   final Widget? topBar;
@@ -21,26 +21,6 @@ class BaseMainScreen extends StatefulWidget {
   @override
   State<BaseMainScreen> createState() => BaseMainScreenState();
 }
-
-// class BaseMainScreenState extends State<BaseMainScreen> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Surface(
-//       borderRadius: context.values.borderXL,
-//       child: Column(
-//         children: [
-//           SizedBox(
-//             height: context.values.topBarHeight,
-//             child: widget.topBar,
-//           ),
-//           Divider.shrink(),
-//           Expanded(child: widget.body),
-//           ?widget.bottom,
-//         ],
-//       ),
-//     );
-//   }
-// }
 
 class BaseMainScreenState extends State<BaseMainScreen> {
   @override

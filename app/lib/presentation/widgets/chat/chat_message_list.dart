@@ -1,8 +1,10 @@
 import 'dart:collection';
+import 'dart:ui';
 
 import 'package:api_bindings/api_bindings.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
+import 'package:okidoki/domain/domain.dart' as domain;
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart';
 
 typedef LoadPageFunc = Future<List<ChatMessageDto>> Function(
   String? pageId,
@@ -12,19 +14,19 @@ typedef LoadPageFunc = Future<List<ChatMessageDto>> Function(
 class ChatListNotification extends Notification {}
 
 class ChatEditMessageNotification extends ChatListNotification {
-  final String messageId;
+  final int messageId;
 
   ChatEditMessageNotification(this.messageId);
 }
 
 class ChatMessageList extends ConsumerStatefulWidget {
-  final LoadPageFunc loadPage;
-  final GuildDto? guild;
+  final domain.Guild? guild;
+  final int channelId;
   final Widget? bottom;
 
   const ChatMessageList({
     super.key,
-    required this.loadPage,
+    required this.channelId,
     required this.guild,
     this.bottom,
   });
@@ -37,18 +39,7 @@ class _ChatMessageListState extends ConsumerState<ChatMessageList> {
   final ScrollController _scrollController = ScrollController();
   ProviderSubscription<AsyncValue<RealTimeEvent>>? _signalrSubscription;
 
-  final _items = SplayTreeMap<String, ChatMessageDto>(
-    (key1, key2) => key2.compareTo(key1),
-  );
-
-  bool _isLoadingPrevious = false;
-  bool _isLoadingNext = false;
-  bool _hasOlder = true;
-  bool _hasNewer = true;
-
-  String? _oldestLoadedMessageId;
-  String? _newestLoadedMessageId;
-  String? _editingMessageId;
+  int? _editingMessageId;
 
   static const double _edgeThreshold = 300;
 
@@ -57,40 +48,31 @@ class _ChatMessageListState extends ConsumerState<ChatMessageList> {
     super.initState();
     _scrollController.addListener(_onScroll);
 
-    _signalrSubscription = ref.listenManual<AsyncValue<RealTimeEvent>>(
-      signalrGatewayProvider,
-      (_, next) {
-        next.when(
-          data: (event) {
-            if (!mounted) return;
+    // _signalrSubscription = ref.listenManual<AsyncValue<RealTimeEvent>>(
+    //   signalrGatewayProvider,
+    //   (_, next) {
+    //     next.when(
+    //       data: (event) {
+    //         if (!mounted) return;
 
-            setState(() {
-              switch (event) {
-                case MessageReceived(:final message):
-                  _items.putIfAbsent(message.id, () => message);
-
-                case MessageEdited(:final message):
-                  _items.update(
-                    message.id,
-                    (_) => message,
-                    ifAbsent: () => message,
-                  );
-
-                case MessageDeleted(:final id):
-                  _items.remove(id);
-
-                case RealTimeEvent():
-                  break;
-              }
-            });
-          },
-          error: (_, _) {},
-          loading: () {},
-        );
-      },
-    );
-
-    _loadPreviousPage();
+    //         setState(() {
+    //           switch (event) {
+    //             case Typing(
+    //               :final channelId,
+    //               :final userId,
+    //               :final dateTime,
+    //             ):
+    //               print(
+    //                 "Typing event: channelId=$channelId, userId=$userId, dateTime=$dateTime",
+    //               );
+    //           }
+    //         });
+    //       },
+    //       error: (_, _) {},
+    //       loading: () {},
+    //     );
+    //   },
+    // );
   }
 
   @override
@@ -109,77 +91,11 @@ class _ChatMessageListState extends ConsumerState<ChatMessageList> {
     final maxScroll = position.maxScrollExtent;
 
     if (pixels <= _edgeThreshold) {
-      _loadPreviousPage();
+      ref.read(chatProvider(widget.channelId).notifier).loadMore();
     }
 
     if (maxScroll - pixels <= _edgeThreshold) {
-      _loadNextPage();
-    }
-  }
-
-  Future<void> _loadPreviousPage() async {
-    await _loadMessagesPage(loadOlder: true);
-  }
-
-  Future<void> _loadNextPage() async {
-    await _loadMessagesPage(loadOlder: false);
-  }
-
-  Future<void> _loadMessagesPage({required bool loadOlder}) async {
-    final boundaryMessageId = loadOlder
-        ? _oldestLoadedMessageId
-        : _newestLoadedMessageId;
-    final isLoading = loadOlder ? _isLoadingPrevious : _isLoadingNext;
-    final hasMore = loadOlder ? _hasOlder : _hasNewer;
-
-    if (isLoading || !hasMore) return;
-
-    if (loadOlder) {
-      _isLoadingPrevious = true;
-    } else {
-      _isLoadingNext = true;
-    }
-
-    try {
-      final messages = await widget.loadPage(boundaryMessageId, !loadOlder);
-
-      if (!mounted) return;
-
-      setState(() {
-        if (messages.isNotEmpty) {
-          _items.addAll({for (final message in messages) message.id: message});
-
-          final oldestLoadedMessageId = _items.lastKey();
-          final newestLoadedMessageId = _items.firstKey();
-
-          if (loadOlder) {
-            _oldestLoadedMessageId = oldestLoadedMessageId;
-            _newestLoadedMessageId ??= newestLoadedMessageId;
-          } else {
-            _newestLoadedMessageId = newestLoadedMessageId;
-            _oldestLoadedMessageId ??= oldestLoadedMessageId;
-          }
-        }
-
-        if (loadOlder) {
-          _hasOlder = messages.isNotEmpty;
-        } else {
-          _hasNewer = messages.isNotEmpty;
-        }
-      });
-
-      WidgetsBinding.instance.addPostFrameCallback(
-        (_) => _fillViewportIfNeeded(),
-      );
-    } catch (error, stackTrace) {
-      debugPrint('Failed to load chat messages: $error');
-      debugPrintStack(stackTrace: stackTrace);
-    } finally {
-      if (loadOlder) {
-        _isLoadingPrevious = false;
-      } else {
-        _isLoadingNext = false;
-      }
+      ref.read(chatProvider(widget.channelId).notifier).loadMore();
     }
   }
 
@@ -187,15 +103,14 @@ class _ChatMessageListState extends ConsumerState<ChatMessageList> {
     if (!mounted || !_scrollController.hasClients) return;
 
     if (_scrollController.position.maxScrollExtent <= 0) {
-      if (_hasOlder) _loadPreviousPage();
-      if (_hasNewer) _loadNextPage();
+      ref.read(chatProvider(widget.channelId).notifier).loadMore();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    var first = null;
-    var last = null;
+    final chat = ref.watch(chatProvider(widget.channelId));
+
     final r = NotificationListener<ChatListNotification>(
       onNotification: (notification) {
         if (notification is ChatEditMessageNotification) {
@@ -207,128 +122,64 @@ class _ChatMessageListState extends ConsumerState<ChatMessageList> {
 
         return false;
       },
-      child: false
-          ? CustomScrollView(
+      child: Column(
+        children: [
+          Expanded(
+            child: CustomScrollView(
               reverse: true,
               controller: _scrollController,
               slivers: [
-                SliverToBoxAdapter(
-                  child: first == null ? widget.bottom : null,
+                SliverList.builder(
+                  itemCount: chat.messages.length,
+                  itemBuilder: (context, index) {
+                    final msg = chat[index]!;
+                    final prev = chat[index + 1];
+
+                    final compact =
+                        prev != null &&
+                        msg.senderId == prev.senderId &&
+                        msg.sent.difference(prev.sent) <
+                            const Duration(minutes: 5);
+
+                    return UiMessage(
+                      key: ValueKey(msg.id),
+                      compact: compact,
+                      editMode: false,
+                      chatId: widget.channelId,
+                      guildId: widget.guild?.id,
+                      messageId: msg.id,
+                    );
+
+                    // return UiMessage(
+                    //   compact: compact,
+                    //   content: msg.content,
+                    //   sendTime: msg.sent,
+                    //   senderId: msg.senderId,
+                    //   editMode: false,
+                    //   guildId: widget.guild?.id,
+                    //   modifiedTime: msg.modified,
+                    //   key: ValueKey(id),
+                    //   messageId: id,
+                    // );
+                  },
                 ),
-                // const SliverToBoxAdapter(child: Space()),
-                SliverFillRemaining(
-                  child: SliverList.builder(
-                    itemCount: _items.length,
-
-                    itemBuilder: (ctx, idx) {
-                      first ??= idx;
-                      last = idx;
-                      print("first: $first, last: $last");
-
-                      // print(
-                      //   '* idx: $idx, item: ${_items.entries.elementAt(idx).value}',
-                      // );
-                      final item = _items.entries.elementAt(idx).value;
-
-                      // final sender = ref.watch(
-                      //   userProfileProvider(item.senderId),
-                      // );
-
-                      final previousMessage = _items.entries
-                          .elementAtOrNull(idx + 1)
-                          ?.value;
-
-                      final compact =
-                          previousMessage != null &&
-                          item.senderId == previousMessage.senderId &&
-                          item.sendTime!.difference(previousMessage.sendTime!) <
-                              const Duration(minutes: 5);
-
-                      return ChatMessage(
-                        key: ValueKey(item.id),
-                        messageId: item.id,
-                        sendTime: item.sendTime!,
-                        senderId: item.senderId,
-                        compact: compact,
-                        editMode: item.id == _editingMessageId,
-                        guildId: widget.guild?.id,
-                        content: item.content,
-                      );
-                    },
+                if (chat.isLoadingMore)
+                  SliverList.builder(
+                    itemCount: 10,
+                    itemBuilder: (_, index) =>
+                        UiMessage.skeleton(key: ValueKey(index)),
                   ),
-                ),
-                // if (_isLoadingPrevious)
-                //   SliverList.builder(
-                //     itemCount: 10,
-                //     itemBuilder: (_, index) =>
-                //         ChatMessage.skeleton(key: ValueKey(index)),
-                //   ),
-              ],
-            )
-          : Column(
-              children: [
-                Expanded(
-                  child: CustomScrollView(
-                    reverse: true,
-                    controller: _scrollController,
-                    slivers: [
-                      // SliverToBoxAdapter()
-                      // const SliverToBoxAdapter(child: Space()),
-                      SliverList.builder(
-                        itemCount: _items.length,
-
-                        itemBuilder: (ctx, idx) {
-                          first ??= idx;
-                          last = idx;
-                          print("first: $first, last: $last");
-
-                          // print(
-                          //   '* idx: $idx, item: ${_items.entries.elementAt(idx).value}',
-                          // );
-                          final item = _items.entries.elementAt(idx).value;
-
-                          // final sender = ref.watch(
-                          //   userProfileProvider(item.senderId),
-                          // );
-
-                          final previousMessage = _items.entries
-                              .elementAtOrNull(idx + 1)
-                              ?.value;
-
-                          final compact =
-                              previousMessage != null &&
-                              item.senderId == previousMessage.senderId &&
-                              item.sendTime!.difference(
-                                    previousMessage.sendTime!,
-                                  ) <
-                                  const Duration(minutes: 5);
-
-                          return ChatMessage(
-                            key: ValueKey(item.id),
-                            messageId: item.id,
-                            sendTime: item.sendTime!,
-                            senderId: item.senderId,
-                            compact: compact,
-                            editMode: item.id == _editingMessageId,
-                            guildId: widget.guild?.id,
-                            content: item.content,
-                          );
-                        },
-                      ),
-                      if (_isLoadingPrevious)
-                        SliverList.builder(
-                          itemCount: 10,
-                          itemBuilder: (_, index) =>
-                              ChatMessage.skeleton(key: ValueKey(index)),
-                        ),
-                    ],
-                  ),
-                ),
-                ?widget.bottom,
               ],
             ),
+          ),
+          if (widget.bottom != null)
+            Padding(
+              padding: context.values.chatMessageEntryPadding,
+              child: widget.bottom,
+            ),
+        ],
+      ),
     );
-    print("first: $first, last: $last");
     return r;
   }
 }

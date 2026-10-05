@@ -13,7 +13,7 @@ dependencies:
   json_annotation: '^4.12.0'
 
 dev_dependencies:
-  analyzer: '>=13.3.0 <14.0.0'
+  analyzer: ^13.3.0
   build: any
   build_runner: any
   glob: any

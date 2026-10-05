@@ -1,9 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:api_bindings/api_bindings.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
-import 'package:riv/mutations/mutations.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/domain/domain.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart';
+import 'package:okidoki/mutations/mutations.dart';
+import 'package:okidoki/utils/utils.dart';
 
 @RoutePage()
 class FriendsPage extends HookConsumerWidget {
@@ -77,12 +78,12 @@ class FriendsTopBar extends BaseTopBar {
 class ReceivedFriendRequestEntry extends ConsumerWidget {
   const new({
     super.key,
-    required ReceivedRequestDto this.request,
+    required ReceivedRequest this.request,
   });
 
   const new skeleton({super.key}) : request = null;
 
-  final ReceivedRequestDto? request;
+  final ReceivedRequest? request;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -90,8 +91,8 @@ class ReceivedFriendRequestEntry extends ConsumerWidget {
     mutation.showPopupOnError(context, ref);
     return BaseFriendRequestEntry(
       profilePicture: request?.sender.profilePicture,
-      nickname: request?.sender.nickname! ?? TextGen.nick(),
-      username: request?.sender.userName! ?? TextGen.nick(),
+      nickname: request?.sender.nickname ?? TextGen.nick(),
+      username: request?.sender.userName ?? TextGen.nick(),
       hasAcceptButton: true,
       accept: request == null
           ? null
@@ -107,19 +108,19 @@ class ReceivedFriendRequestEntry extends ConsumerWidget {
 class SentFriendRequestEntry extends StatelessWidget {
   const new({
     super.key,
-    required SentRequestDto this.request,
+    required SentRequest this.request,
   });
 
   const new skeleton({super.key}) : request = null;
 
-  final SentRequestDto? request;
+  final SentRequest? request;
 
   @override
   Widget build(BuildContext context) {
     return BaseFriendRequestEntry(
       profilePicture: request?.target.profilePicture,
-      nickname: request?.target.nickname! ?? TextGen.nick(),
-      username: request?.target.userName! ?? TextGen.nick(),
+      nickname: request?.target.nickname ?? TextGen.nick(),
+      username: request?.target.userName ?? TextGen.nick(),
       decline: request == null ? null : () {},
     );
   }

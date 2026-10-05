@@ -1,9 +1,9 @@
-import 'package:api_bindings/api_bindings.dart';
 import 'package:flutter_context_menu/flutter_context_menu.dart';
-import 'package:riv/presentation/presentation.dart' hide ChatMessage;
-import 'package:riv/providers/providers.dart';
-import 'package:riv/mutations/mutations.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/presentation/presentation.dart' hide UiMessage;
+import 'package:okidoki/providers/providers.dart';
+import 'package:okidoki/mutations/mutations.dart';
+import 'package:okidoki/utils/utils.dart';
+import 'package:okidoki/domain/domain.dart' as domain;
 
 abstract class ContextMenuButton<TMenu> extends HookConsumerWidget {
   final Widget child;
@@ -42,7 +42,7 @@ class GuildIconContextMenu extends ContextMenuButton {
     required this.guild,
   });
 
-  final GuildProfileDto guild;
+  final domain.Guild guild;
 
   @override
   ContextMenu getMenu(BuildContext context, WidgetRef ref) {
@@ -55,7 +55,7 @@ class GuildIconContextMenu extends ContextMenuButton {
           label: Text(context.s.guild_add_channel),
         ),
         MenuItem(
-          onSelected: (value) => ClipboardHelpers.setText(guild.id),
+          onSelected: (value) => ClipboardHelpers.setText(guild.id.toString()),
           label: Text(context.s.generic_copy_id),
         ),
       ],
@@ -70,7 +70,7 @@ class ChannelEntryIconContextMenu extends ContextMenuButton {
     required this.channel,
   });
 
-  final GuildChannelDto channel;
+  final domain.GuildChannel channel;
 
   @override
   ContextMenu getMenu(BuildContext context, WidgetRef ref) {
@@ -106,7 +106,7 @@ class MessageContextMenu extends ContextMenuButton {
     required super.child,
   });
 
-  final ChatMessageDto message;
+  final domain.ChatMessage message;
 
   @override
   ContextMenu getMenu(BuildContext context, WidgetRef ref) {
@@ -120,7 +120,7 @@ class MessageContextMenu extends ContextMenuButton {
           },
           label: Text(context.s.generic_edit),
         ),
-        if (message.senderId == user!.userId)
+        if (message.senderId == user!.id)
           MenuItem(
             onSelected: (value) {
               deleteMutation.run(
@@ -147,7 +147,7 @@ class GuildHeaderContextMenu extends ContextMenuButton {
     required this.guild,
   });
 
-  final GuildDto guild;
+  final domain.Guild guild;
 
   @override
   ContextMenu getMenu(BuildContext context, WidgetRef ref) {
@@ -172,7 +172,7 @@ class GuildHeaderContextMenu extends ContextMenuButton {
         MenuItem(
           label: Text(context.s.generic_copy_id),
           onSelected: (value) {
-            ClipboardHelpers.setText(guild.id);
+            ClipboardHelpers.setText(guild.id.toString());
           },
         ),
       ],
@@ -188,8 +188,8 @@ class GuildUserContextMenu extends ContextMenuButton {
     required this.userId,
   });
 
-  final String guildId;
-  final String userId;
+  final int guildId;
+  final int userId;
 
   @override
   ContextMenu getMenu(BuildContext context, WidgetRef ref) {
@@ -220,7 +220,7 @@ class GuildUserContextMenu extends ContextMenuButton {
         MenuItem(
           label: Text(context.s.generic_copy_id),
           onSelected: (value) {
-            ClipboardHelpers.setText(guildId);
+            ClipboardHelpers.setText(guildId.toString());
           },
         ),
       ],
@@ -228,29 +228,30 @@ class GuildUserContextMenu extends ContextMenuButton {
   }
 }
 
-// class SelectColorMenu<T> extends ContextMenuButton {
-//   const new({
-//     super.key,
-//     required super.child,
-//     required this.possibleValues,
-//     required this.value,
-//   });
+class ChatContextMenu extends ContextMenuButton {
+  const ChatContextMenu({
+    super.key,
+    required super.child,
+    required this.chatId,
+  });
 
-//   final Map<T, Widget Function(BuildContext)> possibleValues;
-//   final T? value;
+  final int chatId;
 
-//   @override
-//   ValueChanged<dynamic>? get onItemSelected => (value) {};
-
-//   @override
-//   ContextMenu getMenu(BuildContext context, WidgetRef ref) {
-//     return ContextMenu(
-//       entries: possibleValues.entries.map(
-//         (x) => MenuItem(
-//             label: Text(""),
-//             icon: Icon(Icons.radio_button_checked),
-//         ),
-//       ).toList(),
-//     );
-//   }
-// }
+  @override
+  ContextMenu getMenu(BuildContext context, WidgetRef ref) {
+    return ContextMenu(
+      entries: [
+        MenuItem(
+          label: Text(context.s.debug_reload),
+          onSelected: (value) => ref.invalidate(chatProvider(chatId)),
+        ),
+        MenuItem(
+          label: Text(context.s.generic_copy_id),
+          onSelected: (value) {
+            ClipboardHelpers.setText(chatId.toString());
+          },
+        ),
+      ],
+    );
+  }
+}

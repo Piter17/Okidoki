@@ -1,6 +1,6 @@
 import 'package:api_bindings/api_bindings.dart';
-import 'package:riv/mutations/mutations.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/mutations/mutations.dart';
+import 'package:okidoki/utils/utils.dart';
 
 class ChatMutations {
   static Mutation<ChatMessageDto> getSendMessage() =>
@@ -37,10 +37,10 @@ class ChatMutations {
 
   static Mutation<void> getDeleteMessage() => Mutation<void>();
   static MutationCallback<void> deleteMessageCb({
-    required String messageId,
+    required int messageId,
   }) =>
       (tsx) => tsx.callApi(
-        (x) => x.getChatApi().deleteMessage(messageId: messageId),
+        (x) => x.getChatApi().deleteMessage(messageId: messageId.toString()),
         errorText: "Failed to delete message $messageId",
       );
 }

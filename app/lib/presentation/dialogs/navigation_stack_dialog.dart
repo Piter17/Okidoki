@@ -1,6 +1,6 @@
-// import 'package:riv/presentation/presentation.dart';
-// import 'package:riv/providers/providers.dart';
-// import 'package:riv/utils/utils.dart';
+// import 'package:okidoki/presentation/presentation.dart';
+// import 'package:okidoki/providers/providers.dart';
+// import 'package:okidoki/utils/utils.dart';
 
 // class NavigationStackDialog extends HookConsumerWidget {
 //   const NavigationStackDialog({

@@ -1,6 +1,6 @@
-import 'package:riv/core/core.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
+import 'package:okidoki/core/core.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart';
 
 class LanguageSettingsPage extends HookConsumerWidget {
   const new({super.key});

@@ -18,6 +18,7 @@ Method | HTTP request | Description
 [**getGuildById**](GuildsApi.md#getguildbyid) | **GET** /api/Guilds/{guildId} | 
 [**getGuildsForUser**](GuildsApi.md#getguildsforuser) | **GET** /api/Guilds/user | 
 [**getInvitation**](GuildsApi.md#getinvitation) | **GET** /api/Guilds/invites/{invitationCode} | 
+[**getUserList**](GuildsApi.md#getuserlist) | **GET** /api/Guilds/{guildId}/userList | 
 [**kickUser**](GuildsApi.md#kickuser) | **DELETE** /api/Guilds/{guildId}/users/{userId} | 
 [**leaveGuild**](GuildsApi.md#leaveguild) | **DELETE** /api/Guilds/{guildId}/membership | 
 [**removeChannel**](GuildsApi.md#removechannel) | **DELETE** /api/Guilds/{guildId}/channels/{channelId} | 
@@ -389,6 +390,47 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**GuildInvitationDto**](GuildInvitationDto.md)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getUserList**
+> List<UserProfileDto> getUserList(guildId)
+
+
+
+### Example
+```dart
+import 'package:api_bindings/api.dart';
+
+final api = ApiBindings().getGuildsApi();
+final String guildId = guildId_example; // String | 
+
+try {
+    final response = api.getUserList(guildId);
+    print(response);
+} on DioException catch (e) {
+    print('Exception when calling GuildsApi->getUserList: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **guildId** | **String**|  | 
+
+### Return type
+
+[**List&lt;UserProfileDto&gt;**](UserProfileDto.md)
 
 ### Authorization
 

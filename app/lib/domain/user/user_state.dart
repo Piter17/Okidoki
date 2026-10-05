@@ -1,4 +1,4 @@
-import 'package:riv/l10n/app_localizations.dart';
+import '../../../l10n/app_localizations.dart';
 
 enum UserState {
   offline,

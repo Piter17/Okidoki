@@ -1,17 +1,17 @@
 import 'package:api_bindings/api_bindings.dart';
 import 'package:hooks_riverpod/experimental/mutation.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart';
+import 'package:okidoki/utils/utils.dart';
 
 final createInvitationMutation = Mutation<GuildInvitationDto>();
 
 class GuildInvitePopup extends HookConsumerWidget {
-  final String guildId;
+  final int guildId;
 
   const new({super.key, required this.guildId});
 
-  static Future<void> open(BuildContext context, String guildId) {
+  static Future<void> open(BuildContext context, int guildId) {
     return showResponsivePopup(
       context: context,
       showDragHandle: true,
@@ -28,7 +28,8 @@ class GuildInvitePopup extends HookConsumerWidget {
       Future(
         () => createInvitationMutation.run(ref, (tsx) async {
           return tsx.callApi(
-            (f) => f.getGuildsApi().createInvitation(guildId: guildId),
+            (f) =>
+                f.getGuildsApi().createInvitation(guildId: guildId.toString()),
           );
         }),
       );

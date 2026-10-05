@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:riv/core/core.dart';
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/core/core.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 void main() => runApp(App());
 
 class App extends StatelessWidget {
-  App({super.key});
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -137,11 +137,13 @@ class const CtxMenu({
 class CtxMenuRegion extends StatefulWidget {
   /// Creates an instance of [CtxMenuRegion].
   const CtxMenuRegion({
+    super.key,
     required this.child,
     required this.items,
   }) : menuBuilder = null;
 
   const CtxMenuRegion.custom({
+    super.key,
     required this.child,
     required this.menuBuilder,
     required this.items,
@@ -244,272 +246,3 @@ class _CtxMenuRegionState extends State<CtxMenuRegion> {
     );
   }
 }
-// AdaptiveTextSelectionToolbar(
-//       anchors: TextSelectionToolbarAnchors(primaryAnchor: offset),
-//       buttonItems: <ContextMenuButtonItem>[
-//         ContextMenuButtonItem(
-//           onPressed: () {
-//             ContextMenuController.removeAny();
-//             _showDialog(context);
-//           },
-//           label: 'Print',
-//         ),
-//         ContextMenuButtonItem(
-//           type: .copy,
-//           onPressed: () {
-//             ContextMenuController.removeAny();
-//             _showDialog(context);
-//           },
-//           label: 'Copy',
-//         ),
-//       ],
-//     );
-
-// import 'package:riv/presentation/presentation.dart' hide Divider;
-// import 'package:flutter/material.dart';
-// import 'package:riv/utils/utils.dart';
-
-// class OverlayButton extends StatefulWidget {
-//   const OverlayButton({super.key});
-
-//   @override
-//   State<OverlayButton> createState() => _OverlayButtonState();
-// }
-
-// class _OverlayButtonState extends State<OverlayButton>
-//     with SingleTickerProviderStateMixin {
-//   OverlayEntry? _overlayEntry;
-//   bool isOpen = false;
-
-//   Future<void> hideBottomOverlay() async {
-//     setState(() => isOpen = false);
-//     if (_overlayEntry == null) return;
-//     _overlayEntry?.remove();
-//     _overlayEntry = null;
-//   }
-
-//   void openOverlay() {
-//     _overlayEntry = OverlayEntry(
-//       builder: (context) {
-//         return _ContextMenu(
-//           layerLink: link,
-//           closeOverlay: hideBottomOverlay,
-//         );
-//       },
-//     );
-//     setState(() => isOpen = true);
-//     Overlay.of(context).insert(_overlayEntry!);
-//   }
-
-//   late final link = LayerLink();
-//   @override
-//   Widget build(BuildContext context) {
-//     return CompositedTransformTarget(
-//       link: link,
-//       child: ElevatedButton(
-//         onPressed: isOpen ? hideBottomOverlay : openOverlay,
-//         child: Text(isOpen ? 'Pokaż' : "nie"),
-//       ),
-//     );
-//   }
-// }
-
-// class _ContextMenu({
-//   required final LayerLink layerLink,
-//   required final VoidCallback closeOverlay,
-// }) extends StatefulWidget {
-//   @override
-//   State<_ContextMenu> createState() => _ContextMenuState();
-// }
-
-// class _ContextMenuState extends State<_ContextMenu>
-//     with SingleTickerProviderStateMixin {
-//   late final AnimationController _controller;
-
-//   late final CurvedAnimation _animation = CurvedAnimation(
-//     parent: _controller,
-//     curve: Curves.easeInSine,
-//   );
-
-//   @override
-//   void initState() {
-//     _controller = AnimationController(
-//       vsync: this,
-//       duration: const Duration(seconds: 1),
-//       lowerBound: 0,
-//       upperBound: 1,
-//     )..animateTo(1);
-//     super.initState();
-//   }
-
-//   @override
-//   void dispose() {
-//     _animation.dispose();
-//     _controller.dispose();
-//     super.dispose();
-//   }
-
-//   void hide() {
-//     _controller.reverse(from: 1).then((_) => widget.closeOverlay());
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final asd = Container(
-//       padding: context.values.buttonPadding,
-//       constraints: BoxConstraints(
-//         maxWidth: 100,
-//         maxHeight: MediaQuery.of(context).size.height,
-//       ),
-//       clipBehavior: .antiAlias,
-//       decoration: BoxDecoration(
-//         borderRadius: context.values.borderL,
-//         boxShadow: context.palette.shadow,
-//         color: context.appColors.bTonal.background,
-//       ), //menu.boxDecoration ?? boxDecoration,
-//       child: Material(
-//         type: MaterialType.transparency,
-//         child: IntrinsicWidth(
-//           child: Column(
-//             mainAxisSize: MainAxisSize.min,
-//             children: [
-//               Expanded(
-//                 child: ListView.separated(
-//                   physics: NeverScrollableScrollPhysics(),
-//                   shrinkWrap: true,
-//                   itemCount: 10,
-//                   separatorBuilder: (context, index) => Divider(height: 1),
-//                   itemBuilder: (_, _) => _ContextOption(),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//     // final asd = ConstrainedBox(
-//     //   constraints: const BoxConstraints.tightFor(height: 500, width: 140),
-//     //   child: ClipRRect(
-//     //     borderRadius: context.values.borderXL,
-//     //     child: Material(
-//     //       child: ListView.separated(
-//     //         itemCount: 10,
-//     //         separatorBuilder: (context, index) => Divider(height: 1),
-//     //         itemBuilder: (_, _) => _ContextOption(),
-//     //       ),
-//     //     ),
-//     //   ),
-//     // );
-
-//     final anim = FadeTransition(
-//       opacity: _animation,
-//       child: asd,
-//     );
-//     // );
-//     return Stack(
-//       children: [
-//         // kliknięcie poza dropdownem
-//         Positioned.fill(
-//           child: GestureDetector(
-//             behavior: HitTestBehavior.translucent,
-//             onTap: hide,
-//           ),
-//         ),
-//         CompositedTransformFollower(
-//           link: widget.layerLink,
-//           targetAnchor: Alignment.bottomRight,
-//           followerAnchor: Alignment.topRight,
-//           offset: const Offset(0, 8),
-//           showWhenUnlinked: false,
-//           child: anim,
-//         ),
-//       ],
-//     );
-//   }
-// }
-
-// class _ContextOption extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       padding: .all(4),
-//       alignment: .centerEnd,
-//       decoration: BoxDecoration(
-//         color: context.appColors.bTonal.background,
-//       ),
-//       child: Align(
-//         child: Hover(
-//           child: Text(
-//             TextGen.nick(),
-//             style: context.fonts.bodyStrong.withColor(
-//               Color(0xff80e000),
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class const Hover({
-//   required final Widget child,
-//   super.key,
-// }) extends HookWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     final hovered = useState(false);
-//     print(hovered.value);
-//     return InkWell(
-//       onTap: () {},
-//       onHover: hovered.set,
-//       child: ColoredBox(
-//         color: hovered.value
-//             ? Color(0xffff0000)
-//             : Color(0x0), // context.palette.getHover(hovered.value),
-//         child: Listener(
-//           onPointerHover: print,
-//           child: child,
-//         ),
-//       ),
-//     );
-//     // return InkWell(
-//     //   onTap: () {},
-//     //   onHover: hovered.set,
-//     //   child: ColoredBox(
-//     //     child: child,
-//     //   ),
-//     // );
-//   }
-// }
-// // Listener(
-// //   onPointerHover: (event) => hovered.value = event,
-// //   onTap: () {},
-// //   onHover: hovered.set,
-// //   child: child,
-// // ),
-
-// //       .wrapIf(
-// //         true,
-// //         (c) => CompositedTransformFollower(
-// //           link: layerLink,
-// //           targetAnchor: Alignment.bottomLeft,
-// //           followerAnchor: Alignment.topLeft,
-// //           offset: const Offset(0, 8),
-// //           showWhenUnlinked: true,
-// //           child: c,
-// //         ),
-// //       ),
-
-// // );
-
-// // ListTile(
-
-// //   title: const Text('Opcja 1'),
-// //   onTap: closeOverlay,
-// // ),
-// // ListTile(
-// //   title: const Text('Opcja 2'),
-// //   onTap: closeOverlay,
-// // ),
-
-// // class

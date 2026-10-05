@@ -1,5 +1,5 @@
 import 'package:hooks_riverpod/experimental/persist.dart';
-import 'package:riv/core/db.dart';
+import 'package:okidoki/core/db.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:riverpod_sqflite/riverpod_sqflite.dart';
 

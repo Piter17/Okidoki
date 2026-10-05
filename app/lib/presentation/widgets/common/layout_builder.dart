@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart' as w show LayoutBuilder;
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 typedef LayoutChangedCallback = void Function(
   LayoutType oldLayout,

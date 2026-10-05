@@ -1,8 +1,8 @@
 import 'package:api_bindings/api_bindings.dart';
 import 'package:flutter/material.dart' show Card;
-import 'package:riv/domain/user/user_state.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/utils/skeleton_text_generator.dart';
+import 'package:okidoki/domain/user/user_state.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/utils/skeleton_text_generator.dart';
 
 class UserBottomBar extends StatefulWidget {
   const UserBottomBar({
@@ -46,13 +46,13 @@ class _UserBottomBarState extends State<UserBottomBar> {
           boxShadow: [
             BoxShadow(
               blurStyle: .outer,
-              color: context.appColors.bPopup.border.withOpacity(0.5),
+              color: context.appColors.bPopup.border.withValues(alpha: 0.5),
               blurRadius: 4,
               offset: Offset(0, 2),
             ),
             BoxShadow(
               blurStyle: .outer,
-              color: context.appColors.bPopup.background.withOpacity(0.5),
+              color: context.appColors.bPopup.background.withValues(alpha: 0.5),
               blurRadius: 4,
               offset: Offset(2, 0),
             ),

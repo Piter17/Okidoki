@@ -68,6 +68,13 @@ typedef TypedInvocationFunc3<T, T2, T3> = void Function(
   T3 param3,
 );
 
+typedef TypedInvocationFunc4<T, T2, T3, T4> = void Function(
+  T param,
+  T2 param2,
+  T3 param3,
+  T4 param4,
+);
+
 typedef ClosedCallback = void Function({Exception? error});
 typedef ReconnectingCallback = void Function({Exception? error});
 typedef ReconnectedCallback = void Function({String? connectionId});
@@ -657,6 +664,28 @@ class HubConnection {
           final p1 = _deserializeCallback.call<T2>(params?.elementAtOrNull(1));
           final p2 = _deserializeCallback.call<T3>(params?.elementAtOrNull(2));
           newMethod(p0, p1, p2);
+        },
+      ),
+      (handler) => handler.method == newMethod,
+    );
+  }
+
+  void onTyped4<T, T2, T3, T4>(
+    String methodName,
+    TypedInvocationFunc4<T, T2, T3, T4> newMethod,
+  ) {
+    _logger?.finest(["registering4", methodName]);
+
+    _addHandler(
+      methodName,
+      TypedMethodDefinition(
+        method: newMethod,
+        caller: (params) {
+          final p0 = _deserializeCallback!.call<T>(params?.elementAtOrNull(0));
+          final p1 = _deserializeCallback.call<T2>(params?.elementAtOrNull(1));
+          final p2 = _deserializeCallback.call<T3>(params?.elementAtOrNull(2));
+          final p3 = _deserializeCallback.call<T4>(params?.elementAtOrNull(3));
+          newMethod(p0, p1, p2, p3);
         },
       ),
       (handler) => handler.method == newMethod,

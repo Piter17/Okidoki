@@ -12,21 +12,21 @@
 
 import 'package:auto_route/auto_route.dart' as _i13;
 import 'package:collection/collection.dart' as _i15;
-import 'package:riv/mutations/mutations.dart' as _i16;
-import 'package:riv/presentation/dialogs/add_guild_page.dart' as _i1;
-import 'package:riv/presentation/pages/common/empty_page.dart' as _i3;
-import 'package:riv/presentation/pages/common/loading_page.dart' as _i8;
-import 'package:riv/presentation/pages/guild/chat_page.dart' as _i5;
-import 'package:riv/presentation/pages/guild/guild_chat_page.dart' as _i6;
-import 'package:riv/presentation/pages/guild_settings/guild_settings_page.dart'
+import 'package:okidoki/mutations/mutations.dart' as _i16;
+import 'package:okidoki/presentation/dialogs/add_guild_page.dart' as _i1;
+import 'package:okidoki/presentation/pages/common/empty_page.dart' as _i3;
+import 'package:okidoki/presentation/pages/common/loading_page.dart' as _i8;
+import 'package:okidoki/presentation/pages/guild/chat_page.dart' as _i5;
+import 'package:okidoki/presentation/pages/guild/guild_chat_page.dart' as _i6;
+import 'package:okidoki/presentation/pages/guild_settings/guild_settings_page.dart'
     as _i7;
-import 'package:riv/presentation/pages/login/initial_page.dart' as _i2;
-import 'package:riv/presentation/pages/login/login_page.dart' as _i9;
-import 'package:riv/presentation/pages/login/register_page.dart' as _i11;
-import 'package:riv/presentation/pages/main_page/main_page.dart' as _i10;
-import 'package:riv/presentation/pages/settings/settings_page.dart' as _i12;
-import 'package:riv/presentation/presentation.dart' as _i14;
-import 'package:riv/presentation/widgets/friends/friends_page.dart' as _i4;
+import 'package:okidoki/presentation/pages/login/initial_page.dart' as _i2;
+import 'package:okidoki/presentation/pages/login/login_page.dart' as _i9;
+import 'package:okidoki/presentation/pages/login/register_page.dart' as _i11;
+import 'package:okidoki/presentation/pages/main_page/main_page.dart' as _i10;
+import 'package:okidoki/presentation/pages/settings/settings_page.dart' as _i12;
+import 'package:okidoki/presentation/presentation.dart' as _i14;
+import 'package:okidoki/presentation/widgets/friends/friends_page.dart' as _i4;
 
 /// generated route for
 /// [_i1.AddGuildPage]
@@ -97,8 +97,8 @@ class FriendsRoute extends _i13.PageRouteInfo<void> {
 class GuildChatRoute extends _i13.PageRouteInfo<GuildChatRouteArgs> {
   GuildChatRoute({
     _i14.Key? key,
-    required String? channelId,
-    required String guildId,
+    required int? channelId,
+    required int guildId,
     List<_i13.PageRouteInfo>? children,
   }) : super(
          GuildChatRoute.name,
@@ -119,8 +119,8 @@ class GuildChatRoute extends _i13.PageRouteInfo<GuildChatRouteArgs> {
       final pathParams = data.inheritedPathParams;
       final args = data.argsAs<GuildChatRouteArgs>(
         orElse: () => GuildChatRouteArgs(
-          channelId: pathParams.optString('channelId'),
-          guildId: pathParams.getString('guildId'),
+          channelId: pathParams.optInt('channelId'),
+          guildId: pathParams.getInt('guildId'),
         ),
       );
       return _i5.GuildChatPage(
@@ -141,9 +141,9 @@ class GuildChatRouteArgs {
 
   final _i14.Key? key;
 
-  final String? channelId;
+  final int? channelId;
 
-  final String guildId;
+  final int guildId;
 
   @override
   String toString() {
@@ -168,7 +168,7 @@ class GuildChatRouteArgs {
 class GuildRoute extends _i13.PageRouteInfo<GuildRouteArgs> {
   GuildRoute({
     _i14.Key? key,
-    required String guildId,
+    required int guildId,
     List<_i13.PageRouteInfo>? children,
   }) : super(
          GuildRoute.name,
@@ -184,7 +184,7 @@ class GuildRoute extends _i13.PageRouteInfo<GuildRouteArgs> {
     builder: (data) {
       final pathParams = data.inheritedPathParams;
       final args = data.argsAs<GuildRouteArgs>(
-        orElse: () => GuildRouteArgs(guildId: pathParams.getString('guildId')),
+        orElse: () => GuildRouteArgs(guildId: pathParams.getInt('guildId')),
       );
       return _i6.GuildPage(key: args.key, guildId: args.guildId);
     },
@@ -196,7 +196,7 @@ class GuildRouteArgs {
 
   final _i14.Key? key;
 
-  final String guildId;
+  final int guildId;
 
   @override
   String toString() {

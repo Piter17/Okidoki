@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart';
 
 final appRouterProvider = Provider<AppRouter>((ref) {
   return AppRouter(ref);

@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 import 'package:theme_extensions_builder_annotation/theme_extensions_builder_annotation.dart';
 
 part 'theme_colors.g.theme.dart';
+
+// TODO: Complete rework
 
 const _transparent = Color(0x00000000);
 const _white = Color(0xffffffff);

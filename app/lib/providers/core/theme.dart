@@ -1,4 +1,4 @@
-// import 'package:riverpod_annotation/riverpod_annotation.dart';
+// import 'package:okidokierpod_annotation/riverpod_annotation.dart';
 
 // part 'theme.g.dart';
 

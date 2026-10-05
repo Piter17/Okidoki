@@ -1,5 +1,5 @@
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 class ThemeFonts {
   static const uiFontFamily = FontFamily.redHatDisplay;
@@ -173,7 +173,4 @@ extension TextStyleExtensions on TextStyle {
 
   TextStyle asUrl() =>
       copyWith(decoration: TextDecoration.underline, decorationColor: color);
-
-  // TextStyle withBold() =>
-  //     copyWith(decoration: TextDecoration.underline);
 }

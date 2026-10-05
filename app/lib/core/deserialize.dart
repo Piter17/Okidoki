@@ -1,6 +1,6 @@
 import 'package:api_bindings/json.dart';
-import 'package:riv/core/exceptions/deserialize_exception.dart';
-import 'package:riv/core/types/result.dart';
+import 'package:okidoki/core/exceptions/deserialize_exception.dart';
+import 'package:okidoki/core/types/result.dart';
 
 T deserialize<T>(dynamic value, [String? targetType]) =>
     JsonConverter.fromJson(value);

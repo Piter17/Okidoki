@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
+import 'package:flutter/foundation.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart';
 
 class const MainPageLayout({
   super.key,
@@ -14,16 +15,29 @@ class const MainPageLayout({
       initialPage: 0,
       keepPage: true,
     );
-
+    final user = ref.watch(currentUserProvider).requireValue;
     final url = AutoRouter.of(context).currentUrl;
+    final settings = ref.watch(appSettingsProvider);
+
+    final hasEmail = user?.email != null;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          url,
-          textAlign: .start,
-        ),
+        if (settings.developerMode && !kIsWeb)
+          Text(
+            url,
+            textAlign: .start,
+          ),
+        if (hasEmail == false)
+          Container(
+            alignment: Alignment.center,
+            color: context.appColors.info.color,
+            child: Padding(
+              padding: context.values.buttonPadding,
+              child: Text("Please set your email"),
+            ),
+          ),
         Expanded(
           child: LayoutBuilder(
             builder: (context, layoutType, isPhone) => switch (layoutType) {

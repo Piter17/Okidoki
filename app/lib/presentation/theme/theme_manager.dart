@@ -1,10 +1,10 @@
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart';
 import 'package:flutter/material.dart' as m;
 import 'package:flutter/rendering.dart';
 
-export 'package:riv/presentation/theme/data/typography.dart'
+export 'package:okidoki/presentation/theme/data/typography.dart'
     show TextStyleExtensions;
 
 class const ThemeManager({
@@ -94,24 +94,21 @@ ThemeData getTheme(
       brightness: colors.brightness,
       dynamicSchemeVariant: .vibrant,
     ),
-    // textTheme: Typography.black,
-    // fontFamily: FontFamily.redHatDisplay,
-    // scaffoldBackgroundColor: palette.background,
+    fontFamily: FontFamily.redHatDisplay,
+    scaffoldBackgroundColor: palette.background,
+    useMaterial3: true,
+    textTheme: m.TextTheme(
+      // textEdit
+      bodyLarge: fonts.bodyStronger,
+    ),
     // switchTheme: switchStyle(context),
     // sliderTheme: sliderStyle(context),
     // dividerTheme: divider(context),
     // toggleButtonsTheme: ToggleButtonsThemeData(
     //   borderColor: colors.transparent,
     // ),
-    // brightness: colors.brightness,
-
-    useMaterial3: true,
     // switchTheme: getSwitchTheme(palette),
     // inputDecorationTheme: getInputDecoration(palette, values),
-    // textTheme: m.TextTheme(
-    //   // textEdit
-    //   bodyLarge: fonts.bodyStronger,
-    // ),
     filledButtonTheme: ThemeButtons.getFilledButtonTheme(
       fonts,
       palette,
@@ -121,35 +118,39 @@ ThemeData getTheme(
     // outlinedButtonTheme: ThemeButtons.getOutlinedButtonTheme(colors),
     textButtonTheme: ThemeButtons.getTextButtonTheme(fonts, palette, values),
     // dialogTheme: .new(backgroundColor: colors.bPopup.background),
-    // bottomSheetTheme: .new(
-    //   backgroundColor: colors.bPopup.background,
-    // ),
+    bottomSheetTheme: .new(
+      backgroundColor: colors.bPopup.background,
+    ),
     extensions: [
       colors,
+      switch (colors.brightness) {
+        Brightness.dark => GlassThemeData.dark(),
+        Brightness.light => GlassThemeData.light(),
+      },
       SurfaceTheme(
         primary: SurfaceThemeVariant(
-          background: palette.background,
-          text: palette.text,
+          background: colors.bPrimary.background,
+          text: colors.bPrimary.text,
           // borderRadius: BorderRadius.all(.circular(16)),
-          icon: palette.text,
-          shadow: palette.shadow,
+          icon: colors.bPrimary.text,
+          shadow: colors.bPrimary.shadow,
           debugLabel: SurfaceThemes.primary.name,
         ),
         secondary: SurfaceThemeVariant(
-          background: palette.background,
-          text: palette.text,
+          background: colors.bSecondary.background,
+          text: colors.bSecondary.text,
           borderRadius: BorderRadius.all(.circular(16)),
           // border: BoxBorder.all(color: colors.bSecondary.border, ),
-          icon: palette.text,
-          shadow: palette.shadow,
+          icon: colors.bSecondary.text,
+          shadow: colors.bSecondary.shadow,
           debugLabel: SurfaceThemes.secondary.name,
         ),
         popup: SurfaceThemeVariant(
-          background: palette.background,
-          text: palette.text,
+          background: colors.bPopup.background,
+          text: colors.bPopup.text,
           borderRadius: BorderRadius.all(.circular(16)),
-          icon: palette.text,
-          shadow: palette.shadow,
+          icon: colors.bPopup.text,
+          shadow: colors.bPopup.shadow,
           debugLabel: SurfaceThemes.popup.name,
         ),
       ),
@@ -164,8 +165,6 @@ extension ContextThemeX on BuildContext {
   Values get values => _t.values;
 
   ColorPalette get palette => appColors.defaultPalette;
-
-  // ColorPalette get palette => appColors.resolve(this);
 
   Axis get flexDirection {
     final direction = findAncestorRenderObjectOfType<RenderFlex>()?.direction;

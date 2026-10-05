@@ -26,6 +26,9 @@ class JsonMergeBuilder implements Builder {
     final imports = <String>{};
     final entries = <String>[];
 
+    entries.add("    String: (json) => '\$json',");
+    entries.add("    DateTime: (json) => DateTime.parse('\$json'),");
+
     for (final fragment in fragments) {
       final content = await buildStep.readAsString(fragment);
 
@@ -40,16 +43,16 @@ class JsonMergeBuilder implements Builder {
       }
     }
 
-    const decoder = "typedef Decoder = Object Function(Map<String, dynamic>);";
+    const decoder = "typedef Decoder = Object Function(dynamic);";
 
     final buffer = StringBuffer()
       ..writeln('// GENERATED CODE - DO NOT MODIFY BY HAND')
       ..writeAll(
-        imports.isEmpty ? ["$decoder\n\n"] : [...imports, '\n$decoder\n\n'],
+        imports.isEmpty ? ["$decoder\n"] : [...imports, '\n$decoder\n'],
         "\n",
       )
       ..writeln('class ${options.className} {')
-      ..writeln('  static T fromJson<T>(Map<String, dynamic> json) {')
+      ..writeln('  static T fromJson<T>(dynamic json) {')
       ..writeln('    final factory = _factories[T];')
       ..writeln(
         "    if (factory == null) throw StateError('No JSON factory registered for type T.');",

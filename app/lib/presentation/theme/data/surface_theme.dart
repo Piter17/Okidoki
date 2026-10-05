@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 import 'package:theme_extensions_builder_annotation/theme_extensions_builder_annotation.dart';
 
 part 'surface_theme.g.theme.dart';

@@ -1,4 +1,4 @@
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 extension NullIterableX on Iterable {
   bool get anyNull => any((x) => x == null);

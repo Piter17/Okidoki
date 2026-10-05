@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:api_bindings/api_bindings.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/domain/guild/guild.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart';
+import 'package:okidoki/utils/utils.dart';
 
 class const SideNavigatorBase({
   super.key,
@@ -33,8 +33,8 @@ class const SideNavigatorBase({
 
 class const GuildNavigator({
   super.key,
-  required final String? guildId,
-  required final String? channelId,
+  required final int? guildId,
+  required final int? channelId,
 }) extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -44,7 +44,9 @@ class const GuildNavigator({
 
     final guild = ref.watch(guildProvider(guildId!));
 
-    final channels = guild.value?.channels;
+    final channels = guild.value?.mapOrNull(
+      asMember: (value) => value.channels,
+    );
     final isLoading = guild.isLoading;
 
     final itemCount = isLoading ? 10 : channels?.length ?? 0;
@@ -83,14 +85,14 @@ class const GuildNavigator({
 
 class ChannelEntry extends StatelessWidget {
   final bool isSelected;
-  final String? guildId;
-  final String? channelId;
+  final int? guildId;
+  final int? channelId;
   final String? _name;
   final bool isSkeleton;
   final VoidCallback? onTapOverride;
 
   ChannelEntry(
-    GuildChannelDto channel,
+    GuildChannel channel,
     this.isSelected, {
     super.key,
     this.onTapOverride,
@@ -145,7 +147,7 @@ class ChannelEntry extends StatelessWidget {
   }
 }
 
-class const GuildHeader({super.key, required final String? guildId})
+class const GuildHeader({super.key, required final int? guildId})
     extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {

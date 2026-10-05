@@ -1,9 +1,8 @@
 import 'package:darq/darq.dart';
 
 import 'package:flutter_svg/svg.dart';
-import 'package:riv/domain/user/user_state.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/domain/user/user_state.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 class UserAvatar extends StatefulWidget {
   const UserAvatar({

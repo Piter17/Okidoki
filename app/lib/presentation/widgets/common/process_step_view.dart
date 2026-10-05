@@ -1,5 +1,5 @@
 import 'package:cue/cue.dart';
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 typedef StepBuilder<T> = Widget Function(
   BuildContext context,

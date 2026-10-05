@@ -1,7 +1,7 @@
 import 'package:api_bindings/api_bindings.dart';
-import 'package:riv/core/core.dart';
-import 'package:riv/mutations/mutations.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/core/core.dart';
+import 'package:okidoki/mutations/mutations.dart';
+import 'package:okidoki/utils/utils.dart';
 
 class GuildMutations {
   static Mutation<GuildDto> getCreate() => Mutation<GuildDto>();
@@ -31,12 +31,12 @@ class GuildMutations {
   static Mutation<GuildChannelDto> getCreateChannel() =>
       Mutation<GuildChannelDto>();
   static MutationCallback<GuildChannelDto> createChannelCb({
-    required String guildId,
+    required int guildId,
     required String name,
   }) =>
       (tsx) => tsx.callApi(
         (x) => x.getGuildsApi().createChannel(
-          guildId: guildId,
+          guildId: guildId.toString(),
           createGuildChannelRequest: CreateGuildChannelRequest(
             name: name,
             type: .text,
@@ -47,13 +47,13 @@ class GuildMutations {
 
   static Mutation<void> getRemoveChannel() => Mutation<void>();
   static MutationCallback<void> removeChannelCb({
-    required String guildId,
-    required String channelId,
+    required int guildId,
+    required int channelId,
   }) =>
       (tsx) => tsx.callApi(
         (x) => x.getGuildsApi().removeChannel(
-          guildId: guildId,
-          channelId: channelId,
+          guildId: guildId.toString(),
+          channelId: channelId.toString(),
         ),
         errorText: "Failed to remove channel $channelId in guild $guildId",
       );
@@ -94,7 +94,7 @@ class GuildMutations {
     required String guildId,
   }) =>
       (tsx) => tsx.callApi(
-        (a) => a.getGuildsApi().createInvitation(guildId: guildId),
+        (a) => a.getGuildsApi().createInvitation(guildId: guildId.toString()),
         errorText: "Failed to create invite for guild $guildId",
       );
 }

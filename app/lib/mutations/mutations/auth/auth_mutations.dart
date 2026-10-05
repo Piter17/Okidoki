@@ -1,8 +1,8 @@
 import 'package:api_bindings/api_bindings.dart';
 import 'package:darq/darq.dart';
-import 'package:riv/mutations/mutations.dart';
-import 'package:riv/providers/providers.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/mutations/mutations.dart';
+import 'package:okidoki/providers/providers.dart';
+import 'package:okidoki/utils/utils.dart';
 
 class AuthMutations {
   static Mutation<void> getLogin() => Mutation<void>();
@@ -62,14 +62,6 @@ class AuthMutations {
                 .get(tokenStorageProvider.notifier)
                 .saveToken(AccessToken.fromResult(a)),
           );
-  // .then(
-  //   (_) => loginCb(
-  //     LoginRequest(
-  //       email: request.email,
-  //       password: request.password,
-  //     ),
-  //   )(tsx),
-  // );
 
   static Mutation<void> getForgotPassword() => Mutation<void>();
   static MutationCallback<void> forgotPasswordCb(

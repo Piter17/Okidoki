@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:api_bindings/api_bindings.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/domain/domain.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/utils/utils.dart';
 
 class GuildIcon extends HookConsumerWidget {
   const new({
@@ -18,7 +18,7 @@ class GuildIcon extends HookConsumerWidget {
       isSelected = false,
       isSkeleton = true;
 
-  final GuildProfileDto? guildProfile;
+  final Guild? guildProfile;
   final bool isSelected;
   final bool isSkeleton;
 
@@ -33,6 +33,7 @@ class GuildIcon extends HookConsumerWidget {
           NavigatorBaseItem(
             image: img,
             isSelected: isSelected,
+            backgroundColor: context.palette.tone,
             onTap: guildProfile == null
                 ? null
                 : () => context.router.push(

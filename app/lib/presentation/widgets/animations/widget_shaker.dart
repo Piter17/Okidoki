@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 class const WidgetShaker({
   super.key,

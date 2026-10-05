@@ -1,7 +1,7 @@
-import 'package:api_bindings/api_bindings.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/core/token_storage.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/domain/domain.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/core/token_storage.dart';
+import 'package:okidoki/utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'current_user.g.dart';
@@ -9,7 +9,7 @@ part 'current_user.g.dart';
 @Riverpod(keepAlive: true)
 class CurrentUser extends _$CurrentUser {
   @override
-  FutureOr<IdentityDto?> build() async {
+  FutureOr<User?> build() async {
     final token = ref.read(tokenStorageProvider);
     debugPrint("currentUserProvider.build()");
 
@@ -42,15 +42,13 @@ class CurrentUser extends _$CurrentUser {
       return null;
     }
 
-    return ref.callApi(
-      (api, ct) => api.getUserApi().getMe(cancelToken: ct),
-      "Failed to fetch current user",
-    );
+    return _fetchUser();
   }
 
-  Future<IdentityDto> _fetchUser() async {
-    return ref.callApi(
+  Future<User> _fetchUser() async {
+    return ref.callApiConvert(
       (api, ct) => api.getUserApi().getMe(cancelToken: ct),
+      User.fromDto,
       "Failed to fetch current user",
     );
   }

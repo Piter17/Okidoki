@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:api_bindings/api_bindings.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:riv/core/core.dart';
-import 'package:riv/providers/providers.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/core/core.dart';
+import 'package:okidoki/providers/providers.dart';
+import 'package:okidoki/utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'token_storage.g.dart';
@@ -119,24 +119,20 @@ class TokenStorage extends _$TokenStorage {
         .callUnauthApi(
           (x, ct) => x.getAuthApi().postRefresh(
             refreshRequest: RefreshRequest(refreshToken: refreshToken),
+            validateStatus: (status) {
+              if (status == 401) {
+                // Refresh token is invalid. Logoff and remove from device.
+                logOff().then((_) => ref.invalidateSelf());
+                return false;
+              }
+              if (status == null) return false;
+              return status ~/ 100 == 2;
+            },
             cancelToken: ct,
           ),
           "Failed to refresh authenticaion token",
         )
-        .then(AccessToken.fromResult)
-        .onError((e, s) async {
-          debugPrint("_refreshToken.onError");
-          if (e is DioException) {
-            if (e.response?.statusCode == 401) {
-              // Refresh token is invalid. Logoff and remove from device.
-              debugPrint("_refreshToken.onError 401");
-              await logOff();
-              ref.invalidateSelf();
-              throw InvalidRefreshTokenException(error: e, stackTrace: s);
-            }
-          }
-          throw ("Error while refreshing token", e, s);
-        });
+        .then(AccessToken.fromResult);
   }
 
   Future refreshToken() async {

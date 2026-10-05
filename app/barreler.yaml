@@ -87,3 +87,5 @@ dirs:
 
   - path: lib/core
 
+  - path: lib/domain
+

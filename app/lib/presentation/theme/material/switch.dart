@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 SwitchThemeData getSwitchTheme(ColorPalette colors) {
   Color resolveTrackColor(Set<WidgetState> states) {

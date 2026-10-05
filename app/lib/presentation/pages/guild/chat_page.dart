@@ -1,37 +1,23 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
-import 'package:api_bindings/api_bindings.dart';
-import 'package:riv/utils/skeleton_text_generator.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/domain/domain.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart';
+import 'package:okidoki/utils/utils.dart';
 
 @RoutePage()
 class const GuildChatPage({
   super.key,
-  @PathParam() required final String? channelId,
-  @PathParam() required final String guildId,
+  @PathParam() required final int? channelId,
+  @PathParam() required final int guildId,
 }) extends StatefulHookConsumerWidget {
   @override
   ConsumerState<GuildChatPage> createState() => _GuildChatPageState();
 }
 
 class _GuildChatPageState extends ConsumerState<GuildChatPage> {
-  Future<List<ChatMessageDto>> _loadMessagesPage(String? pageId, bool next) {
-    final channelId = widget.channelId;
-    if (channelId == null) return Future.value([]);
-
-    return ref.read(
-      messagesProvider(
-        channelId,
-        pageId,
-        next ? QueryDirection.next : QueryDirection.prev,
-      ).future,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    final isUserListVisible = useState(false);
+    final settings = ref.watch(appSettingsProvider);
     final channelId = widget.channelId;
     final guildId = widget.guildId;
     if (channelId == null) {
@@ -41,37 +27,48 @@ class _GuildChatPageState extends ConsumerState<GuildChatPage> {
     }
 
     final guild = ref.watch(guildProvider(guildId));
-    final channel = guild.value?.channels!.singleWhere(
-      (x) => x.id == channelId,
+    final channel = guild.value?.mapOrNull(
+      asMember: (value) => value.channels!.singleWhere(
+        (x) => x.id == channelId,
+      ),
     );
 
+    final users = ref.watch(guildUsersProvider(guildId));
     final messagesKey = ValueKey(channelId);
 
     return BaseMainScreen(
       topBar: ChatTopBar(
         channel,
-        isUserListVisible: isUserListVisible.value,
-        onToggleUserList: isUserListVisible.toggle,
+        isUserListVisible: settings.isUserListVisible,
+        setUserListVisible: ref
+            .read(appSettingsProvider.notifier)
+            .setUserListVisible,
       ),
       body: ChatMessageList(
         key: messagesKey,
         guild: guild.value,
-        loadPage: _loadMessagesPage,
-        bottom: Padding(
-          padding: context.values.chatMessageEntryPadding,
-          child: MessageEntry(
-            channelId: channelId,
-            hintText: channel != null
-                ? context.s.chat_message_hint(channel.name)
-                : context.s.chat_message_hint(TextGen.channelName()),
-          ),
+        channelId: channelId,
+        bottom: MessageTextField(
+          channelId: channelId,
+          guildId: guildId,
+          hintText: channel != null
+              ? context.s.chat_message_hint(channel.name)
+              : context.s.chat_message_hint(TextGen.channelName()),
         ),
       ),
-      right: isUserListVisible.value
-          ? ListView(
-              children: [
-                Text("Channel Info"),
-              ],
+      right: settings.isUserListVisible
+          ? ListView.builder(
+              itemCount: users.value?.length ?? 0,
+              itemBuilder: (context, index) {
+                final user = users.value?[index];
+
+                return user == null
+                    ? UserTile.skeleton(key: ValueKey(index))
+                    : UserTile(
+                        key: ValueKey(user.id),
+                        user: user,
+                      );
+              },
             )
           : null,
     );
@@ -79,15 +76,15 @@ class _GuildChatPageState extends ConsumerState<GuildChatPage> {
 }
 
 class ChatTopBar extends BaseTopBar {
-  final GuildChannelDto? channel;
+  final GuildChannel? channel;
   final bool isUserListVisible;
-  final VoidCallback? onToggleUserList;
+  final void Function(bool) setUserListVisible;
 
   const ChatTopBar(
     this.channel, {
     super.key,
     required this.isUserListVisible,
-    this.onToggleUserList,
+    required this.setUserListVisible,
   });
 
   @override
@@ -99,26 +96,15 @@ class ChatTopBar extends BaseTopBar {
   @override
   List<Widget>? get actions => [
     Icon(Icons.phone),
-    IconButton(onPressed: onToggleUserList, icon: Icon(Icons.pin)),
+    IconButton(
+      onPressed: () => setUserListVisible(!isUserListVisible),
+      icon: Icon(Icons.pin),
+    ),
   ];
 
   @override
-  Widget? get title => Text(channel?.name ?? TextGen.channelName());
+  Widget? get title => ChatContextMenu(
+    chatId: channel!.id,
+    child: Text(channel?.name ?? TextGen.channelName()),
+  );
 }
-
-// class const ChatView({
-//   super.key,
-//   required final LoadPageFunc loadPage,
-//   required final String channelId,
-//   required final String guildId,
-// }) extends ConsumerWidget {
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final guild = ref.watch(guildProvider(guildId));
-//     final channel = guild.value?.channels!.singleWhere(
-//       (x) => x.id == channelId,
-//     );
-
-//     return
-//   }
-// }

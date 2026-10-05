@@ -1,5 +1,5 @@
-import 'package:riv/core/core.dart';
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/core/core.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 class const ErrorDialog({
   super.key,

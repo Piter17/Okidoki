@@ -1,12 +1,12 @@
 {
-    "name": "riv",
-    "short_name": "riv",
-    "start_url": ".",
+    "name": "Okidoki",
+    "short_name": "Oki",
+    "start_url": "/",
     "display": "standalone",
     "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
-    "orientation": "portrait-primary",
+    "theme_color": "#0D6EFD",
+    "description": "Chat for your group",
+    "orientation": "landscape-primary",
     "prefer_related_applications": false,
     "icons": [
         {

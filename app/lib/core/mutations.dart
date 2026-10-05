@@ -1,5 +1,5 @@
 import 'package:hooks_riverpod/experimental/mutation.dart';
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 typedef MutationCallback<TResult> = Future<TResult> Function(
   MutationTransaction,

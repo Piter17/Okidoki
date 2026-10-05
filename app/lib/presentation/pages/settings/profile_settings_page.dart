@@ -1,6 +1,6 @@
-import 'package:riv/presentation/presentation.dart';
-import 'package:riv/providers/providers.dart';
-import 'package:riv/mutations/mutations/user/user_mutations.dart';
+import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart';
+import 'package:okidoki/mutations/mutations/user/user_mutations.dart';
 
 class ProfileSettingsPage extends HookConsumerWidget {
   const new({super.key});
@@ -8,6 +8,7 @@ class ProfileSettingsPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profile = ref.watch(currentUserProfileProvider).requireValue;
+    final user = ref.watch(currentUserProvider).requireValue;
 
     final changeImageMutation = useMemoized(
       UserMutations.getChangeProfilePicture,
@@ -33,7 +34,15 @@ class ProfileSettingsPage extends HookConsumerWidget {
         ),
         TextEntry(
           text: Text(context.s.profile_account_name),
-          value: profile.userName!,
+          value: profile.userName,
+        ),
+        TextEntry(
+          text: Text(context.s.profile_account_name),
+          value: user?.email ?? "ustaw email",
+        ),
+        TextEntry(
+          text: Text(context.s.profile_account_name),
+          value: user?.id.toString() ?? "ustaw email",
         ),
       ],
     );

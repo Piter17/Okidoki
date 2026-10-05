@@ -1,4 +1,4 @@
-import 'package:riv/presentation/presentation.dart';
+import 'package:okidoki/presentation/presentation.dart';
 
 class Surface({
   super.key,
@@ -75,7 +75,7 @@ class SurfaceState extends State<Surface> {
       alignment: widget.alignment,
       padding: widget.padding,
       isAntiAlias: widget.isAntiAlias,
-      decoration: effectiveDecoration,
+      decoration: decoration,
       foregroundDecoration: widget.foregroundDecoration,
       constraints: widget.constraints,
       margin: widget.margin,

@@ -12,5 +12,11 @@
     "files.watcherExclude": {
         "**/.dart_tool/**": true,
         "**/build/**": true
+    },
+    "arb-editor.suppressedWarnings": [
+        "missing_metadata_for_key"
+    ],
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "always"
     }
 }

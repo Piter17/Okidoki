@@ -2,9 +2,10 @@
 
 import 'package:api_bindings/api_bindings.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:riv/core/core.dart';
-import 'package:riv/presentation/presentation.dart' hide ValueListenableBuilder;
-import 'package:riv/mutations/mutations/auth/auth_mutations.dart';
+import 'package:okidoki/core/core.dart';
+import 'package:okidoki/presentation/presentation.dart'
+    hide ValueListenableBuilder;
+import 'package:okidoki/mutations/mutations/auth/auth_mutations.dart';
 
 class LoginForm({
   this._guildInvitationCode,
@@ -96,7 +97,7 @@ class Step extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 200,
       height: 200,
       child: Column(

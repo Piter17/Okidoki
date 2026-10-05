@@ -1,7 +1,7 @@
 import 'package:api_bindings/api_bindings.dart';
-import 'package:riv/core/core.dart';
-import 'package:riv/mutations/mutations.dart';
-import 'package:riv/utils/utils.dart';
+import 'package:okidoki/core/core.dart';
+import 'package:okidoki/mutations/mutations.dart';
+import 'package:okidoki/utils/utils.dart';
 
 class UserMutations {
   static Mutation getChangeName() => Mutation();

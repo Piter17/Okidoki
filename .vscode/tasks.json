@@ -2,19 +2,6 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Run build_runner",
-      "type": "shell",
-      "command": "dart run build_runner build --force-jit",
-      "options": {
-        "cwd": "${workspaceFolder}/app"
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      },
-      "problemMatcher": []
-    },
-    {
       "label": "Run build_runner (WATCH)",
       "type": "shell",
       "command": "dart run build_runner watch --force-jit",
@@ -25,20 +12,10 @@
         "reveal": "always",
         "panel": "dedicated"
       },
-      "problemMatcher": []
-    },
-    {
-      "label": "Run barreler",
-      "type": "shell",
-      "command": "barreler build",
-      "options": {
-        "cwd": "${workspaceFolder}/app"
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      },
-      "problemMatcher": []
+      "problemMatcher": [],
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
     },
     {
       "label": "Run barreler (WATCH)",
@@ -51,7 +28,26 @@
         "reveal": "always",
         "panel": "dedicated"
       },
-      "problemMatcher": []
+      "problemMatcher": [],
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    },
+    {
+      "label": "Run riverpod_devtools:analyze (WATCH)",
+      "type": "shell",
+      "command": "dart run riverpod_devtools:analyze --watch",
+      "options": {
+        "cwd": "${workspaceFolder}/app"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": [],
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
     },
     {
       "label": "Build api bindings",
@@ -59,6 +55,19 @@
       "command": "${workspaceFolder}/scripts/api_gen.sh",
       "options": {
         "cwd": "${workspaceFolder}/libs/api_bindings"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run application in web wasm",
+      "type": "shell",
+      "command": "flutter run -d chrome --wasm",
+      "options": {
+        "cwd": "${workspaceFolder}/app"
       },
       "presentation": {
         "reveal": "always",
