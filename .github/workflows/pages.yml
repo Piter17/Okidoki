@@ -35,19 +35,21 @@ jobs:
         run: |
           if [[ "${GITHUB_REF_NAME}" == "main" ]]; then
             echo "API_URL=https://api.okidoki.fun/" >> $GITHUB_ENV
+            echo "APP_URL=https://okidoki.fun/" >> $GITHUB_ENV
             echo "PROJECT_NAME=okidoki" >> $GITHUB_ENV
           else
             echo "API_URL=https://api-dev.okidoki.fun/" >> $GITHUB_ENV
+            echo "APP_URL=https://test.okidoki.fun/" >> $GITHUB_ENV
             echo "PROJECT_NAME=okidoki-test" >> $GITHUB_ENV
           fi
 
       - name: Build web
-        run: flutter build web --release --wasm --dart-define=API_URL=${API_URL}
+        run: flutter build web --release --wasm --dart-define=API_URL=${API_URL} --dart-define=APP_URL=$APP_URL
 
       - name: Deploy
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy ./app/build/web --project-name=${{ env.PROJECT_NAME }}
+          command: pages deploy ./app/build/web --project-name=$PROJECT_NAME
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
