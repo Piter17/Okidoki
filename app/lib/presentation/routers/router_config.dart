@@ -18,7 +18,6 @@ class AppRouter extends RootStackRouter {
     AutoRoute(
       page: MainRoute.page,
       path: '/',
-
       guards: [AuthGuard(ref)],
       type: RouteType.material(),
       children: [
@@ -54,8 +53,10 @@ class AppRouter extends RootStackRouter {
       page: AuthRoute.page,
       path: '/',
     ),
+    AutoRoute(page: InviteRoute.page, path: '/invite/:guildInvitationCode'),
     AutoRoute(page: LoginRoute.page, path: '/login'),
     AutoRoute(page: RegisterRoute.page, path: '/register'),
+    // AutoRoute(page: AuthRoute.page, path: '/invite/:guildInvitationCode'),
   ];
 
   @override
@@ -74,7 +75,7 @@ class AuthGuard extends AutoRouteGuard {
     if (currentUser.hasValue && currentUser.value != null) {
       resolver.next(true);
     } else {
-      router.replace(const AuthRoute());
+      router.replace(AuthRoute());
     }
   }
 }

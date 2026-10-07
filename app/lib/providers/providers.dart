@@ -11,6 +11,7 @@ export 'core/storage.dart';
 export 'core/theme.dart';
 export 'core/token_storage.dart';
 export 'guilds/guild.dart';
+export 'guilds/guild_invite.dart';
 export 'guilds/guild_users.dart';
 export 'guilds/guilds.dart';
 export 'guilds/roles.dart';

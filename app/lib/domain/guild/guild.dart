@@ -1,5 +1,6 @@
 import 'package:api_bindings/api_bindings.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:okidoki/domain/domain.dart';
 import 'package:okidoki/utils/utils.dart';
 
 part 'guild.freezed.dart';
@@ -82,6 +83,24 @@ class const GuildChannel({
       name: dto.name,
       type: dto.type,
       orderNumber: dto.orderNumber?.toInt(),
+    );
+  }
+}
+
+class const GuildInvitation({
+  required final int id,
+  required final String code,
+  required final Guild guild,
+  required final UserProfile? createdBy,
+}) {
+  factory GuildInvitation.fromDto(GuildInvitationDto dto) {
+    return GuildInvitation(
+      id: dto.id.toInt(),
+      guild: Guild.profileFromDto(dto.guild),
+      code: dto.code!,
+      createdBy: dto.createdBy != null
+          ? UserProfile.fromDto(dto.createdBy!)
+          : null,
     );
   }
 }

@@ -10,33 +10,34 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 
-import 'package:auto_route/auto_route.dart' as _i13;
-import 'package:collection/collection.dart' as _i15;
-import 'package:okidoki/mutations/mutations.dart' as _i16;
+import 'package:auto_route/auto_route.dart' as _i14;
+import 'package:collection/collection.dart' as _i16;
+import 'package:okidoki/mutations/mutations.dart' as _i17;
 import 'package:okidoki/presentation/dialogs/add_guild_page.dart' as _i1;
 import 'package:okidoki/presentation/pages/common/empty_page.dart' as _i3;
-import 'package:okidoki/presentation/pages/common/loading_page.dart' as _i8;
+import 'package:okidoki/presentation/pages/common/loading_page.dart' as _i9;
 import 'package:okidoki/presentation/pages/guild/chat_page.dart' as _i5;
 import 'package:okidoki/presentation/pages/guild/guild_chat_page.dart' as _i6;
 import 'package:okidoki/presentation/pages/guild_settings/guild_settings_page.dart'
     as _i7;
 import 'package:okidoki/presentation/pages/login/initial_page.dart' as _i2;
-import 'package:okidoki/presentation/pages/login/login_page.dart' as _i9;
-import 'package:okidoki/presentation/pages/login/register_page.dart' as _i11;
-import 'package:okidoki/presentation/pages/main_page/main_page.dart' as _i10;
-import 'package:okidoki/presentation/pages/settings/settings_page.dart' as _i12;
-import 'package:okidoki/presentation/presentation.dart' as _i14;
+import 'package:okidoki/presentation/pages/login/login_page.dart' as _i10;
+import 'package:okidoki/presentation/pages/login/register_page.dart' as _i12;
+import 'package:okidoki/presentation/pages/login/welcome_page.dart' as _i8;
+import 'package:okidoki/presentation/pages/main_page/main_page.dart' as _i11;
+import 'package:okidoki/presentation/pages/settings/settings_page.dart' as _i13;
+import 'package:okidoki/presentation/presentation.dart' as _i15;
 import 'package:okidoki/presentation/widgets/friends/friends_page.dart' as _i4;
 
 /// generated route for
 /// [_i1.AddGuildPage]
-class AddGuildRoute extends _i13.PageRouteInfo<void> {
-  const AddGuildRoute({List<_i13.PageRouteInfo>? children})
+class AddGuildRoute extends _i14.PageRouteInfo<void> {
+  const AddGuildRoute({List<_i14.PageRouteInfo>? children})
     : super(AddGuildRoute.name, initialChildren: children);
 
   static const String name = 'AddGuildRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
       return const _i1.AddGuildPage();
@@ -46,29 +47,68 @@ class AddGuildRoute extends _i13.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.AuthPage]
-class AuthRoute extends _i13.PageRouteInfo<void> {
-  const AuthRoute({List<_i13.PageRouteInfo>? children})
-    : super(AuthRoute.name, initialChildren: children);
+class AuthRoute extends _i14.PageRouteInfo<AuthRouteArgs> {
+  AuthRoute({
+    _i15.Key? key,
+    String? guildInvitationCode,
+    List<_i14.PageRouteInfo>? children,
+  }) : super(
+         AuthRoute.name,
+         args: AuthRouteArgs(
+           key: key,
+           guildInvitationCode: guildInvitationCode,
+         ),
+         initialChildren: children,
+       );
 
   static const String name = 'AuthRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
-      return const _i2.AuthPage();
+      final args = data.argsAs<AuthRouteArgs>(
+        orElse: () => const AuthRouteArgs(),
+      );
+      return _i2.AuthPage(
+        key: args.key,
+        guildInvitationCode: args.guildInvitationCode,
+      );
     },
   );
 }
 
+class AuthRouteArgs {
+  const AuthRouteArgs({this.key, this.guildInvitationCode});
+
+  final _i15.Key? key;
+
+  final String? guildInvitationCode;
+
+  @override
+  String toString() {
+    return 'AuthRouteArgs{key: $key, guildInvitationCode: $guildInvitationCode}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! AuthRouteArgs) return false;
+    return key == other.key && guildInvitationCode == other.guildInvitationCode;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ guildInvitationCode.hashCode;
+}
+
 /// generated route for
 /// [_i3.EmptyPage]
-class EmptyRoute extends _i13.PageRouteInfo<void> {
-  const EmptyRoute({List<_i13.PageRouteInfo>? children})
+class EmptyRoute extends _i14.PageRouteInfo<void> {
+  const EmptyRoute({List<_i14.PageRouteInfo>? children})
     : super(EmptyRoute.name, initialChildren: children);
 
   static const String name = 'EmptyRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
       return const _i3.EmptyPage();
@@ -78,13 +118,13 @@ class EmptyRoute extends _i13.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.FriendsPage]
-class FriendsRoute extends _i13.PageRouteInfo<void> {
-  const FriendsRoute({List<_i13.PageRouteInfo>? children})
+class FriendsRoute extends _i14.PageRouteInfo<void> {
+  const FriendsRoute({List<_i14.PageRouteInfo>? children})
     : super(FriendsRoute.name, initialChildren: children);
 
   static const String name = 'FriendsRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
       return const _i4.FriendsPage();
@@ -94,12 +134,12 @@ class FriendsRoute extends _i13.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i5.GuildChatPage]
-class GuildChatRoute extends _i13.PageRouteInfo<GuildChatRouteArgs> {
+class GuildChatRoute extends _i14.PageRouteInfo<GuildChatRouteArgs> {
   GuildChatRoute({
-    _i14.Key? key,
+    _i15.Key? key,
     required int? channelId,
     required int guildId,
-    List<_i13.PageRouteInfo>? children,
+    List<_i14.PageRouteInfo>? children,
   }) : super(
          GuildChatRoute.name,
          args: GuildChatRouteArgs(
@@ -113,7 +153,7 @@ class GuildChatRoute extends _i13.PageRouteInfo<GuildChatRouteArgs> {
 
   static const String name = 'GuildChatRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
       final pathParams = data.inheritedPathParams;
@@ -139,7 +179,7 @@ class GuildChatRouteArgs {
     required this.guildId,
   });
 
-  final _i14.Key? key;
+  final _i15.Key? key;
 
   final int? channelId;
 
@@ -165,11 +205,11 @@ class GuildChatRouteArgs {
 
 /// generated route for
 /// [_i6.GuildPage]
-class GuildRoute extends _i13.PageRouteInfo<GuildRouteArgs> {
+class GuildRoute extends _i14.PageRouteInfo<GuildRouteArgs> {
   GuildRoute({
-    _i14.Key? key,
+    _i15.Key? key,
     required int guildId,
-    List<_i13.PageRouteInfo>? children,
+    List<_i14.PageRouteInfo>? children,
   }) : super(
          GuildRoute.name,
          args: GuildRouteArgs(key: key, guildId: guildId),
@@ -179,7 +219,7 @@ class GuildRoute extends _i13.PageRouteInfo<GuildRouteArgs> {
 
   static const String name = 'GuildRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
       final pathParams = data.inheritedPathParams;
@@ -194,7 +234,7 @@ class GuildRoute extends _i13.PageRouteInfo<GuildRouteArgs> {
 class GuildRouteArgs {
   const GuildRouteArgs({this.key, required this.guildId});
 
-  final _i14.Key? key;
+  final _i15.Key? key;
 
   final int guildId;
 
@@ -216,11 +256,11 @@ class GuildRouteArgs {
 
 /// generated route for
 /// [_i7.GuildSettingsPage]
-class GuildSettingsRoute extends _i13.PageRouteInfo<GuildSettingsRouteArgs> {
+class GuildSettingsRoute extends _i14.PageRouteInfo<GuildSettingsRouteArgs> {
   GuildSettingsRoute({
-    _i14.Key? key,
-    required List<_i14.SettingsTab> settings,
-    List<_i13.PageRouteInfo>? children,
+    _i15.Key? key,
+    required List<_i15.SettingsTab> settings,
+    List<_i14.PageRouteInfo>? children,
   }) : super(
          GuildSettingsRoute.name,
          args: GuildSettingsRouteArgs(key: key, settings: settings),
@@ -229,7 +269,7 @@ class GuildSettingsRoute extends _i13.PageRouteInfo<GuildSettingsRouteArgs> {
 
   static const String name = 'GuildSettingsRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<GuildSettingsRouteArgs>();
@@ -241,9 +281,9 @@ class GuildSettingsRoute extends _i13.PageRouteInfo<GuildSettingsRouteArgs> {
 class GuildSettingsRouteArgs {
   const GuildSettingsRouteArgs({this.key, required this.settings});
 
-  final _i14.Key? key;
+  final _i15.Key? key;
 
-  final List<_i14.SettingsTab> settings;
+  final List<_i15.SettingsTab> settings;
 
   @override
   String toString() {
@@ -255,7 +295,7 @@ class GuildSettingsRouteArgs {
     if (identical(this, other)) return true;
     if (other is! GuildSettingsRouteArgs) return false;
     return key == other.key &&
-        const _i15.ListEquality<_i14.SettingsTab>().equals(
+        const _i16.ListEquality<_i15.SettingsTab>().equals(
           settings,
           other.settings,
         );
@@ -263,35 +303,94 @@ class GuildSettingsRouteArgs {
 
   @override
   int get hashCode =>
-      key.hashCode ^ const _i15.ListEquality<_i14.SettingsTab>().hash(settings);
+      key.hashCode ^ const _i16.ListEquality<_i15.SettingsTab>().hash(settings);
 }
 
 /// generated route for
-/// [_i8.LoadingPage]
-class LoadingRoute extends _i13.PageRouteInfo<void> {
-  const LoadingRoute({List<_i13.PageRouteInfo>? children})
+/// [_i8.InvitePage]
+class InviteRoute extends _i14.PageRouteInfo<InviteRouteArgs> {
+  InviteRoute({
+    _i15.Key? key,
+    required String guildInvitationCode,
+    List<_i14.PageRouteInfo>? children,
+  }) : super(
+         InviteRoute.name,
+         args: InviteRouteArgs(
+           key: key,
+           guildInvitationCode: guildInvitationCode,
+         ),
+         rawPathParams: {'guildInvitationCode': guildInvitationCode},
+         initialChildren: children,
+       );
+
+  static const String name = 'InviteRoute';
+
+  static _i14.PageInfo page = _i14.PageInfo(
+    name,
+    builder: (data) {
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<InviteRouteArgs>(
+        orElse: () => InviteRouteArgs(
+          guildInvitationCode: pathParams.getString('guildInvitationCode'),
+        ),
+      );
+      return _i8.InvitePage(
+        key: args.key,
+        guildInvitationCode: args.guildInvitationCode,
+      );
+    },
+  );
+}
+
+class InviteRouteArgs {
+  const InviteRouteArgs({this.key, required this.guildInvitationCode});
+
+  final _i15.Key? key;
+
+  final String guildInvitationCode;
+
+  @override
+  String toString() {
+    return 'InviteRouteArgs{key: $key, guildInvitationCode: $guildInvitationCode}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! InviteRouteArgs) return false;
+    return key == other.key && guildInvitationCode == other.guildInvitationCode;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ guildInvitationCode.hashCode;
+}
+
+/// generated route for
+/// [_i9.LoadingPage]
+class LoadingRoute extends _i14.PageRouteInfo<void> {
+  const LoadingRoute({List<_i14.PageRouteInfo>? children})
     : super(LoadingRoute.name, initialChildren: children);
 
   static const String name = 'LoadingRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
-      return const _i8.LoadingPage();
+      return const _i9.LoadingPage();
     },
   );
 }
 
 /// generated route for
-/// [_i9.LoginPage]
-class LoginRoute extends _i13.PageRouteInfo<LoginRouteArgs> {
+/// [_i10.LoginPage]
+class LoginRoute extends _i14.PageRouteInfo<LoginRouteArgs> {
   LoginRoute({
-    _i14.Key? key,
-    required _i9.LoginForm form,
-    required _i16.Mutation<dynamic> mutation,
+    _i15.Key? key,
+    required _i10.LoginForm form,
+    required _i17.Mutation<dynamic> mutation,
     required bool isBusy,
-    required _i14.VoidCallback goToRegister,
-    List<_i13.PageRouteInfo>? children,
+    required _i15.VoidCallback goToRegister,
+    List<_i14.PageRouteInfo>? children,
   }) : super(
          LoginRoute.name,
          args: LoginRouteArgs(
@@ -306,11 +405,11 @@ class LoginRoute extends _i13.PageRouteInfo<LoginRouteArgs> {
 
   static const String name = 'LoginRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<LoginRouteArgs>();
-      return _i9.LoginPage(
+      return _i10.LoginPage(
         key: args.key,
         form: args.form,
         mutation: args.mutation,
@@ -330,15 +429,15 @@ class LoginRouteArgs {
     required this.goToRegister,
   });
 
-  final _i14.Key? key;
+  final _i15.Key? key;
 
-  final _i9.LoginForm form;
+  final _i10.LoginForm form;
 
-  final _i16.Mutation<dynamic> mutation;
+  final _i17.Mutation<dynamic> mutation;
 
   final bool isBusy;
 
-  final _i14.VoidCallback goToRegister;
+  final _i15.VoidCallback goToRegister;
 
   @override
   String toString() {
@@ -366,31 +465,31 @@ class LoginRouteArgs {
 }
 
 /// generated route for
-/// [_i10.MainPage]
-class MainRoute extends _i13.PageRouteInfo<void> {
-  const MainRoute({List<_i13.PageRouteInfo>? children})
+/// [_i11.MainPage]
+class MainRoute extends _i14.PageRouteInfo<void> {
+  const MainRoute({List<_i14.PageRouteInfo>? children})
     : super(MainRoute.name, initialChildren: children);
 
   static const String name = 'MainRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
-      return const _i10.MainPage();
+      return const _i11.MainPage();
     },
   );
 }
 
 /// generated route for
-/// [_i11.RegisterPage]
-class RegisterRoute extends _i13.PageRouteInfo<RegisterRouteArgs> {
+/// [_i12.RegisterPage]
+class RegisterRoute extends _i14.PageRouteInfo<RegisterRouteArgs> {
   RegisterRoute({
-    _i14.Key? key,
-    required _i11.RegisterForm form,
-    required _i16.Mutation<dynamic> mutation,
+    _i15.Key? key,
+    required _i12.RegisterForm form,
+    required _i17.Mutation<dynamic> mutation,
     required bool isBusy,
-    required _i14.VoidCallback goToLogin,
-    List<_i13.PageRouteInfo>? children,
+    required _i15.VoidCallback goToLogin,
+    List<_i14.PageRouteInfo>? children,
   }) : super(
          RegisterRoute.name,
          args: RegisterRouteArgs(
@@ -405,11 +504,11 @@ class RegisterRoute extends _i13.PageRouteInfo<RegisterRouteArgs> {
 
   static const String name = 'RegisterRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<RegisterRouteArgs>();
-      return _i11.RegisterPage(
+      return _i12.RegisterPage(
         key: args.key,
         form: args.form,
         mutation: args.mutation,
@@ -429,15 +528,15 @@ class RegisterRouteArgs {
     required this.goToLogin,
   });
 
-  final _i14.Key? key;
+  final _i15.Key? key;
 
-  final _i11.RegisterForm form;
+  final _i12.RegisterForm form;
 
-  final _i16.Mutation<dynamic> mutation;
+  final _i17.Mutation<dynamic> mutation;
 
   final bool isBusy;
 
-  final _i14.VoidCallback goToLogin;
+  final _i15.VoidCallback goToLogin;
 
   @override
   String toString() {
@@ -465,12 +564,12 @@ class RegisterRouteArgs {
 }
 
 /// generated route for
-/// [_i12.SettingsPage]
-class SettingsRoute extends _i13.PageRouteInfo<SettingsRouteArgs> {
+/// [_i13.SettingsPage]
+class SettingsRoute extends _i14.PageRouteInfo<SettingsRouteArgs> {
   SettingsRoute({
-    _i14.Key? key,
-    required List<_i12.SettingsTab> settings,
-    List<_i13.PageRouteInfo>? children,
+    _i15.Key? key,
+    required List<_i13.SettingsTab> settings,
+    List<_i14.PageRouteInfo>? children,
   }) : super(
          SettingsRoute.name,
          args: SettingsRouteArgs(key: key, settings: settings),
@@ -479,11 +578,11 @@ class SettingsRoute extends _i13.PageRouteInfo<SettingsRouteArgs> {
 
   static const String name = 'SettingsRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<SettingsRouteArgs>();
-      return _i12.SettingsPage(key: args.key, settings: args.settings);
+      return _i13.SettingsPage(key: args.key, settings: args.settings);
     },
   );
 }
@@ -491,9 +590,9 @@ class SettingsRoute extends _i13.PageRouteInfo<SettingsRouteArgs> {
 class SettingsRouteArgs {
   const SettingsRouteArgs({this.key, required this.settings});
 
-  final _i14.Key? key;
+  final _i15.Key? key;
 
-  final List<_i12.SettingsTab> settings;
+  final List<_i13.SettingsTab> settings;
 
   @override
   String toString() {
@@ -505,7 +604,7 @@ class SettingsRouteArgs {
     if (identical(this, other)) return true;
     if (other is! SettingsRouteArgs) return false;
     return key == other.key &&
-        const _i15.ListEquality<_i12.SettingsTab>().equals(
+        const _i16.ListEquality<_i13.SettingsTab>().equals(
           settings,
           other.settings,
         );
@@ -513,5 +612,5 @@ class SettingsRouteArgs {
 
   @override
   int get hashCode =>
-      key.hashCode ^ const _i15.ListEquality<_i12.SettingsTab>().hash(settings);
+      key.hashCode ^ const _i16.ListEquality<_i13.SettingsTab>().hash(settings);
 }

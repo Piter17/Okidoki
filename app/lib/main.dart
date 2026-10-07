@@ -3,16 +3,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_titlebar/flutter_titlebar.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:hooks_riverpod/misc.dart';
 import 'package:logging/logging.dart';
 import 'package:okidoki/core/core.dart';
 import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart' hide HttpClient;
 import 'package:riverpod_devtools/riverpod_devtools.dart';
 import 'package:scaled_app/scaled_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_db_inspector/sqflite_db_inspector.dart';
-import 'package:okidoki/providers/providers.dart' hide HttpClient;
 
 const serverBaseUrl = String.fromEnvironment(
   'API_URL',
@@ -55,11 +56,21 @@ void main(List args) async {
 
   final globalSettings = await SharedPreferences.getInstance();
 
+  usePathUrlStrategy();
+
   runApp(
     ProviderScope(
       retry: (retryCount, error) {
+        return null;
         if (retryCount >= 5) return null;
         if (error is ProviderException) return null;
+        if (error is ApiException) {
+          if (error.error is DioException) {
+            if (error.error.type == DioExceptionType.badResponse) {
+              if (error.error.response?.statusCode != 500) return null;
+            }
+          }
+        }
         if (error is DioException) {
           if (error.type == .badResponse) {
             if (error.response?.statusCode != 500) return null;
