@@ -1,7 +1,7 @@
 name: okidoki
 description: ""
 publish_to: 'none'
-version: 1.0.0+1
+version: 0.1.0+1
 
 resolution: workspace
 environment:
@@ -55,6 +55,7 @@ dependencies:
   stack_trace: ^1.12.2
   theme_extensions_builder_annotation: ^7.5.0
   cue: ^0.4.0
+  package_info_plus: ^10.2.2
   
 dev_dependencies:
   flutter_lints: ^6.0.0
@@ -88,6 +89,7 @@ flutter:
     - lib/riverpod_dependencies.json
     - assets/images/logo.svg
     - assets/images/logo2.svg
+    - assets/images/logo3.svg
 
   fonts:
     - family: RedHatDisplay

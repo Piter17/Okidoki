@@ -30,12 +30,15 @@ class const MainPageLayout({
             textAlign: .start,
           ),
         if (hasEmail == false)
-          Container(
-            alignment: Alignment.center,
-            color: context.appColors.info.color,
-            child: Padding(
-              padding: context.values.buttonPadding,
-              child: Text("Please set your email"),
+          InkWell(
+            onTap: () => AddCredentialsDialog.open(context),
+            child: Container(
+              alignment: Alignment.center,
+              color: context.appColors.info.color,
+              child: Padding(
+                padding: context.values.buttonPadding,
+                child: Text("Please set your email"),
+              ),
             ),
           ),
         Expanded(

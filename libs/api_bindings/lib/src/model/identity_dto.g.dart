@@ -7,8 +7,6 @@ part of 'identity_dto.dart';
 // **************************************************************************
 
 abstract class _$IdentityDtoCWProxy {
-  IdentityDto userName(String userName);
-
   IdentityDto email(String? email);
 
   IdentityDto userId(String userId);
@@ -22,12 +20,7 @@ abstract class _$IdentityDtoCWProxy {
   /// ```dart
   /// IdentityDto(...).copyWith(id: 12, name: "My name")
   /// ```
-  IdentityDto call({
-    String userName,
-    String? email,
-    String userId,
-    bool isEmailConfirmed,
-  });
+  IdentityDto call({String? email, String userId, bool isEmailConfirmed});
 }
 
 /// Callable proxy for `copyWith` functionality.
@@ -36,9 +29,6 @@ class _$IdentityDtoCWProxyImpl implements _$IdentityDtoCWProxy {
   const _$IdentityDtoCWProxyImpl(this._value);
 
   final IdentityDto _value;
-
-  @override
-  IdentityDto userName(String userName) => call(userName: userName);
 
   @override
   IdentityDto email(String? email) => call(email: email);
@@ -59,16 +49,11 @@ class _$IdentityDtoCWProxyImpl implements _$IdentityDtoCWProxy {
   /// ```
   @override
   IdentityDto call({
-    Object? userName = const $CopyWithPlaceholder(),
     Object? email = const $CopyWithPlaceholder(),
     Object? userId = const $CopyWithPlaceholder(),
     Object? isEmailConfirmed = const $CopyWithPlaceholder(),
   }) {
     return IdentityDto(
-      userName: userName == const $CopyWithPlaceholder() || userName == null
-          ? _value.userName
-          // ignore: cast_nullable_to_non_nullable
-          : userName as String,
       email: email == const $CopyWithPlaceholder()
           ? _value.email
           // ignore: cast_nullable_to_non_nullable
@@ -100,12 +85,8 @@ extension $IdentityDtoCopyWith on IdentityDto {
 
 IdentityDto _$IdentityDtoFromJson(Map<String, dynamic> json) =>
     $checkedCreate('IdentityDto', json, ($checkedConvert) {
-      $checkKeys(
-        json,
-        requiredKeys: const ['userName', 'userId', 'isEmailConfirmed'],
-      );
+      $checkKeys(json, requiredKeys: const ['userId', 'isEmailConfirmed']);
       final val = IdentityDto(
-        userName: $checkedConvert('userName', (v) => v as String),
         email: $checkedConvert('email', (v) => v as String?),
         userId: $checkedConvert('userId', (v) => v as String),
         isEmailConfirmed: $checkedConvert('isEmailConfirmed', (v) => v as bool),
@@ -115,7 +96,6 @@ IdentityDto _$IdentityDtoFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$IdentityDtoToJson(IdentityDto instance) =>
     <String, dynamic>{
-      'userName': instance.userName,
       'email': ?instance.email,
       'userId': instance.userId,
       'isEmailConfirmed': instance.isEmailConfirmed,

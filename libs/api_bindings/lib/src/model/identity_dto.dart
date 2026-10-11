@@ -18,17 +18,12 @@ part 'identity_dto.g.dart';
 class IdentityDto {
   /// Returns a new [IdentityDto] instance.
   IdentityDto({
-    required this.userName,
-
     this.email,
 
     required this.userId,
 
     required this.isEmailConfirmed,
   });
-
-  @JsonKey(name: r'userName', required: true, includeIfNull: false)
-  final String userName;
 
   @JsonKey(name: r'email', required: false, includeIfNull: false)
   final String? email;
@@ -43,15 +38,13 @@ class IdentityDto {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is IdentityDto &&
-          other.userName == userName &&
           other.email == email &&
           other.userId == userId &&
           other.isEmailConfirmed == isEmailConfirmed;
 
   @override
   int get hashCode =>
-      userName.hashCode +
-      email.hashCode +
+      (email == null ? 0 : email.hashCode) +
       userId.hashCode +
       isEmailConfirmed.hashCode;
 

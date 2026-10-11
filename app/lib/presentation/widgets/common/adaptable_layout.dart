@@ -32,8 +32,6 @@ class AdaptableLayoutState extends State<AdaptableLayout> {
     () => _controller.jumpToPage(1),
   );
 
-  // final contentKey = GlobalKey();
-
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -51,6 +49,7 @@ class AdaptableLayoutState extends State<AdaptableLayout> {
             ),
           ),
           _ => Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
                 width: 250,

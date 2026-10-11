@@ -11,9 +11,9 @@ abstract class _$GuildInvitationDtoCWProxy {
 
   GuildInvitationDto guild(GuildProfileDto guild);
 
-  GuildInvitationDto code(String? code);
+  GuildInvitationDto code(String code);
 
-  GuildInvitationDto createdBy(UserProfileDto? createdBy);
+  GuildInvitationDto createdBy(UserProfileDto createdBy);
 
   /// Creates a new instance with the provided field values.
   /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `GuildInvitationDto(...).copyWith.fieldName(value)`.
@@ -25,8 +25,8 @@ abstract class _$GuildInvitationDtoCWProxy {
   GuildInvitationDto call({
     String id,
     GuildProfileDto guild,
-    String? code,
-    UserProfileDto? createdBy,
+    String code,
+    UserProfileDto createdBy,
   });
 }
 
@@ -44,10 +44,10 @@ class _$GuildInvitationDtoCWProxyImpl implements _$GuildInvitationDtoCWProxy {
   GuildInvitationDto guild(GuildProfileDto guild) => call(guild: guild);
 
   @override
-  GuildInvitationDto code(String? code) => call(code: code);
+  GuildInvitationDto code(String code) => call(code: code);
 
   @override
-  GuildInvitationDto createdBy(UserProfileDto? createdBy) =>
+  GuildInvitationDto createdBy(UserProfileDto createdBy) =>
       call(createdBy: createdBy);
 
   /// Creates a new instance with the provided field values.
@@ -73,14 +73,14 @@ class _$GuildInvitationDtoCWProxyImpl implements _$GuildInvitationDtoCWProxy {
           ? _value.guild
           // ignore: cast_nullable_to_non_nullable
           : guild as GuildProfileDto,
-      code: code == const $CopyWithPlaceholder()
+      code: code == const $CopyWithPlaceholder() || code == null
           ? _value.code
           // ignore: cast_nullable_to_non_nullable
-          : code as String?,
-      createdBy: createdBy == const $CopyWithPlaceholder()
+          : code as String,
+      createdBy: createdBy == const $CopyWithPlaceholder() || createdBy == null
           ? _value.createdBy
           // ignore: cast_nullable_to_non_nullable
-          : createdBy as UserProfileDto?,
+          : createdBy as UserProfileDto,
     );
   }
 }
@@ -99,19 +99,20 @@ extension $GuildInvitationDtoCopyWith on GuildInvitationDto {
 
 GuildInvitationDto _$GuildInvitationDtoFromJson(Map<String, dynamic> json) =>
     $checkedCreate('GuildInvitationDto', json, ($checkedConvert) {
-      $checkKeys(json, requiredKeys: const ['id', 'guild']);
+      $checkKeys(
+        json,
+        requiredKeys: const ['id', 'guild', 'code', 'createdBy'],
+      );
       final val = GuildInvitationDto(
         id: $checkedConvert('id', (v) => v as String),
         guild: $checkedConvert(
           'guild',
           (v) => GuildProfileDto.fromJson(v as Map<String, dynamic>),
         ),
-        code: $checkedConvert('code', (v) => v as String?),
+        code: $checkedConvert('code', (v) => v as String),
         createdBy: $checkedConvert(
           'createdBy',
-          (v) => v == null
-              ? null
-              : UserProfileDto.fromJson(v as Map<String, dynamic>),
+          (v) => UserProfileDto.fromJson(v as Map<String, dynamic>),
         ),
       );
       return val;
@@ -121,6 +122,6 @@ Map<String, dynamic> _$GuildInvitationDtoToJson(GuildInvitationDto instance) =>
     <String, dynamic>{
       'id': instance.id,
       'guild': instance.guild.toJson(),
-      'code': ?instance.code,
-      'createdBy': ?instance.createdBy?.toJson(),
+      'code': instance.code,
+      'createdBy': instance.createdBy.toJson(),
     };

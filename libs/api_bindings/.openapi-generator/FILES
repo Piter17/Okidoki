@@ -3,6 +3,7 @@ README.md
 build.yaml
 doc/AccessTokenResponse.md
 doc/AddCredentialsRequest.md
+doc/AnonymousRegister.md
 doc/AnonymusRegistrationRequest.md
 doc/AuthApi.md
 doc/ChannelType.md
@@ -26,9 +27,11 @@ doc/IdentityDto.md
 doc/InfoRequest.md
 doc/InfoResponse.md
 doc/LoginRequest.md
+doc/PasswordOptions.md
 doc/QueryDirection.md
 doc/ReceivedRequestDto.md
 doc/RefreshRequest.md
+doc/RegisterOptionsDto.md
 doc/RegisterRequest.md
 doc/RegisterResponse.md
 doc/RegistrationRequest.md
@@ -60,6 +63,7 @@ lib/src/auth/oauth.dart
 lib/src/deserialize.dart
 lib/src/model/access_token_response.dart
 lib/src/model/add_credentials_request.dart
+lib/src/model/anonymous_register.dart
 lib/src/model/anonymus_registration_request.dart
 lib/src/model/channel_type.dart
 lib/src/model/chat_message_dto.dart
@@ -79,9 +83,11 @@ lib/src/model/identity_dto.dart
 lib/src/model/info_request.dart
 lib/src/model/info_response.dart
 lib/src/model/login_request.dart
+lib/src/model/password_options.dart
 lib/src/model/query_direction.dart
 lib/src/model/received_request_dto.dart
 lib/src/model/refresh_request.dart
+lib/src/model/register_options_dto.dart
 lib/src/model/register_request.dart
 lib/src/model/register_response.dart
 lib/src/model/registration_request.dart

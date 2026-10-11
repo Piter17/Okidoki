@@ -16,7 +16,7 @@ class const BaseSettingsPage({super.key, required final Widget child})
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: context.values.containerPaddingL,
+        padding: context.values.containerPaddingXL,
         child: child,
       ),
     );

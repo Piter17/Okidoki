@@ -1,12 +1,8 @@
-import 'dart:io';
-
-import 'package:auto_route/annotations.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
-import 'package:okidoki/core/types/file_content.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:okidoki/core/core.dart';
+import 'package:okidoki/mutations/mutations.dart';
 import 'package:okidoki/presentation/presentation.dart';
 import 'package:okidoki/providers/providers.dart';
-import 'package:okidoki/mutations/mutations.dart';
 import 'package:okidoki/utils/utils.dart';
 
 @RoutePage()
@@ -17,7 +13,7 @@ class AddGuildPage extends HookConsumerWidget {
     return showResponsivePopup(
       context: context,
       builder: (context) => AddGuildPage(),
-      dialogConstraints: BoxConstraints(maxWidth: 360, maxHeight: 350),
+      dialogConstraints: BoxConstraints(maxWidth: 360, maxHeight: 409),
     );
   }
 
@@ -29,22 +25,27 @@ class AddGuildPage extends HookConsumerWidget {
       duration: Duration(milliseconds: 300),
       curve: Curves.decelerate,
     );
-    return Surface(
-      decoration: BoxDecoration(
-        borderRadius: context.values.borderL,
-      ),
-      // contextStyle: ContextColors.light,
-      child: PageView(
-        controller: controller,
-        physics: NeverScrollableScrollPhysics(),
-        children: [
-          _CreateGuild(
-            changePage: () => changePage(1),
-          ),
-          _JoinGuild(
-            changePage: () => changePage(0),
-          ),
-        ],
+    return BaseDialog(
+      title: controller.currentPage == 0
+          ? context.s.guild_create_title
+          : context.s.guild_join_title,
+      child: ConstrainedBox(
+        constraints: BoxConstraints.tightFor(
+          width: 360,
+          height: 350,
+        ),
+        child: PageView(
+          controller: controller,
+          physics: NeverScrollableScrollPhysics(),
+          children: [
+            _CreateGuild(
+              changePage: () => changePage(1),
+            ),
+            _JoinGuild(
+              changePage: () => changePage(0),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -58,86 +59,57 @@ class _CreateGuild extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final createGuild = useMemoized(GuildMutations.getCreate);
     final user = ref.watch(currentUserProfileProvider).requireValue;
-    final img = useState<Uint8List?>(null);
+    final img = useState<FileContent?>(null);
 
     final guildNameController = useTextEditingController(
-      text: "Gildia użytkownika ${user.nickname}",
+      text: "Społeczność użytkownika ${user.nickname}",
     );
 
     createGuild.showPopupOnError(context, ref);
+    createGuild.onSuccess(context, ref, context.pop);
 
     final createState = ref.watch(createGuild);
-    if (createState.isSuccess) Navigator.pop(context);
 
-    return Padding(
-      padding: context.values.containerPadding,
-      child: Column(
-        spacing: context.values.spacing,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          DialogHeader(
-            text: context.s.guild_create_title,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      spacing: context.values.spacing,
+      children: [
+        Text(context.s.guild_create_prompt),
+        SizedBox.square(
+          dimension: 100,
+          child: ImagePicker(
+            diameter: 100,
+            value: img.value,
+            onChanged: (image) => img.value = image,
           ),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  width: 100,
-                  height: 100,
-                  child: InkResponse(
-                    onTap: () async {
-                      final result = await FilePicker.pickFiles(
-                        type: FileType.image,
-                      );
-                      if (result.length == 1) {
-                        if (kIsWeb) {
-                          img.value = await result.first.readAsBytes();
-                        } else {
-                          File file = File(result.first.path!);
-                          img.value = await file.readAsBytes();
-                        }
-                      }
-                    },
-                    child: CircleAvatar(
-                      backgroundImage: img.value != null
-                          ? MemoryImage(img.value!)
-                          : null,
-                    ),
+        ),
+        TextFormField(
+          controller: guildNameController,
+          decoration: InputDecoration(
+            labelText: context.s.guild_name,
+            hintText: " ",
+          ),
+        ),
+        Button(
+          buttonType: ButtonType.primary,
+          onPressed: createState is MutationPending
+              ? null
+              : () => createGuild.run(
+                  ref,
+                  GuildMutations.createCb(
+                    name: guildNameController.text,
+                    image: img.value,
                   ),
                 ),
-                Button(
-                  buttonType: ButtonType.primary,
-                  onPressed: createState is MutationPending
-                      ? null
-                      : () => createGuild.run(
-                          ref,
-                          GuildMutations.createCb(
-                            name: guildNameController.text,
-                            image: img.value == null
-                                ? null
-                                : FileContent(
-                                    content: img.value!,
-                                    contentType: "application/octet-stream",
-                                    fileName: "asd.png",
-                                  ),
-                          ),
-                        ),
-                  child: Text(context.s.guild_create_button),
-                ),
-                TextFormField(
-                  controller: guildNameController,
-                ),
-                Text(context.s.guild_join_prompt),
-                Button(
-                  onPressed: changePage,
-                  buttonType: ButtonType.secondary,
-                  child: Text(context.s.guild_join_button),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+          child: Text(context.s.guild_create_button),
+        ),
+        Text(context.s.guild_join_prompt),
+        Button(
+          onPressed: changePage,
+          buttonType: ButtonType.secondary,
+          child: Text(context.s.guild_join_button),
+        ),
+      ],
     );
   }
 }
@@ -159,46 +131,47 @@ class _JoinGuild extends HookConsumerWidget {
     void setCode(String? text) =>
         code.value = GuildInvitationService.toInvitationCode(text);
 
-    return Padding(
-      padding: context.values.containerPadding,
-      child: Column(
-        spacing: context.values.spacing,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          DialogHeader(
-            text: context.s.guild_join_title,
+    return Column(
+      spacing: context.values.spacing,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(context.s.guild_join_prompt),
+        TextField(
+          onChanged: setCode,
+          controller: invitationController,
+          decoration: InputDecoration(hint: Text('invitation code')),
+        ),
+        Text(
+          context.s.guild_join_invitation_url_help(
+            "XXXXXXXXXX",
+            ReleaseConfig.getInviteUrl("XXXXXXXXXX"),
           ),
-          TextField(
-            onChanged: setCode,
-            controller: invitationController,
-            decoration: InputDecoration(hint: Text('invitation code')),
-          ),
-          Spacer(),
-          Row(
-            mainAxisAlignment: .spaceBetween,
-            children: [
-              Button(
-                onPressed: changePage,
-                buttonType: .text,
-                child: Text(context.s.generic_back),
-              ),
-              Button(
-                onPressed: joinState is MutationPending || code.value == null
-                    ? null
-                    : () => joinGuildMutation
-                          .run(ref, GuildMutations.joinCb(code: code.value!))
-                          .then(
-                            (_) => context.mounted.then(
-                              () => Navigator.pop(context),
-                            ),
+        ),
+        Spacer(),
+        Row(
+          mainAxisAlignment: .spaceBetween,
+          children: [
+            Button(
+              onPressed: changePage,
+              buttonType: .text,
+              child: Text(context.s.generic_back),
+            ),
+            Button(
+              onPressed: joinState is MutationPending || code.value == null
+                  ? null
+                  : () => joinGuildMutation
+                        .run(ref, GuildMutations.joinCb(code: code.value!))
+                        .then(
+                          (_) => context.mounted.then(
+                            () => Navigator.pop(context),
                           ),
-                buttonType: ButtonType.primary,
-                child: Text(context.s.guild_join_button),
-              ),
-            ],
-          ),
-        ],
-      ),
+                        ),
+              buttonType: ButtonType.primary,
+              child: Text(context.s.guild_join_button),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

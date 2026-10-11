@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:okidoki/presentation/presentation.dart';
 import 'package:okidoki/utils/utils.dart';
 
@@ -11,53 +11,7 @@ class EmptyPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final variants = SurfaceThemes.values;
-
-    return Stack(
-      children: [
-        PlaceholderGrid(
-          maxCellSize: 100,
-          getColor: (x, y) =>
-              HSVColor.fromAHSV(1, (x + y) % 360, .4, (x / 10) % 1.0).toColor(),
-        ),
-        Align(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: .center,
-              children: [
-                // OverlayButton(),
-                // SizedBox(
-                //   width: 100,
-                //   height: 20,
-                //   child: OverlayButton(),
-                // ),
-                CtxMenuRegion(
-                  items: [
-                    CtxMenuItem(
-                      label: (context) => 'Print',
-                      onPressed: () {},
-                    ),
-                    CtxMenuItem(
-                      label: (context) => 'Copy',
-                      onPressed: () {},
-                    ),
-                  ],
-                  child: ColoredBox(
-                    color: Colors.green,
-                    child: Center(child: Text('asd')),
-                  ),
-                ),
-
-                Button(
-                  onPressed: () => b(context),
-                  child: Text('Click Me'),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
+    return SizedBox.shrink();
   }
 
   void b(BuildContext context) => showDialog(
@@ -70,7 +24,7 @@ class EmptyPage extends HookWidget {
     context: context,
     barrierColor: Colors.black.withValues(alpha: 0.6),
     builder: (_) {
-      return GlassModal(
+      return GlassDialog(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -233,34 +187,39 @@ class BlurDialog extends HookWidget {
   }
 }
 
-class GlassModal extends HookWidget {
-  final Widget child;
-  final EdgeInsets padding;
-  final BoxConstraints constraints;
-  final Duration duration;
+class const GlassModal({
+  super.key,
+  required final Widget child,
+  required final bool asDialog,
+}) extends HookWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GlassSurface(
+      asDialog: asDialog,
+      child: child,
+    );
+  }
+}
 
-  const GlassModal({
-    super.key,
-    required this.child,
-    this.padding = const EdgeInsets.all(24),
-    this.constraints = const BoxConstraints(
-      maxWidth: 1500,
-      maxHeight: 900,
-      minHeight: 350,
-      minWidth: 360,
-    ),
-    this.duration = const Duration(milliseconds: 240),
-  });
-
+class const GlassDialog({
+  super.key,
+  required final Widget child,
+  final BoxConstraints? constraints = const BoxConstraints(
+    maxWidth: 1500,
+    maxHeight: 800,
+    minHeight: 350,
+    minWidth: 360,
+  ),
+  final String? text,
+}) extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: Colors.transparent,
       constraints: constraints,
-      child: Center(
-        child: GlassSurface(
-          child: child,
-        ),
+      child: GlassModal(
+        asDialog: true,
+        child: child,
       ),
     );
   }

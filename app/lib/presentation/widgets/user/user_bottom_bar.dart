@@ -1,6 +1,4 @@
-import 'package:api_bindings/api_bindings.dart';
-import 'package:flutter/material.dart' show Card;
-import 'package:okidoki/domain/user/user_state.dart';
+import 'package:okidoki/domain/domain.dart';
 import 'package:okidoki/presentation/presentation.dart';
 import 'package:okidoki/utils/skeleton_text_generator.dart';
 
@@ -12,7 +10,7 @@ class UserBottomBar extends StatefulWidget {
 
   const new skeleton({super.key}) : isSkeleton = true, user = null;
 
-  final UserProfileDto? user;
+  final UserProfile? user;
   final bool isSkeleton;
 
   @override
@@ -74,6 +72,7 @@ class _UserBottomBarState extends State<UserBottomBar> {
                   child: Row(
                     children: [
                       UserAvatar(
+                        id: widget.user?.id ?? 0,
                         image: image,
                         userState: userState,
                       ),

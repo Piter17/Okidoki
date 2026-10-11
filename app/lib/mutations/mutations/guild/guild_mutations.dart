@@ -61,13 +61,13 @@ class GuildMutations {
   static Mutation<GuildProfileDto> getUpdateImage() =>
       Mutation<GuildProfileDto>();
   static MutationCallback<GuildProfileDto> updateImageCb({
-    required String guildId,
-    required FileContent image,
+    required int guildId,
+    required FileContent? image,
   }) =>
       (tsx) => tsx.callApi(
         (a) => a.getGuildsApi().updateImage(
-          guildId: guildId,
-          image: image.toDio(),
+          guildId: guildId.toString(),
+          image: image?.toDio(),
         ),
         errorText: "Failed to update image for guild $guildId",
       );
@@ -75,12 +75,12 @@ class GuildMutations {
   static Mutation<GuildProfileDto> getUpdateName() =>
       Mutation<GuildProfileDto>();
   static MutationCallback<GuildProfileDto> updateNameCb({
-    required String guildId,
+    required int guildId,
     required String name,
   }) =>
       (tsx) => tsx.callApi(
         (a) => a.getGuildsApi().updateName(
-          guildId: guildId,
+          guildId: guildId.toString(),
           updateGuildNameRequest: UpdateGuildNameRequest(
             name: name,
           ),
@@ -91,7 +91,7 @@ class GuildMutations {
   static Mutation<GuildInvitationDto> getCreateInvite() =>
       Mutation<GuildInvitationDto>();
   static MutationCallback<GuildInvitationDto> createInviteCb({
-    required String guildId,
+    required int guildId,
   }) =>
       (tsx) => tsx.callApi(
         (a) => a.getGuildsApi().createInvitation(guildId: guildId.toString()),

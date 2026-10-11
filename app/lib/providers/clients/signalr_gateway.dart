@@ -5,16 +5,12 @@ import 'package:api_bindings/json.dart';
 import 'package:darq/darq.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
-import 'package:okidoki/main.dart';
-import 'package:okidoki/providers/providers.dart';
+import 'package:okidoki/core/core.dart';
 import 'package:okidoki/domain/domain.dart' as domain;
+import 'package:okidoki/providers/providers.dart';
 import 'package:okidoki/utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:signalr_netcore/http_connection_options.dart';
-import 'package:signalr_netcore/hub_connection.dart';
-import 'package:signalr_netcore/hub_connection_builder.dart';
-import 'package:signalr_netcore/iretry_policy.dart';
-import 'package:signalr_netcore/web_supporting_http_client.dart';
+import 'package:signalr_netcore/signalr.dart';
 
 part 'signalr_gateway.g.dart';
 
@@ -50,7 +46,7 @@ class SignalRClient extends _$SignalRClient {
 
     if (token == null) return future;
 
-    final url = "${serverBaseUrl}hubs/realtime";
+    final url = ReleaseConfig.signalRUrl;
     final hubProtLogger = Logger("SignalR - hub");
     final transportProtLogger = Logger("SignalR - transport");
 
@@ -73,7 +69,6 @@ class SignalRClient extends _$SignalRClient {
         .build();
 
     await hubConnection.start();
-
     return hubConnection;
   }
 
@@ -89,44 +84,6 @@ class SignalRClient extends _$SignalRClient {
     ],
   );
 }
-
-class RealTimeEvent {
-  const RealTimeEvent([this.content]);
-
-  final String? content;
-
-  // void handle() => switch(this)
-  // {
-  //   GatewayReady() => 1,
-  //   MessageReceived(: final message) => 2,
-  //   MessageDeleted(: final message) => 3,
-  //   MessageEdited(: final message) => 3,
-  //   RealTimeEvent() => 5,
-  // };
-}
-
-class GatewayReady extends RealTimeEvent {}
-
-class MessageReceived extends RealTimeEvent {
-  const MessageReceived(this.message);
-  final ChatMessageDto message;
-}
-
-class MessageEdited extends RealTimeEvent {
-  const MessageEdited(this.message);
-  final ChatMessageDto message;
-}
-
-class MessageDeleted extends RealTimeEvent {
-  const MessageDeleted(this.id);
-  final String id;
-}
-
-class const Typing({
-  required final String channelId,
-  required final String userId,
-  required final DateTime dateTime,
-}) extends RealTimeEvent {}
 
 @riverpod
 class SignalrGateway extends _$SignalrGateway {
@@ -207,11 +164,11 @@ class SignalrGateway extends _$SignalrGateway {
       ref.read(guildProvider(guild.id).notifier).updateProfile(guild);
     }
 
-    void profileUpdated(UserProfileDto userProfile) {
-      final userId = userProfile.id.toInt();
-      final provider = userProfileProvider(userId);
+    void profileUpdated(UserProfileDto userProfileDto) {
+      final user = domain.UserProfile.fromDto(userProfileDto);
+      final provider = userProfileProvider(user.id);
       if (ref.exists(provider)) {
-        ref.read(provider.notifier).set(userProfile);
+        ref.read(provider.notifier).set(user);
       }
     }
 
@@ -246,13 +203,6 @@ class SignalrGateway extends _$SignalrGateway {
         ref
             .read(chatProvider(channelId.toInt()).notifier)
             .receiveTyping(userId.toInt(), dateTime);
-        // controller.add(
-        //   Typing(
-        //     channelId: channelId,
-        //     userId: userId,
-        //     dateTime: dateTime,
-        //   ),
-        // );
       },
     );
 
@@ -264,17 +214,31 @@ class SignalrGateway extends _$SignalrGateway {
   }
 }
 
-abstract class SignalrInterface {
-  void messageReceived(ChatMessageDto message);
-  void messageEdited(ChatMessageDto message);
-  void messageDeleted(String message);
-  void joinGuild(GuildProfileDto guildProfile);
-  void leaveGuild(String guildId);
-  void addedChannel(GuildChannelDto channel);
-  void removedChannel(String guildId, String channelId);
-  void friendRequest(UserProfileDto userProfile);
-  void friendAdded(UserProfileDto userProfile);
-  void friendRemoved(String userId);
-  void updatedGuildProfile(GuildProfileDto param);
-  void profileUpdated(UserProfileDto userProfile);
+class RealTimeEvent {
+  const RealTimeEvent([this.content]);
+
+  final String? content;
 }
+
+class GatewayReady extends RealTimeEvent {}
+
+class MessageReceived extends RealTimeEvent {
+  const MessageReceived(this.message);
+  final ChatMessageDto message;
+}
+
+class MessageEdited extends RealTimeEvent {
+  const MessageEdited(this.message);
+  final ChatMessageDto message;
+}
+
+class MessageDeleted extends RealTimeEvent {
+  const MessageDeleted(this.id);
+  final String id;
+}
+
+class const Typing({
+  required final String channelId,
+  required final String userId,
+  required final DateTime dateTime,
+}) extends RealTimeEvent {}

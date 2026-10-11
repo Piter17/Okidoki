@@ -173,9 +173,9 @@ class NavigatorBaseItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final av =
         child ??
-        CircleAvatar(
-          backgroundImage: image?.mapOr(NetworkImage.new),
-          backgroundColor: backgroundColor,
+        UserAvatar(
+          id: 1,
+          image: image,
           radius: size,
         );
 

@@ -30,34 +30,31 @@ class GlassThemeData extends ThemeExtension<GlassThemeData>
   );
 }
 
-class GlassSurface extends StatelessWidget {
-  const GlassSurface({
-    super.key,
-    this._blur,
-    this._opacity,
-    this._borderOpacity,
-    required this.child,
-  });
-
-  final Widget child;
-  final double? _blur;
-  final double? _opacity;
-  final double? _borderOpacity;
-
+class const GlassSurface({
+  super.key,
+  final double? _blur,
+  final double? _opacity,
+  final double? _borderOpacity,
+  required final bool asDialog,
+  required final Widget child,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final blur = _blur ?? context.glassTheme.blur;
     final opacity = _opacity ?? context.glassTheme.opacity;
     final borderOpacity = _borderOpacity ?? context.glassTheme.borderOpacity;
+    final borderRadius = asDialog
+        ? BorderRadius.circular(20)
+        : BorderRadius.vertical(top: Radius.circular(20));
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: borderRadius,
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
         child: Container(
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surface
                 .withValues(alpha: opacity),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: borderRadius,
             border: Border.all(
               color: Colors.white.withValues(alpha: borderOpacity),
               width: 1.2,

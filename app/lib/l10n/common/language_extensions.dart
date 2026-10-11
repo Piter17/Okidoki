@@ -10,6 +10,7 @@ extension LanguageExtension on S {
 extension ContextSX on BuildContext {
   S get s => S.of(this)!;
 
+  FlexTranslations get flexTranslations => FlexTranslations(s: s);
   Formatter get formatter => s.formatter;
 }
 
@@ -31,4 +32,23 @@ class FormatterPL extends Formatter {
 
   @override
   String formatTime(DateTime dateTime) => _timeFormatter.format(dateTime);
+}
+
+class FlexTranslations({required final S s}) {
+  // ignore: non_constant_identifier_names
+  String Default(GenForm form) => switch (form) {
+    GenForm.male => s.generic_default_singularMasculine,
+    GenForm.female => s.generic_default_singularFeminine,
+    GenForm.neuter => s.generic_default_singularNeuter,
+    GenForm.males => s.generic_default_pluralMasculine,
+    GenForm.nonMales => s.generic_default_pluralNonMasculine,
+  };
+}
+
+enum GenForm {
+  male,
+  female,
+  neuter,
+  males,
+  nonMales,
 }

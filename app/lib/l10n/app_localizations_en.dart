@@ -58,6 +58,27 @@ class SEn extends S {
   String get generic_logoff => 'Log out';
 
   @override
+  String get generic_user_id => 'User Id';
+
+  @override
+  String get generic_copy => 'Copy';
+
+  @override
+  String get generic_default_singularMasculine => 'Default';
+
+  @override
+  String get generic_default_singularFeminine => 'Default';
+
+  @override
+  String get generic_default_singularNeuter => 'Default';
+
+  @override
+  String get generic_default_pluralMasculine => 'Default';
+
+  @override
+  String get generic_default_pluralNonMasculine => 'Default';
+
+  @override
   String get settings_account => 'Account';
 
   @override
@@ -86,6 +107,18 @@ class SEn extends S {
 
   @override
   String get settings_light_theme => 'Light theme';
+
+  @override
+  String get settings_theme_mode => 'Appearance';
+
+  @override
+  String get settings_theme_system => 'System';
+
+  @override
+  String get settings_theme_light => 'Light';
+
+  @override
+  String get settings_theme_dark => 'Dark';
 
   @override
   String get settings_primary_color => 'Primary color';
@@ -139,7 +172,7 @@ class SEn extends S {
   }
 
   @override
-  String get guild_settings => 'Guild settings';
+  String get guild_settings => 'Community settings';
 
   @override
   String get guild_profile => 'Profile';
@@ -148,31 +181,40 @@ class SEn extends S {
   String get guild_private_message => 'Private message';
 
   @override
-  String get guild_invite_server => 'Invite to server';
+  String get guild_invite_server => 'Invite to community';
 
   @override
   String get guild_invite_friend => 'Invite to friends';
 
   @override
-  String get guild_create_title => 'Create a new guild';
+  String get guild_create_title => 'Create a new community';
 
   @override
-  String get guild_create_button => 'Create guild';
+  String get guild_create_prompt =>
+      'Create your own community for your friends and loved ones';
+
+  @override
+  String get guild_create_button => 'Create community';
 
   @override
   String get guild_join_prompt => 'Have an invitation?';
 
   @override
-  String get guild_join_title => 'Join guild';
+  String get guild_join_title => 'Join community';
 
   @override
-  String get guild_join_button => 'Join guild';
+  String get guild_join_button => 'Join community';
 
   @override
-  String get guild_title => 'Guild';
+  String guild_join_invitation_url_help(Object example, Object exampleUrl) {
+    return 'If you\'ve already received an invitation, paste it here. Invitations can be shared as a link $exampleUrl or as the code itself $example';
+  }
 
   @override
-  String get guild_name => 'Guild name';
+  String get guild_title => 'Community';
+
+  @override
+  String get guild_name => 'Community name';
 
   @override
   String get guild_roles => 'Roles';

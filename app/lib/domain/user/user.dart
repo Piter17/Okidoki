@@ -1,19 +1,18 @@
 import 'package:api_bindings/api_bindings.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:okidoki/utils/utils.dart';
+
 part 'user.freezed.dart';
 
 @freezed
 class User({
   required final int id,
   required final String? email,
-  required final String userName,
   required final boolisEmailConfirmed,
 }) with _$User {
   factory fromDto(IdentityDto dto) => User(
     id: dto.userId.toInt(),
     email: dto.email,
-    userName: dto.userName,
     boolisEmailConfirmed: dto.isEmailConfirmed,
   );
 }
@@ -34,6 +33,7 @@ class UserProfile._({
     profilePicture: dto.profilePicture,
   );
 
+  bool get hasNickname => _nickname != null;
   String get nickname => _nickname ?? userName;
 
   static final _skeletons = List.generate(

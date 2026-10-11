@@ -16,7 +16,9 @@ export 'theme/material/material.dart';
 
 export 'context_menus/context_menu_button.dart';
 export 'dialogs/add_channel_dialog.dart';
+export 'dialogs/add_credentials_dialog.dart';
 export 'dialogs/add_guild_page.dart';
+export 'dialogs/base_dialog.dart';
 export 'dialogs/error_dialog.dart';
 export 'dialogs/guild_invite_popup.dart';
 export 'dialogs/navigation_stack_dialog.dart';
@@ -37,6 +39,7 @@ export 'pages/login/welcome_page.dart';
 export 'pages/main_page/main_page.dart';
 export 'pages/main_page/main_page_layout.dart';
 export 'pages/main_page/navigation_pane_layout.dart';
+export 'pages/reset_page.dart';
 export 'pages/settings/base_settings_page.dart';
 export 'pages/settings/developer_settings_page.dart';
 export 'pages/settings/language_settings_page.dart';

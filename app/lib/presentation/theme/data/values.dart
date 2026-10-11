@@ -17,7 +17,8 @@ class Values {
     double borderXL = 24,
     double paddingS = 4,
     double padding = 8,
-    double paddingL = 16,
+    double paddingL = 12,
+    double paddingXL = 16,
   }) : iconSizeL = 16,
        iconSizeXL = 24,
        topBarHeight = 50,
@@ -34,13 +35,14 @@ class Values {
        rightPaneWidth = 200,
        containerPadding = .all(padding),
        containerPaddingL = .all(paddingL),
+       containerPaddingXL = .all(paddingXL),
        chatListItemPadding = .symmetric(horizontal: chatPadding),
        chatMessageEntryPadding = _sameLRB(chatPadding),
-       buttonPadding = .all(paddingL),
+       buttonPadding = .all(paddingXL),
        iconPadding = .all(paddingS),
        textFieldPadding = .symmetric(horizontal: 6, vertical: 8),
-       topBarPadding = .symmetric(horizontal: paddingL),
-       entryPadding = .symmetric(horizontal: paddingL, vertical: paddingS),
+       topBarPadding = .symmetric(horizontal: paddingXL),
+       entryPadding = .symmetric(horizontal: paddingXL, vertical: paddingS),
        spacingPadding = .all(spacing / 2),
        spacingSPadding = .all(spacingS / 2),
        fadeInDuration = Duration(milliseconds: 200);
@@ -61,6 +63,7 @@ class Values {
   final EdgeInsets chatMessageEntryPadding;
   final EdgeInsets containerPadding;
   final EdgeInsets containerPaddingL;
+  final EdgeInsets containerPaddingXL;
   final EdgeInsets textFieldPadding;
   final EdgeInsets buttonPadding;
   final EdgeInsets iconPadding;
@@ -80,4 +83,30 @@ class Values {
   static EdgeInsets _sameLRB(double x) => .fromLTRB(x, 0, x, x);
 
   final Duration fadeInDuration;
+}
+
+extension EdgeInsetsX on EdgeInsets {
+  EdgeInsets only({
+    bool left = false,
+    bool right = false,
+    bool top = false,
+    bool bottom = false,
+  }) => EdgeInsets.only(
+    left: left ? this.left : 0.0,
+    right: right ? this.right : 0.0,
+    top: top ? this.top : 0.0,
+    bottom: bottom ? this.bottom : 0.0,
+  );
+
+  EdgeInsets except({
+    bool left = false,
+    bool right = false,
+    bool top = false,
+    bool bottom = false,
+  }) => EdgeInsets.only(
+    left: left ? 0.0 : this.left,
+    right: right ? 0.0 : this.right,
+    top: top ? 0.0 : this.top,
+    bottom: bottom ? 0.0 : this.bottom,
+  );
 }

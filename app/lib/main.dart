@@ -1,28 +1,19 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_titlebar/flutter_titlebar.dart';
-import 'package:hooks_riverpod/misc.dart';
+// ignore: depend_on_referenced_packages
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:logging/logging.dart';
+import 'package:okidoki/app.dart';
 import 'package:okidoki/core/core.dart';
 import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/providers.dart' hide HttpClient;
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:riverpod_devtools/riverpod_devtools.dart';
 import 'package:scaled_app/scaled_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_db_inspector/sqflite_db_inspector.dart';
-import 'package:okidoki/providers/providers.dart' hide HttpClient;
-
-const serverBaseUrl = String.fromEnvironment(
-  'API_URL',
-  defaultValue: "https://api-dev.okidoki.fun/",
-);
-
-const appBaseUrl = String.fromEnvironment(
-  'APP_URL',
-  defaultValue: "https://test.okidoki.fun/",
-);
 
 Future loadRiverpodDependencyData() async {
   try {
@@ -47,74 +38,27 @@ void main(List args) async {
     debugPrint('${record.level.name}: ${record.time}: ${record.message}');
   });
 
-  await FlutterTitlebar.addButtons();
-  FlutterTitlebar.backCallback = () => debugPrint('back');
-  FlutterTitlebar.continueCallback = () => debugPrint('continue');
   await BackLongPressBus.init();
-  FlutterTitlebar.setContinueEnabled(true);
+  await FlutterTitlebar.addButtons();
 
+  final version = await PackageInfo.fromPlatform();
   final globalSettings = await SharedPreferences.getInstance();
+
+  usePathUrlStrategy();
 
   runApp(
     ProviderScope(
-      retry: (retryCount, error) {
-        if (retryCount >= 5) return null;
-        if (error is ProviderException) return null;
-        if (error is DioException) {
-          if (error.type == .badResponse) {
-            if (error.response?.statusCode != 500) return null;
-          }
-        }
-
-        return Duration(milliseconds: 200 * (1 << retryCount));
-      },
+      retry: riverpodRetryPolicy,
       overrides: [
         globalPreferencesProvider.overrideWithValue(globalSettings),
         userPreferencesProvider.overrideWithValue(globalSettings),
+        appVersionProvider.overrideWithValue(version),
       ],
       observers: [
         RiverpodDevToolsObserver(),
         RiverpodLogger(),
       ],
-      child: MyApp(),
+      child: App(),
     ),
   );
-}
-
-class MyApp extends HookConsumerWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final settings = ref.watch(appSettingsProvider);
-    return MaterialApp.router(
-      onGenerateTitle: (context) => context.s.app_title,
-      localizationsDelegates: [
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: Language.supportedLocales,
-      locale: settings.language.locale,
-      routerConfig: ref
-          .read(appRouterProvider)
-          .config(
-            // navigatorObservers: () => [
-            //   ref.read(appRouterObserverProvider),
-            // ],
-          ),
-      debugShowCheckedModeBanner: false,
-      builder: (context, child) => AppShortcuts(
-        child: ScrollZoom(
-          child: TickerMode(
-            enabled: true,
-            child: AuthGate(
-              child: child!,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 }

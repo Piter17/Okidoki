@@ -67,6 +67,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 [*AuthApi*](doc/AuthApi.md) | [**addCredentials**](doc/AuthApi.md#addcredentials) | **POST** /api/auth/credentials | 
 [*AuthApi*](doc/AuthApi.md) | [**getInfo**](doc/AuthApi.md#getinfo) | **GET** /api/auth/manage/info | 
+[*AuthApi*](doc/AuthApi.md) | [**getRegisterOptions**](doc/AuthApi.md#getregisteroptions) | **GET** /api/auth/registerOptions | 
 [*AuthApi*](doc/AuthApi.md) | [**mapIdentityApiApiAuthConfirmEmail**](doc/AuthApi.md#mapidentityapiapiauthconfirmemail) | **GET** /api/auth/confirmEmail | 
 [*AuthApi*](doc/AuthApi.md) | [**post2fa**](doc/AuthApi.md#post2fa) | **POST** /api/auth/manage/2fa | 
 [*AuthApi*](doc/AuthApi.md) | [**postForgotPassword**](doc/AuthApi.md#postforgotpassword) | **POST** /api/auth/forgotPassword | 
@@ -117,6 +118,7 @@ Class | Method | HTTP request | Description
 
  - [AccessTokenResponse](doc/AccessTokenResponse.md)
  - [AddCredentialsRequest](doc/AddCredentialsRequest.md)
+ - [AnonymousRegister](doc/AnonymousRegister.md)
  - [AnonymusRegistrationRequest](doc/AnonymusRegistrationRequest.md)
  - [ChannelType](doc/ChannelType.md)
  - [ChatMessageDto](doc/ChatMessageDto.md)
@@ -136,9 +138,11 @@ Class | Method | HTTP request | Description
  - [InfoRequest](doc/InfoRequest.md)
  - [InfoResponse](doc/InfoResponse.md)
  - [LoginRequest](doc/LoginRequest.md)
+ - [PasswordOptions](doc/PasswordOptions.md)
  - [QueryDirection](doc/QueryDirection.md)
  - [ReceivedRequestDto](doc/ReceivedRequestDto.md)
  - [RefreshRequest](doc/RefreshRequest.md)
+ - [RegisterOptionsDto](doc/RegisterOptionsDto.md)
  - [RegisterRequest](doc/RegisterRequest.md)
  - [RegisterResponse](doc/RegisterResponse.md)
  - [RegistrationRequest](doc/RegistrationRequest.md)

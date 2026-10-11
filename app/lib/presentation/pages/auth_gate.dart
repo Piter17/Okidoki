@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:okidoki/domain/domain.dart';
 import 'package:okidoki/presentation/presentation.dart';
+import 'package:okidoki/providers/auth/current_user.dart';
 import 'package:okidoki/providers/providers.dart';
-import 'package:okidoki/providers/users/current_user.dart';
 
 class AuthGate extends ConsumerStatefulWidget {
   const AuthGate({
@@ -40,7 +40,6 @@ class _AuthGateState extends ConsumerState<AuthGate> {
             "hasError: ${prev?.hasError} -> ${next.hasError}",
             "hasValue: ${prev?.hasValue} -> ${next.hasValue}",
             "value?.userId: ${prev?.value?.id} -> ${next.value?.id}",
-            "value?.userName: ${prev?.value?.userName} -> ${next.value?.userName}",
           ].join("\n"),
         );
 

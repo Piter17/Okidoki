@@ -6,30 +6,33 @@ class ThemeSettingsPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final settings = ref.watch(appSettingsProvider);
+    final theme = ref.watch(currentThemeProvider);
 
-    final brightness = settings.darkMode;
     return BaseSettingsPage.column(
       [
         TitleEntry(Text(context.s.settings_theme_title)),
-        SwitchEntry(
-          text: Text(context.s.settings_light_theme),
-          value: brightness,
-          onChanged: ref.read(appSettingsProvider.notifier).setDarkMode,
-        ),
-        DropdownEntry<Color>(
-          text: Text(context.s.settings_primary_color),
-          value: settings.color,
+        DropdownEntry<Brightness?>(
+          text: Text(context.s.settings_theme_mode),
+          value: theme.brightness,
           possibleValues: {
-            Color(0xffff0000): context.s.settings_color_red,
-            Color(0xff00ff00): context.s.settings_color_green,
-            Color(0xff0000ff): context.s.settings_color_blue,
+            null: context.s.settings_theme_system,
+            Brightness.light: context.s.settings_theme_light,
+            Brightness.dark: context.s.settings_theme_dark,
           },
-          onItemSelected: (newItem) {
-            if (newItem != null) {
-              ref.read(appSettingsProvider.notifier).setColor(newItem);
-            }
+          onItemSelected: ref.read(currentThemeProvider.notifier).setBrightness,
+        ),
+        DropdownEntry<Color?>(
+          text: Text(context.s.settings_primary_color),
+          value: theme.primaryColor,
+          possibleValues: {
+            Color(0xff7d0340): context.s.settings_color_red,
+            Color(0xff78ed78): context.s.settings_color_green,
+            Color(0xff0d6efd): context.s.settings_color_blue,
+            CurrentTheme.defaultPrimaryColor: context.flexTranslations.Default(
+              .male,
+            ),
           },
+          onItemSelected: ref.read(currentThemeProvider.notifier).setColor,
         ),
       ],
     );

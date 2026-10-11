@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:api_bindings/api_bindings.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:okidoki/core/core.dart';
 import 'package:okidoki/providers/providers.dart';
 import 'package:okidoki/utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

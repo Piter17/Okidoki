@@ -18,5 +18,13 @@
     ],
     "editor.codeActionsOnSave": {
         "source.organizeImports": "always"
+    },
+    "chat.mcp.serverSampling": {
+        "Okidoki/.vscode/mcp.json: dart": {
+            "allowedModels": [
+                "copilotcli/auto",
+                "copilot/auto"
+            ]
+        }
     }
 }

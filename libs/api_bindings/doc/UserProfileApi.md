@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **getByUserId**
-> UserProfileDto getByUserId(userId, guildId)
+> UserProfileDto getByUserId(userId)
 
 
 
@@ -25,10 +25,9 @@ import 'package:api_bindings/api.dart';
 
 final api = ApiBindings().getUserProfileApi();
 final String userId = userId_example; // String | 
-final String guildId = guildId_example; // String | 
 
 try {
-    final response = api.getByUserId(userId, guildId);
+    final response = api.getByUserId(userId);
     print(response);
 } on DioException catch (e) {
     print('Exception when calling UserProfileApi->getByUserId: $e\n');
@@ -40,7 +39,6 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **userId** | **String**|  | [optional] 
- **guildId** | **String**|  | [optional] 
 
 ### Return type
 

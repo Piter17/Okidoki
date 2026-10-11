@@ -1,6 +1,6 @@
+import 'package:okidoki/mutations/mutations/user/user_mutations.dart';
 import 'package:okidoki/presentation/presentation.dart';
 import 'package:okidoki/providers/providers.dart';
-import 'package:okidoki/mutations/mutations/user/user_mutations.dart';
 
 class ProfileSettingsPage extends HookConsumerWidget {
   const new({super.key});
@@ -13,6 +13,8 @@ class ProfileSettingsPage extends HookConsumerWidget {
     final changeImageMutation = useMemoized(
       UserMutations.getChangeProfilePicture,
     );
+
+    final hasEmail = user?.email != null;
 
     return BaseSettingsPage.column(
       [
@@ -30,19 +32,25 @@ class ProfileSettingsPage extends HookConsumerWidget {
         ),
         TextEntry(
           text: Text(context.s.profile_display_name),
-          value: profile.nickname!,
+          value: profile.nickname,
+          readOnly: true,
         ),
         TextEntry(
           text: Text(context.s.profile_account_name),
           value: profile.userName,
+          readOnly: true,
         ),
         TextEntry(
-          text: Text(context.s.profile_account_name),
+          text: Text(context.s.generic_email),
           value: user?.email ?? "ustaw email",
+          // onTap: hasEmail ? null : () => AddCredentialsDialog.open(context),
+          onTap: () => AddCredentialsDialog.open(context),
+          readOnly: true,
         ),
         TextEntry(
-          text: Text(context.s.profile_account_name),
-          value: user?.id.toString() ?? "ustaw email",
+          text: Text(context.s.generic_user_id),
+          value: "${user?.id.toString()}",
+          readOnly: true,
         ),
       ],
     );

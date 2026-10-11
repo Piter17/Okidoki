@@ -1,5 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+export 'auth/register_options.dart';
 export 'chat/chat.dart';
 export 'chat/chat_message.dart';
 export 'chat/reaction.dart';

@@ -2,10 +2,11 @@ import 'dart:ui';
 
 import 'package:darq/darq.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:okidoki/core/core.dart' as c;
 import 'package:okidoki/core/core.dart';
+import 'package:okidoki/utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:okidoki/core/core.dart' as c;
 
 part 'settings.g.dart';
 
@@ -79,8 +80,8 @@ class AppSettingsNotifier extends Notifier<c.Settings> {
     _prefs = ref.watch(globalPreferencesProvider);
 
     final s = c.Settings(
-      color: Color(_prefs.getInt('color') ?? 0xff0d6efd),
-      darkMode: _prefs.getBool('darkMode') ?? false,
+      color: _prefs.getInt('color').mapOr(Color.new),
+      brightness: BrightnessX.fromBool(_prefs.getBool('brightness')),
       navigatorWidth: _prefs.getDouble("navigatorWidth") ?? 234,
       isUserListVisible: _prefs.getBool("isUserListVisible") ?? true,
       language: Language.fromStorage(_prefs.getString('languageCode') ?? "pl"),
@@ -89,14 +90,22 @@ class AppSettingsNotifier extends Notifier<c.Settings> {
     return s;
   }
 
-  Future<void> setDarkMode(bool value) async {
-    state = state.copyWith(darkMode: value);
-    await _prefs.setBool('darkMode', value);
+  Future<void> setBrightness(Brightness? value) async {
+    state = state.copyWith(brightness: value);
+    if (value == null) {
+      await _prefs.remove('brightness');
+    } else {
+      await _prefs.setBool('brightness', value == Brightness.dark);
+    }
   }
 
-  Future<void> setColor(Color value) async {
+  Future<void> setColor(Color? value) async {
     state = state.copyWith(color: value);
-    await _prefs.setInt('color', value.toARGB32());
+    if (value == null) {
+      await _prefs.remove('color');
+    } else {
+      await _prefs.setInt('color', value.toARGB32());
+    }
   }
 
   Future<void> setNavigatorWidth(double value) async {
