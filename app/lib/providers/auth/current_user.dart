@@ -1,6 +1,6 @@
 import 'package:okidoki/domain/domain.dart';
 import 'package:okidoki/presentation/presentation.dart';
-import 'package:okidoki/providers/core/token_storage.dart';
+import 'package:okidoki/providers/auth/token_storage.dart';
 import 'package:okidoki/utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

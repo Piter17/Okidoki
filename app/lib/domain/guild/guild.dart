@@ -91,16 +91,14 @@ class const GuildInvitation({
   required final int id,
   required final String code,
   required final Guild guild,
-  required final UserProfile? createdBy,
+  required final UserProfile createdBy,
 }) {
   factory GuildInvitation.fromDto(GuildInvitationDto dto) {
     return GuildInvitation(
       id: dto.id.toInt(),
       guild: Guild.profileFromDto(dto.guild),
-      code: dto.code!,
-      createdBy: dto.createdBy != null
-          ? UserProfile.fromDto(dto.createdBy!)
-          : null,
+      code: dto.code,
+      createdBy: UserProfile.fromDto(dto.createdBy),
     );
   }
 }

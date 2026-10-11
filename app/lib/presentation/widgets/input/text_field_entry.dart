@@ -2,28 +2,26 @@ import 'package:okidoki/presentation/presentation.dart';
 
 class const TextEntry({
   super.key,
-  required this.text,
-  required this.value,
-  this.subText,
-  this.onSubmitted,
+  required final Widget text,
+  required final String value,
+  final Widget? subText,
+  final void Function(String)? onSubmitted,
+  final VoidCallback? onTap,
+  final bool readOnly = false,
 }) extends HookWidget {
-  final Widget text;
-  final Widget? subText;
-  final String value;
-  final void Function(String)? onSubmitted;
-
   @override
   Widget build(BuildContext context) {
     final controller = useTextEditingController(text: value);
     return Entry(
       text: text,
-      // onTap: onChanged == null ? null : () => onChanged!(!value),
+      onTap: onTap,
       subText: subText,
       child: Expanded(
         child: TextField(
           controller: controller,
           decoration: InputDecoration(),
           onSubmitted: onSubmitted,
+          readOnly: readOnly,
         ),
       ),
     );

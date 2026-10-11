@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart' as m;
+import 'package:flutter/rendering.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:okidoki/presentation/presentation.dart';
 import 'package:okidoki/providers/providers.dart';
-import 'package:flutter/material.dart' as m;
-import 'package:flutter/rendering.dart';
 
 export 'package:okidoki/presentation/theme/data/typography.dart'
     show TextStyleExtensions;
@@ -23,13 +23,11 @@ class ThemeManagerState extends ConsumerState<ThemeManager> {
 
   @override
   Widget build(BuildContext context) {
-    final settings = ref.watch(appSettingsProvider);
+    final themeSettings = ref.watch(currentThemeProvider);
 
     colors = ThemeColors.fromConfig(
-      primaryColor: settings.color,
-      backgroundColor: settings.darkMode
-          ? Color(0xff212529)
-          : Color(0xffdee2e6),
+      primaryColor: themeSettings.primaryColor,
+      backgroundColor: themeSettings.backgroundColor,
       transparency: 0.2,
     );
 
@@ -118,9 +116,9 @@ ThemeData getTheme(
     // outlinedButtonTheme: ThemeButtons.getOutlinedButtonTheme(colors),
     textButtonTheme: ThemeButtons.getTextButtonTheme(fonts, palette, values),
     // dialogTheme: .new(backgroundColor: colors.bPopup.background),
-    bottomSheetTheme: .new(
-      backgroundColor: colors.bPopup.background,
-    ),
+    // bottomSheetTheme: .new(
+    //   backgroundColor: colors.bPopup.background,
+    // ),
     extensions: [
       colors,
       switch (colors.brightness) {

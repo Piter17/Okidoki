@@ -1,9 +1,8 @@
 import 'package:api_bindings/api_bindings.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:okidoki/core/dio_logger.dart';
-import 'package:okidoki/main.dart' show serverBaseUrl;
-import 'package:okidoki/providers/core/token_storage.dart';
+import 'package:okidoki/core/core.dart';
+import 'package:okidoki/providers/auth/token_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'http_client.g.dart';
@@ -19,7 +18,7 @@ class HttpClient extends _$HttpClient {
               : ApiBindings(
                   dio: Dio(
                     BaseOptions(
-                      baseUrl: serverBaseUrl,
+                      baseUrl: ReleaseConfig.serverBaseUrl,
                       connectTimeout: const Duration(seconds: 10),
                       receiveTimeout: const Duration(seconds: 120),
                     ),

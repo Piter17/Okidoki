@@ -59,13 +59,13 @@ class const ErrorDialog({
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
-                padding: context.values.containerPaddingL,
+                padding: context.values.containerPaddingXL,
                 child: SelectionArea(child: Text(text)),
               ),
             ),
           ),
           Padding(
-            padding: context.values.containerPaddingL,
+            padding: context.values.containerPaddingXL,
             child: Align(
               alignment: .centerRight,
               child: Button(

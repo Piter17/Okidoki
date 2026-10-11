@@ -1,0 +1,10 @@
+line_length: 80
+include:
+  - "**/*.dart"
+
+dirs:
+  - path: lib
+    name: "signalr"
+    exclude: 
+      - lib/json_hub_protocol.dart
+      - lib/msgpack_hub_protocol.dart

@@ -23,7 +23,6 @@ class UserProfileApi {
   ///
   /// Parameters:
   /// * [userId]
-  /// * [guildId]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -35,7 +34,6 @@ class UserProfileApi {
   /// Throws [DioException] if API call or serialization fails
   Future<Response<UserProfileDto>> getByUserId({
     String? userId,
-    String? guildId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -58,7 +56,6 @@ class UserProfileApi {
 
     final _queryParameters = <String, dynamic>{
       if (userId != null) r'userId': userId,
-      if (guildId != null) r'guildId': guildId,
     };
 
     final _response = await _dio.request<Object>(

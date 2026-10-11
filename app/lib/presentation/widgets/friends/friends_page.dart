@@ -1,9 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:api_bindings/api_bindings.dart';
 import 'package:okidoki/domain/domain.dart';
+import 'package:okidoki/mutations/mutations.dart';
 import 'package:okidoki/presentation/presentation.dart';
 import 'package:okidoki/providers/providers.dart';
-import 'package:okidoki/mutations/mutations.dart';
 import 'package:okidoki/utils/utils.dart';
 
 @RoutePage()
@@ -90,6 +89,7 @@ class ReceivedFriendRequestEntry extends ConsumerWidget {
     final mutation = useMemoized(FriendMutations.getAcceptInvite);
     mutation.showPopupOnError(context, ref);
     return BaseFriendRequestEntry(
+      userId: request?.sender.id ?? 0,
       profilePicture: request?.sender.profilePicture,
       nickname: request?.sender.nickname ?? TextGen.nick(),
       username: request?.sender.userName ?? TextGen.nick(),
@@ -118,6 +118,7 @@ class SentFriendRequestEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseFriendRequestEntry(
+      userId: request?.target.id ?? 0,
       profilePicture: request?.target.profilePicture,
       nickname: request?.target.nickname ?? TextGen.nick(),
       username: request?.target.userName ?? TextGen.nick(),
@@ -129,6 +130,7 @@ class SentFriendRequestEntry extends StatelessWidget {
 class BaseFriendRequestEntry extends HookWidget {
   const new({
     super.key,
+    required this.userId,
     required this.profilePicture,
     required this.nickname,
     required this.username,
@@ -137,6 +139,7 @@ class BaseFriendRequestEntry extends HookWidget {
     this.hasAcceptButton = false,
   });
 
+  final int userId;
   final String? profilePicture;
   final String nickname;
   final String username;
@@ -153,7 +156,7 @@ class BaseFriendRequestEntry extends HookWidget {
       onTap: () {},
       child: Row(
         children: [
-          UserAvatar(image: profilePicture),
+          UserAvatar(id: userId, image: profilePicture),
           Space(),
           Column(
             children: [

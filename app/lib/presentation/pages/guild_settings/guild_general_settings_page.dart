@@ -1,3 +1,4 @@
+import 'package:okidoki/mutations/mutations.dart';
 import 'package:okidoki/presentation/presentation.dart';
 import 'package:okidoki/providers/providers.dart';
 import 'package:okidoki/utils/utils.dart';
@@ -13,15 +14,14 @@ class const GuildGeneralSettingsPage({
 
 class GuildGeneralSettingsPageState
     extends ConsumerState<GuildGeneralSettingsPage> {
+  final formKey = GlobalKey<FormState>(
+    debugLabel: "GuildGeneralSettingsPage.form",
+  );
+  final nameKey = GlobalKey(debugLabel: "form.nameKey");
+  final updateImage = GuildMutations.getUpdateImage();
   @override
   Widget build(BuildContext context) {
     final guild = ref.watch(guildProvider(widget._guildId));
-
-    final formKey = GlobalKey<FormState>(
-      debugLabel: "GuildGeneralSettingsPage.form",
-    );
-
-    final nameKey = GlobalKey(debugLabel: "form.nameKey");
 
     return BaseSettingsScreen(
       formKey: formKey,
@@ -41,6 +41,13 @@ class GuildGeneralSettingsPageState
               radius: 200,
               onSaved: (newValue) {
                 debugPrint("image onSaved $newValue");
+                updateImage.run(
+                  ref,
+                  GuildMutations.updateImageCb(
+                    guildId: widget._guildId,
+                    image: newValue,
+                  ),
+                );
               },
             ),
             TextFormEntry(

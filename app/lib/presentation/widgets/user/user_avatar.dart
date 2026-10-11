@@ -1,5 +1,4 @@
 import 'package:darq/darq.dart';
-
 import 'package:flutter_svg/svg.dart';
 import 'package:okidoki/domain/user/user_state.dart';
 import 'package:okidoki/presentation/presentation.dart';
@@ -8,10 +7,12 @@ class UserAvatar extends StatefulWidget {
   const UserAvatar({
     super.key,
     required this.image,
+    required this.id,
     this.userState,
     this._radius,
   });
 
+  final int id;
   final String? image;
   final UserState? userState;
   final double? _radius;
@@ -40,6 +41,18 @@ class UserAvatar extends StatefulWidget {
 
 class _UserAvatarState extends State<UserAvatar> {
   bool isHovered = false;
+  static const _avColors = [
+    Color(0xffdf4375),
+    Color(0xffdf6f43),
+    Color(0xffdfcc43),
+    Color(0xff94df43),
+    Color(0xff43df4f),
+    Color(0xff43dfad),
+    Color(0xff43b3df),
+    Color(0xff4356df),
+    Color(0xff8e43df),
+    Color(0xffdf43d3),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -60,28 +73,31 @@ class _UserAvatarState extends State<UserAvatar> {
                   width: radius,
                   height: radius,
                   alignment: .center,
-                  foregroundDecoration: widget.image == null
-                      ? null
-                      : BoxDecoration(
-                          borderRadius: br,
-                          image: DecorationImage(
-                            image: NetworkImage(widget.image!),
-                            fit: .cover,
-                          ),
-                          color: Color(0x30000000),
-                        ),
+                  foregroundDecoration: BoxDecoration(
+                    borderRadius: br,
+                    image: DecorationImage(
+                      image: NetworkImage(widget.image!),
+                      fit: .cover,
+                    ),
+                    color: Color(0x30000000),
+                  ),
                 )
               : Container(
                   width: radius,
                   height: radius,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _avColors[widget.id % _avColors.length],
+                  ),
                   alignment: .center,
-                  child: SvgPicture.asset(Assets.images.logo),
+                  child: SvgPicture.asset(Assets.images.logo3),
                 );
         },
       ),
     );
   }
 }
+
 // child: InkWell(
 //   onTap: () {},
 //   onHover: (v) => setState(() => isHovered = v),

@@ -19,4 +19,15 @@ extension MutationX<T> on Mutation<T> {
           ErrorDialog.showError(context: context, error: next.error);
         }
       }));
+
+  void onSuccess(BuildContext context, WidgetRef ref, VoidCallback onSuccess) =>
+      ref.listen(this, ((prev, next) {
+        if (prev is! MutationSuccess && next is MutationSuccess<T>) {
+          onSuccess();
+        }
+      }));
+}
+
+abstract class MutationCreator<T> {
+  MutationCallback<T> getMutation();
 }

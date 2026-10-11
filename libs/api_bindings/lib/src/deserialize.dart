@@ -18,8 +18,10 @@ import 'package:api_bindings/src/model/identity_dto.dart';
 import 'package:api_bindings/src/model/info_request.dart';
 import 'package:api_bindings/src/model/info_response.dart';
 import 'package:api_bindings/src/model/login_request.dart';
+import 'package:api_bindings/src/model/password_options.dart';
 import 'package:api_bindings/src/model/received_request_dto.dart';
 import 'package:api_bindings/src/model/refresh_request.dart';
+import 'package:api_bindings/src/model/register_options_dto.dart';
 import 'package:api_bindings/src/model/register_request.dart';
 import 'package:api_bindings/src/model/register_response.dart';
 import 'package:api_bindings/src/model/registration_request.dart';
@@ -61,6 +63,7 @@ ReturnType deserialize<ReturnType, BaseType>(
     case 'AddCredentialsRequest':
       return AddCredentialsRequest.fromJson(value as Map<String, dynamic>)
           as ReturnType;
+    case 'AnonymousRegister':
     case 'AnonymusRegistrationRequest':
       return AnonymusRegistrationRequest.fromJson(value as Map<String, dynamic>)
           as ReturnType;
@@ -111,12 +114,18 @@ ReturnType deserialize<ReturnType, BaseType>(
       return InfoResponse.fromJson(value as Map<String, dynamic>) as ReturnType;
     case 'LoginRequest':
       return LoginRequest.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'PasswordOptions':
+      return PasswordOptions.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
     case 'QueryDirection':
     case 'ReceivedRequestDto':
       return ReceivedRequestDto.fromJson(value as Map<String, dynamic>)
           as ReturnType;
     case 'RefreshRequest':
       return RefreshRequest.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
+    case 'RegisterOptionsDto':
+      return RegisterOptionsDto.fromJson(value as Map<String, dynamic>)
           as ReturnType;
     case 'RegisterRequest':
       return RegisterRequest.fromJson(value as Map<String, dynamic>)

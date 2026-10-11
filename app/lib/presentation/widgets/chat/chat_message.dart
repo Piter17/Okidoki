@@ -1,6 +1,6 @@
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
-import 'package:okidoki/presentation/presentation.dart';
 import 'package:markdown/markdown.dart' as md;
+import 'package:okidoki/presentation/presentation.dart';
 import 'package:okidoki/providers/providers.dart';
 import 'package:okidoki/utils/utils.dart';
 
@@ -49,8 +49,9 @@ class UiMessage extends HookConsumerWidget {
     ).wrapIf(isUserLoading, (c) => Skeletonizer(child: c));
   }
 
-  Widget _userAvatar(bool isUserLoading, String? profilePicture) {
+  Widget _userAvatar(bool isUserLoading, String? profilePicture, int senderId) {
     return UserAvatar(
+      id: senderId,
       image: profilePicture,
     ).wrapIf(isUserLoading, (c) => Skeletonizer(child: c));
   }
@@ -122,6 +123,7 @@ class UiMessage extends HookConsumerWidget {
                         : _userAvatar(
                             isUserLoading,
                             user?.profilePicture,
+                            senderId,
                           ).wrapIf(
                             senderId.isNotNullOrZero && guildId != null,
                             (x) => GuildUserContextMenu(

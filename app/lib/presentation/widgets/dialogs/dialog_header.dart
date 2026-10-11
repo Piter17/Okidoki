@@ -1,15 +1,11 @@
 import 'package:okidoki/presentation/presentation.dart';
 
-class DialogHeader extends StatefulWidget {
-  const DialogHeader({
-    super.key,
-    this.centerText = true,
-    required this.text,
-  });
-
-  final bool centerText;
-  final String text;
-
+class const DialogHeader({
+  super.key,
+  final bool centerText = true,
+  required final String text,
+  final bool showCloseButton = true,
+}) extends StatefulWidget {
   @override
   State<DialogHeader> createState() => _DialogHeaderState();
 }
@@ -47,22 +43,30 @@ class _DialogHeaderState extends State<DialogHeader> {
 
   @override
   Widget build(BuildContext context) {
+    final text = Text(
+      widget.text,
+      style: context.fonts.subtitle1,
+    );
     return Row(
       mainAxisAlignment: .spaceBetween,
       children: [
         ...widget.centerText
             ? [
                 SizedBox(width: calculatedWidth),
-                Center(
-                  child: Text(widget.text),
-                ),
+                Center(child: text),
               ]
-            : [Text(widget.text)],
-        IconButton(
-          key: measuredWidgetKey,
-          onPressed: () => Navigator.pop(context),
-          icon: Icon(Icons.close),
-        ),
+            : [
+                Padding(
+                  padding: context.values.containerPaddingXL.only(left: true),
+                  child: text,
+                ),
+              ],
+        if (widget.showCloseButton)
+          IconButton(
+            key: measuredWidgetKey,
+            onPressed: () => Navigator.pop(context),
+            icon: Icon(Icons.close),
+          ),
       ],
     );
   }

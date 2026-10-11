@@ -1,5 +1,6 @@
 import 'package:api_bindings/api_bindings.dart';
 import 'package:hooks_riverpod/experimental/mutation.dart';
+import 'package:okidoki/core/core.dart';
 import 'package:okidoki/presentation/presentation.dart';
 import 'package:okidoki/providers/providers.dart';
 import 'package:okidoki/utils/utils.dart';
@@ -14,9 +15,8 @@ class GuildInvitePopup extends HookConsumerWidget {
   static Future<void> open(BuildContext context, int guildId) {
     return showResponsivePopup(
       context: context,
-      showDragHandle: true,
+      dialogConstraints: BoxConstraints(maxWidth: 420, maxHeight: 409),
       builder: (context) => GuildInvitePopup(guildId: guildId),
-      dialogConstraints: BoxConstraints(minWidth: 150, maxWidth: 560),
     );
   }
 
@@ -35,40 +35,39 @@ class GuildInvitePopup extends HookConsumerWidget {
       );
     }
 
-    return Surface(
-      // contextStyle: .dark,
-      child: Padding(
-        padding: context.values.containerPadding,
-        child: Column(
-          mainAxisSize: .min,
-          children: [
-            DialogHeader(
-              text: context.s.guild_invite_friends(guild.name),
-              centerText: false,
+    final link = switch (invitationState) {
+      MutationSuccess<GuildInvitationDto>(:final value) =>
+        ReleaseConfig.getInviteUrl(value.code),
+      _ => null,
+    };
+
+    createInvitationMutation.showPopupOnError(context, ref);
+
+    return BaseDialog(
+      centerText: false,
+      title: context.s.guild_invite_server,
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              guild.name,
+              style: context.fonts.subtitle2,
+              textAlign: TextAlign.start,
             ),
-            switch (invitationState) {
-              MutationIdle<GuildInvitationDto>() => Text(
-                context.s.chat_invitation_idle,
-              ),
-              MutationPending<GuildInvitationDto>() => Text(
-                context.s.chat_invitation_pending,
-              ),
-              MutationError<GuildInvitationDto>() => Text(
-                context.s.chat_invitation_error,
-              ),
-              MutationSuccess<GuildInvitationDto>(:final value) => _Invitation(
-                value: value.code!,
-              ),
-            },
-          ],
-        ),
+          ),
+          Space(),
+          _Invitation(
+            value: link,
+          ),
+        ],
       ),
     );
   }
 }
 
 class _Invitation extends StatelessWidget {
-  final String value;
+  final String? value;
 
   const new({
     required this.value,
@@ -76,14 +75,28 @@ class _Invitation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => ClipboardHelpers.setText(value),
-      child: Surface(
-        padding: context.values.containerPadding,
-        decoration: BoxDecoration(
-          borderRadius: context.values.border,
-        ), //context.values.borderS),
-        child: SelectionArea(child: Text(value)),
+    return Container(
+      padding: context.values.containerPaddingL,
+      decoration: BoxDecoration(
+        borderRadius: context.values.border,
+        border: Border.all(
+          color: context.appColors.info.outline,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: .min,
+        children: [
+          value == null
+              ? CircularProgressIndicator()
+              : SelectionArea(child: Text(value ?? " ")),
+          Space(),
+          Button(
+            onPressed: value != null
+                ? () => ClipboardHelpers.setText(value!)
+                : null,
+            child: Text(context.s.generic_copy),
+          ),
+        ],
       ),
     );
   }

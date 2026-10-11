@@ -11,6 +11,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**addCredentials**](AuthApi.md#addcredentials) | **POST** /api/auth/credentials | 
 [**getInfo**](AuthApi.md#getinfo) | **GET** /api/auth/manage/info | 
+[**getRegisterOptions**](AuthApi.md#getregisteroptions) | **GET** /api/auth/registerOptions | 
 [**mapIdentityApiApiAuthConfirmEmail**](AuthApi.md#mapidentityapiapiauthconfirmemail) | **GET** /api/auth/confirmEmail | 
 [**post2fa**](AuthApi.md#post2fa) | **POST** /api/auth/manage/2fa | 
 [**postForgotPassword**](AuthApi.md#postforgotpassword) | **POST** /api/auth/forgotPassword | 
@@ -97,6 +98,43 @@ This endpoint does not need any parameter.
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/problem+json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getRegisterOptions**
+> RegisterOptionsDto getRegisterOptions()
+
+
+
+### Example
+```dart
+import 'package:api_bindings/api.dart';
+
+final api = ApiBindings().getAuthApi();
+
+try {
+    final response = api.getRegisterOptions();
+    print(response);
+} on DioException catch (e) {
+    print('Exception when calling AuthApi->getRegisterOptions: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**RegisterOptionsDto**](RegisterOptionsDto.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

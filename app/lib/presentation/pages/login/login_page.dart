@@ -1,91 +1,67 @@
-// ignore_for_file: unused_local_variable
-
-import 'package:api_bindings/api_bindings.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:okidoki/core/core.dart';
-import 'package:okidoki/mutations/mutations/auth/auth_mutations.dart';
+import 'package:okidoki/forms/forms.dart';
+import 'package:okidoki/mutations/mutations.dart';
 import 'package:okidoki/presentation/presentation.dart'
     hide ValueListenableBuilder;
-
-class LoginForm({
-  this._guildInvitationCode,
-}) extends FormGroupMutation<void> {
-  this
-    : super(
-        {
-          email: FormControl<String>(
-            validators: [Validators.required, Validators.email],
-          ),
-          password: FormControl<String>(
-            validators: [
-              Validators.required,
-              Validators.minLength(6),
-            ],
-          ),
-        },
-      );
-
-  static const email = "email";
-  static const password = "password";
-  final String? _guildInvitationCode;
-
-  @override
-  MutationCallback<void> getMutation() => AuthMutations.loginCb(getModel());
-
-  LoginRequest getModel() => LoginRequest(
-    email: control(email).value as String,
-    password: control(password).value as String,
-  );
-}
+import 'package:okidoki/providers/providers.dart' hide LoginForm;
 
 @RoutePage()
-class const LoginPage({
-  super.key,
-  required LoginForm super.form,
-  required super.mutation,
-  required super.isBusy,
-  required final VoidCallback goToRegister,
-}) extends BaseAuthPage {
+class const LoginPage({super.key}) extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Future postLogin() => mutation.run(
+    final form = ref.watch(loginFormProvider);
+    final mutation = useMemoized(AuthMutations.getLogin);
+
+    mutation.showPopupOnError(context, ref);
+    final isBusy = ref.watch(mutation) is MutationPending;
+
+    if (form.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    Future send() => mutation.run(
       ref,
-      form.getMutation(),
+      form.requireValue.getMutation(),
     );
 
-    final loginState = ref.watch(mutation);
-    mutation.showPopupOnError(context, ref);
-
-    return ReactiveForm(
-      formGroup: form,
-      child: Column(
-        spacing: context.values.spacing,
-        children: [
-          ReactiveTextField(
-            formControlName: LoginForm.email,
-            decoration: InputDecoration(labelText: context.s.generic_email),
+    return Column(
+      children: [
+        ReactiveForm(
+          formGroup: form.requireValue,
+          child: Column(
+            spacing: context.values.spacing,
+            children: [
+              ReactiveTextField(
+                formControlName: LoginForm.email,
+                decoration: InputDecoration(
+                  labelText: context.s.generic_email,
+                  helperText: " ",
+                ),
+              ),
+              ReactiveTextField(
+                formControlName: LoginForm.password,
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: context.s.generic_password,
+                  helperText: " ",
+                ),
+                onSubmitted: (_) => send(),
+              ),
+              ReactiveFormConsumer(
+                builder: (_, formGroup, child) => Button(
+                  onPressed: formGroup.valid && isBusy == false ? send : null,
+                  child: Text(context.s.generic_login),
+                ),
+              ),
+            ],
           ),
-          ReactiveTextField(
-            formControlName: LoginForm.password,
-            obscureText: true,
-            decoration: InputDecoration(
-              labelText: context.s.generic_password,
-            ),
-            onSubmitted: (x) => postLogin(),
-          ),
-          ReactiveFormConsumer(
-            builder: (_, formGroup, child) => Button(
-              onPressed: formGroup.valid && isBusy == false ? postLogin : null,
-              child: Text(context.s.generic_login),
-            ),
-          ),
-          Button(
-            onPressed: goToRegister,
-            buttonType: ButtonType.text,
-            child: Text(context.s.generic_register),
-          ),
-        ],
-      ),
+        ),
+        Button(
+          onPressed: () => context.router.push(RegisterRoute()),
+          buttonType: ButtonType.text,
+          child: Text("Nie masz konta? Zarejestruj się."),
+        ),
+      ],
     );
   }
 }

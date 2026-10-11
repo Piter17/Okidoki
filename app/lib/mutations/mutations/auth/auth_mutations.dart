@@ -1,5 +1,6 @@
 import 'package:api_bindings/api_bindings.dart';
 import 'package:darq/darq.dart';
+import 'package:okidoki/core/core.dart';
 import 'package:okidoki/mutations/mutations.dart';
 import 'package:okidoki/providers/providers.dart';
 import 'package:okidoki/utils/utils.dart';
@@ -43,6 +44,12 @@ class AuthMutations {
               ),
             )(tsx),
           );
+
+  static Mutation<void> getAddCredentials() => Mutation<void>();
+  static MutationCallback<void> addCredentialsCb(
+    AddCredentialsRequest request,
+  ) =>
+      (tsx) => tsx.get(authRepositoryProvider).addCredentials(request);
 
   static MutationCallback<void> anonymusRegisterCb(
     AnonymusRegistrationRequest request,

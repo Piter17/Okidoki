@@ -16,6 +16,11 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
     AutoRoute(
+      page: ResetRoute.page,
+      path: '/reset',
+      type: RouteType.material(),
+    ),
+    AutoRoute(
       page: MainRoute.page,
       path: '/',
       guards: [AuthGuard(ref)],
@@ -51,12 +56,15 @@ class AppRouter extends RootStackRouter {
     ),
     AutoRoute(
       page: AuthRoute.page,
+      type: RouteType.material(),
       path: '/',
+      children: [
+        AutoRoute(page: WelcomeRoute.page, initial: true),
+        AutoRoute(page: LoginRoute.page, path: 'login'),
+        AutoRoute(page: RegisterRoute.page, path: 'register'),
+        AutoRoute(page: InviteRoute.page, path: 'invite/:guildInvitationCode'),
+      ],
     ),
-    AutoRoute(page: InviteRoute.page, path: '/invite/:guildInvitationCode'),
-    AutoRoute(page: LoginRoute.page, path: '/login'),
-    AutoRoute(page: RegisterRoute.page, path: '/register'),
-    // AutoRoute(page: AuthRoute.page, path: '/invite/:guildInvitationCode'),
   ];
 
   @override
@@ -70,12 +78,13 @@ class AuthGuard extends AutoRouteGuard {
 
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
-    final currentUser = ref.watch(currentUserProvider);
+    final currentUser = ref.read(currentUserProvider);
 
     if (currentUser.hasValue && currentUser.value != null) {
       resolver.next(true);
     } else {
-      router.replace(AuthRoute());
+      resolver.next(false);
+      router.replaceAll([AuthRoute()]);
     }
   }
 }

@@ -9,7 +9,3 @@ targets:
         options:
           output: lib/gen/json_decoder.dart
           class_name: JsonDecoder
-      flutter_intl:
-        options:
-          l10n:
-            l10n-path: l10n.yaml

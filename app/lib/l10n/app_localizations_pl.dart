@@ -58,6 +58,27 @@ class SPl extends S {
   String get generic_logoff => 'Wyloguj się';
 
   @override
+  String get generic_user_id => 'Id użytkownika';
+
+  @override
+  String get generic_copy => 'Kopiuj';
+
+  @override
+  String get generic_default_singularMasculine => 'Domyślny';
+
+  @override
+  String get generic_default_singularFeminine => 'Domyślna';
+
+  @override
+  String get generic_default_singularNeuter => 'Domyślne';
+
+  @override
+  String get generic_default_pluralMasculine => 'Domyślni';
+
+  @override
+  String get generic_default_pluralNonMasculine => 'Domyślne';
+
+  @override
   String get settings_account => 'Konto';
 
   @override
@@ -86,6 +107,18 @@ class SPl extends S {
 
   @override
   String get settings_light_theme => 'Motyw jasny';
+
+  @override
+  String get settings_theme_mode => 'Tryb motywu';
+
+  @override
+  String get settings_theme_system => 'Systemowy';
+
+  @override
+  String get settings_theme_light => 'Jasny';
+
+  @override
+  String get settings_theme_dark => 'Ciemny';
 
   @override
   String get settings_primary_color => 'Kolor dominujący';
@@ -139,7 +172,7 @@ class SPl extends S {
   }
 
   @override
-  String get guild_settings => 'Ustawienia gildii';
+  String get guild_settings => 'Ustawienia społeczności';
 
   @override
   String get guild_profile => 'Profil';
@@ -148,31 +181,40 @@ class SPl extends S {
   String get guild_private_message => 'Wiadomość prywatna';
 
   @override
-  String get guild_invite_server => 'Zaproś na serwer';
+  String get guild_invite_server => 'Zaproś do społeczności';
 
   @override
   String get guild_invite_friend => 'Zaproś do znajomych';
 
   @override
-  String get guild_create_title => 'Stwórz nową gildię';
+  String get guild_create_title => 'Stwórz nową społeczność';
 
   @override
-  String get guild_create_button => 'Stwórz gildię';
+  String get guild_create_prompt =>
+      'Załóż własną społeczność dla swoich przyjaciół i bliskich';
+
+  @override
+  String get guild_create_button => 'Stwórz społeczność';
 
   @override
   String get guild_join_prompt => 'Masz zaproszenie?';
 
   @override
-  String get guild_join_title => 'Dołącz do gildii';
+  String get guild_join_title => 'Dołącz do społeczności';
 
   @override
-  String get guild_join_button => 'Dołącz do gildii';
+  String get guild_join_button => 'Dołącz do społeczności';
 
   @override
-  String get guild_title => 'Gildia';
+  String guild_join_invitation_url_help(Object example, Object exampleUrl) {
+    return 'Jeśli dostałeś już zaproszenie to wklej je tutaj. Zaproszenie ma formę linku $exampleUrl lub sam kod $example';
+  }
 
   @override
-  String get guild_name => 'Nazwa gildii';
+  String get guild_title => 'Społeczność';
+
+  @override
+  String get guild_name => 'Nazwa społeczności';
 
   @override
   String get guild_roles => 'Role';

@@ -3,33 +3,34 @@ import 'package:okidoki/presentation/presentation.dart';
 Future<T?> showResponsivePopup<T>({
   required BuildContext context,
   required WidgetBuilder builder,
-  BoxConstraints dialogConstraints = const BoxConstraints(
-    maxWidth: 1500,
+  BoxConstraints? dialogConstraints = const BoxConstraints(
+    maxWidth: 720,
     maxHeight: 900,
     minHeight: 350,
     minWidth: 360,
   ),
-  WidgetBuilder? bottomSheetBuilder,
-  WidgetBuilder? dialogBuilder,
   bool? showDragHandle,
+  bool dismissible = true,
 }) {
   if (LayoutType.fromContext(context) == LayoutType.phone) {
     return showModalBottomSheet<T>(
       context: context,
-      showDragHandle: showDragHandle,
-      builder: bottomSheetBuilder ?? builder,
-    );
-  }
-
-  Widget effectiveDialogBuilder(BuildContext context) {
-    return GlassModal(
+      backgroundColor: context.appColors.transparent,
+      // showDragHandle: showDragHandle,
       constraints: dialogConstraints,
-      child: builder(context),
+      builder: (c) => GlassSurface(
+        asDialog: false,
+        child: builder(c),
+      ),
     );
   }
 
   return showDialog<T>(
     context: context,
-    builder: dialogBuilder ?? effectiveDialogBuilder,
+    barrierDismissible: dismissible,
+    builder: (context) => GlassDialog(
+      constraints: dialogConstraints,
+      child: builder(context),
+    ),
   );
 }

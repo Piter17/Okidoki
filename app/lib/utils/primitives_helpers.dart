@@ -1,3 +1,5 @@
+import 'package:okidoki/presentation/presentation.dart';
+
 extension StringUrlX on String {
   String? removeSas() {
     final uri = Uri.tryParse(this);
@@ -24,4 +26,22 @@ extension DateTimeX on DateTime {
 extension IntX on int? {
   bool get isNullOrZero => this == null || this == 0;
   bool get isNotNullOrZero => !isNullOrZero;
+}
+
+extension BrightnessX on Brightness? {
+  static Brightness? fromBool(bool? value) => switch (value) {
+    true => Brightness.dark,
+    false => Brightness.light,
+    null => null,
+  };
+
+  bool? toBool() => switch (this) {
+    Brightness.dark => true,
+    Brightness.light => false,
+    null => null,
+  };
+}
+
+extension PageControllerX on PageController {
+  int get currentPage => hasClients ? page?.round() ?? 0 : 0;
 }

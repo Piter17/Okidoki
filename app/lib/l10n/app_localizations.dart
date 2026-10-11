@@ -193,6 +193,48 @@ abstract class S {
   /// **'Wyloguj się'**
   String get generic_logoff;
 
+  /// No description provided for @generic_user_id.
+  ///
+  /// In pl, this message translates to:
+  /// **'Id użytkownika'**
+  String get generic_user_id;
+
+  /// No description provided for @generic_copy.
+  ///
+  /// In pl, this message translates to:
+  /// **'Kopiuj'**
+  String get generic_copy;
+
+  /// No description provided for @generic_default_singularMasculine.
+  ///
+  /// In pl, this message translates to:
+  /// **'Domyślny'**
+  String get generic_default_singularMasculine;
+
+  /// No description provided for @generic_default_singularFeminine.
+  ///
+  /// In pl, this message translates to:
+  /// **'Domyślna'**
+  String get generic_default_singularFeminine;
+
+  /// No description provided for @generic_default_singularNeuter.
+  ///
+  /// In pl, this message translates to:
+  /// **'Domyślne'**
+  String get generic_default_singularNeuter;
+
+  /// No description provided for @generic_default_pluralMasculine.
+  ///
+  /// In pl, this message translates to:
+  /// **'Domyślni'**
+  String get generic_default_pluralMasculine;
+
+  /// No description provided for @generic_default_pluralNonMasculine.
+  ///
+  /// In pl, this message translates to:
+  /// **'Domyślne'**
+  String get generic_default_pluralNonMasculine;
+
   /// No description provided for @settings_account.
   ///
   /// In pl, this message translates to:
@@ -252,6 +294,30 @@ abstract class S {
   /// In pl, this message translates to:
   /// **'Motyw jasny'**
   String get settings_light_theme;
+
+  /// No description provided for @settings_theme_mode.
+  ///
+  /// In pl, this message translates to:
+  /// **'Tryb motywu'**
+  String get settings_theme_mode;
+
+  /// No description provided for @settings_theme_system.
+  ///
+  /// In pl, this message translates to:
+  /// **'Systemowy'**
+  String get settings_theme_system;
+
+  /// No description provided for @settings_theme_light.
+  ///
+  /// In pl, this message translates to:
+  /// **'Jasny'**
+  String get settings_theme_light;
+
+  /// No description provided for @settings_theme_dark.
+  ///
+  /// In pl, this message translates to:
+  /// **'Ciemny'**
+  String get settings_theme_dark;
 
   /// No description provided for @settings_primary_color.
   ///
@@ -352,7 +418,7 @@ abstract class S {
   /// No description provided for @guild_settings.
   ///
   /// In pl, this message translates to:
-  /// **'Ustawienia gildii'**
+  /// **'Ustawienia społeczności'**
   String get guild_settings;
 
   /// No description provided for @guild_profile.
@@ -370,7 +436,7 @@ abstract class S {
   /// No description provided for @guild_invite_server.
   ///
   /// In pl, this message translates to:
-  /// **'Zaproś na serwer'**
+  /// **'Zaproś do społeczności'**
   String get guild_invite_server;
 
   /// No description provided for @guild_invite_friend.
@@ -382,13 +448,19 @@ abstract class S {
   /// No description provided for @guild_create_title.
   ///
   /// In pl, this message translates to:
-  /// **'Stwórz nową gildię'**
+  /// **'Stwórz nową społeczność'**
   String get guild_create_title;
+
+  /// No description provided for @guild_create_prompt.
+  ///
+  /// In pl, this message translates to:
+  /// **'Załóż własną społeczność dla swoich przyjaciół i bliskich'**
+  String get guild_create_prompt;
 
   /// No description provided for @guild_create_button.
   ///
   /// In pl, this message translates to:
-  /// **'Stwórz gildię'**
+  /// **'Stwórz społeczność'**
   String get guild_create_button;
 
   /// No description provided for @guild_join_prompt.
@@ -400,25 +472,31 @@ abstract class S {
   /// No description provided for @guild_join_title.
   ///
   /// In pl, this message translates to:
-  /// **'Dołącz do gildii'**
+  /// **'Dołącz do społeczności'**
   String get guild_join_title;
 
   /// No description provided for @guild_join_button.
   ///
   /// In pl, this message translates to:
-  /// **'Dołącz do gildii'**
+  /// **'Dołącz do społeczności'**
   String get guild_join_button;
+
+  /// No description provided for @guild_join_invitation_url_help.
+  ///
+  /// In pl, this message translates to:
+  /// **'Jeśli dostałeś już zaproszenie to wklej je tutaj. Zaproszenie ma formę linku {exampleUrl} lub sam kod {example}'**
+  String guild_join_invitation_url_help(Object example, Object exampleUrl);
 
   /// No description provided for @guild_title.
   ///
   /// In pl, this message translates to:
-  /// **'Gildia'**
+  /// **'Społeczność'**
   String get guild_title;
 
   /// No description provided for @guild_name.
   ///
   /// In pl, this message translates to:
-  /// **'Nazwa gildii'**
+  /// **'Nazwa społeczności'**
   String get guild_name;
 
   /// No description provided for @guild_roles.

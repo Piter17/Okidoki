@@ -89,3 +89,5 @@ dirs:
 
   - path: lib/domain
 
+  - path: lib/forms
+

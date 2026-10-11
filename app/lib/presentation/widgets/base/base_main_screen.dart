@@ -28,6 +28,7 @@ class BaseMainScreenState extends State<BaseMainScreen> {
     return Surface(
       borderRadius: context.values.borderXL,
       child: Column(
+        mainAxisSize: .min,
         children: [
           SizedBox(
             height: context.values.topBarHeight,

@@ -4,26 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:okidoki/core/core.dart';
 import 'package:okidoki/presentation/presentation.dart';
 
-void main() => runApp(App());
-
-class App extends StatelessWidget {
-  const App({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue, //colors.primary.color,
-          brightness: Brightness.dark,
-          dynamicSchemeVariant: .vibrant,
-        ),
-      ),
-      home: ContextMenuControllerExampleApp(),
-    );
-  }
-}
-
 /// A builder that includes an Offset to draw the context menu at.
 typedef ContextMenuBuilder = Widget Function(
   BuildContext context,

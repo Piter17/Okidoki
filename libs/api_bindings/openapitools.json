@@ -3,5 +3,12 @@
   "spaces": 2,
   "generator-cli": {
     "version": "7.25.0"
+  },
+  "generatorName": "dart-dio",
+  "inputSpec": "https://api-dev.okidoki.fun/openapi/v1.json",
+  "config": "config.yaml",
+  "schemaMappings": {
+    "PasswordOptions": "PasswordOptionsDto",
+    "RegisterOptions": "RegisterOptionsDto"
   }
 }

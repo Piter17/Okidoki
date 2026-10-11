@@ -7,10 +7,8 @@ import 'package:api_bindings/src/model/create_chat_message_request.dart';
 import 'package:api_bindings/src/model/create_guild_channel_request.dart';
 import 'package:api_bindings/src/model/create_guild_invitation_request.dart';
 import 'package:api_bindings/src/model/create_guild_role_request.dart';
-import 'package:api_bindings/src/model/create_user_profile_request.dart';
 import 'package:api_bindings/src/model/forgot_password_request.dart';
 import 'package:api_bindings/src/model/friend_dto.dart';
-import 'package:api_bindings/src/model/full_registration_request.dart';
 import 'package:api_bindings/src/model/guild_channel_dto.dart';
 import 'package:api_bindings/src/model/guild_dto.dart';
 import 'package:api_bindings/src/model/guild_invitation_dto.dart';
@@ -21,8 +19,10 @@ import 'package:api_bindings/src/model/identity_dto.dart';
 import 'package:api_bindings/src/model/info_request.dart';
 import 'package:api_bindings/src/model/info_response.dart';
 import 'package:api_bindings/src/model/login_request.dart';
+import 'package:api_bindings/src/model/password_options.dart';
 import 'package:api_bindings/src/model/received_request_dto.dart';
 import 'package:api_bindings/src/model/refresh_request.dart';
+import 'package:api_bindings/src/model/register_options_dto.dart';
 import 'package:api_bindings/src/model/register_request.dart';
 import 'package:api_bindings/src/model/register_response.dart';
 import 'package:api_bindings/src/model/registration_request.dart';
@@ -35,7 +35,6 @@ import 'package:api_bindings/src/model/update_chat_message_request.dart';
 import 'package:api_bindings/src/model/update_guild_name_request.dart';
 import 'package:api_bindings/src/model/update_user_profile_request.dart';
 import 'package:api_bindings/src/model/user_profile_dto.dart';
-import 'package:api_bindings/src/model/username_registration_request.dart';
 
 typedef Decoder = Object Function(dynamic);
 class JsonConverter {
@@ -61,10 +60,8 @@ class JsonConverter {
     CreateGuildChannelRequest: (json) => CreateGuildChannelRequest.fromJson(json as Map<String, dynamic>),
     CreateGuildInvitationRequest: (json) => CreateGuildInvitationRequest.fromJson(json as Map<String, dynamic>),
     CreateGuildRoleRequest: (json) => CreateGuildRoleRequest.fromJson(json as Map<String, dynamic>),
-    CreateUserProfileRequest: (json) => CreateUserProfileRequest.fromJson(json as Map<String, dynamic>),
     ForgotPasswordRequest: (json) => ForgotPasswordRequest.fromJson(json as Map<String, dynamic>),
     FriendDto: (json) => FriendDto.fromJson(json as Map<String, dynamic>),
-    FullRegistrationRequest: (json) => FullRegistrationRequest.fromJson(json as Map<String, dynamic>),
     GuildChannelDto: (json) => GuildChannelDto.fromJson(json as Map<String, dynamic>),
     GuildDto: (json) => GuildDto.fromJson(json as Map<String, dynamic>),
     GuildInvitationDto: (json) => GuildInvitationDto.fromJson(json as Map<String, dynamic>),
@@ -75,8 +72,10 @@ class JsonConverter {
     InfoRequest: (json) => InfoRequest.fromJson(json as Map<String, dynamic>),
     InfoResponse: (json) => InfoResponse.fromJson(json as Map<String, dynamic>),
     LoginRequest: (json) => LoginRequest.fromJson(json as Map<String, dynamic>),
+    PasswordOptions: (json) => PasswordOptions.fromJson(json as Map<String, dynamic>),
     ReceivedRequestDto: (json) => ReceivedRequestDto.fromJson(json as Map<String, dynamic>),
     RefreshRequest: (json) => RefreshRequest.fromJson(json as Map<String, dynamic>),
+    RegisterOptionsDto: (json) => RegisterOptionsDto.fromJson(json as Map<String, dynamic>),
     RegisterRequest: (json) => RegisterRequest.fromJson(json as Map<String, dynamic>),
     RegisterResponse: (json) => RegisterResponse.fromJson(json as Map<String, dynamic>),
     RegistrationRequest: (json) => RegistrationRequest.fromJson(json as Map<String, dynamic>),
@@ -89,6 +88,5 @@ class JsonConverter {
     UpdateGuildNameRequest: (json) => UpdateGuildNameRequest.fromJson(json as Map<String, dynamic>),
     UpdateUserProfileRequest: (json) => UpdateUserProfileRequest.fromJson(json as Map<String, dynamic>),
     UserProfileDto: (json) => UserProfileDto.fromJson(json as Map<String, dynamic>),
-    UsernameRegistrationRequest: (json) => UsernameRegistrationRequest.fromJson(json as Map<String, dynamic>),
   };
 }

@@ -24,7 +24,7 @@ class UserTile extends StatelessWidget {
         crossAxisAlignment: .center,
 
         children: [
-          UserAvatar(image: user.profilePicture),
+          UserAvatar(id: user.id, image: user.profilePicture),
           Expanded(child: Text(user.nickname)),
         ],
       ),

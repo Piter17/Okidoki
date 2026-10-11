@@ -24,9 +24,9 @@ class GuildInvitationDto {
 
     required this.guild,
 
-    this.code,
+    required this.code,
 
-    this.createdBy,
+    required this.createdBy,
   });
 
   @JsonKey(name: r'id', required: true, includeIfNull: false)
@@ -35,11 +35,11 @@ class GuildInvitationDto {
   @JsonKey(name: r'guild', required: true, includeIfNull: false)
   final GuildProfileDto guild;
 
-  @JsonKey(name: r'code', required: false, includeIfNull: false)
-  final String? code;
+  @JsonKey(name: r'code', required: true, includeIfNull: false)
+  final String code;
 
-  @JsonKey(name: r'createdBy', required: false, includeIfNull: false)
-  final UserProfileDto? createdBy;
+  @JsonKey(name: r'createdBy', required: true, includeIfNull: false)
+  final UserProfileDto createdBy;
 
   @override
   bool operator ==(Object other) =>

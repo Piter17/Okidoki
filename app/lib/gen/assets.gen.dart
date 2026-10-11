@@ -28,8 +28,11 @@ class $AssetsImagesGen {
   /// File path: assets/images/logo2.svg
   String get logo2 => 'assets/images/logo2.svg';
 
+  /// File path: assets/images/logo3.svg
+  String get logo3 => 'assets/images/logo3.svg';
+
   /// List of all assets
-  List<String> get values => [logo, logo2];
+  List<String> get values => [logo, logo2, logo3];
 }
 
 abstract final class Assets {
